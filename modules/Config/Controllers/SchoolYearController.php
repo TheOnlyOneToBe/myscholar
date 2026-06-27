@@ -32,13 +32,10 @@ class SchoolYearController extends Controller
         if (!$current) {
             return response()->json([
                 'message' => 'Aucune année scolaire active configurée',
-                'data' => null,
             ], 404);
         }
 
-        return response()->json([
-            'data' => $current,
-        ]);
+        return response()->json($current);
     }
 
     public function store(Request $request): JsonResponse
@@ -52,6 +49,9 @@ class SchoolYearController extends Controller
             'is_active' => ['boolean'],
             'description' => ['nullable', 'string'],
         ]);
+
+        // Ensure is_active is properly cast
+        $validated['is_active'] = filter_var($validated['is_active'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
         $schoolYear = SchoolYear::create($validated);
 
@@ -83,6 +83,9 @@ class SchoolYearController extends Controller
 
     public function destroy(SchoolYear $schoolYear): JsonResponse
     {
+        // Refresh the model from database to ensure we have latest data
+        $schoolYear->refresh();
+
         if ($schoolYear->is_active) {
             return response()->json([
                 'message' => 'Impossible de supprimer l\'année scolaire active.',
