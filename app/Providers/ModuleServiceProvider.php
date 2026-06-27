@@ -19,6 +19,8 @@ class ModuleServiceProvider extends ServiceProvider
         foreach ($modules as $moduleName) {
             $this->loadModule($moduleName);
         }
+
+        $this->loadMigrationsFrom(base_path('bridges'));
     }
 
     protected function getInstalledModules(): array
@@ -51,6 +53,30 @@ class ModuleServiceProvider extends ServiceProvider
         if (File::exists($routesFile)) {
             $this->loadRoutesFrom($routesFile);
         }
+    }
+
+    protected function loadBridges(): void
+    {
+        $bridgesPath = base_path('bridges');
+
+        if (!File::isDirectory($bridgesPath)) {
+            return;
+        }
+
+        $bridgeFiles = File::files($bridgesPath);
+        $bridgeFiles = collect($bridgeFiles)
+            ->sortBy(fn ($file) => $file->getFilename())
+            ->map(fn ($file) => $bridgesPath . '/' . $file->getFilename());
+
+        foreach ($bridgeFiles as $file) {
+            if ($file->endsWith('.php')) {
+                $this->loadMigrationsFrom(dirname($file));
+                break;
+            }
+        }
+
+        // Alternative: load all bridges directly
+        $this->loadMigrationsFrom($bridgesPath);
     }
 
     public static function getAllModuleDirectories(): array

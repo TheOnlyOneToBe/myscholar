@@ -1,5 +1,5 @@
 {
   "clientId": "DEV",
-  "installedModules": ["Config"],
-  "installedAt": "2026-06-27T12:00:00+01:00"
+  "installedModules": ["Config", "Auth", "Audit", "Notifications", "Reporting", "Students", "Grades", "Attendance", "Classes", "Billing"],
+  "installedAt": "2026-06-27T14:00:00+01:00"
 }
