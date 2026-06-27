@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Students\Enums\RelationshipType;
 use Modules\Students\ValueObjects\Email;
+use Modules\Students\ValueObjects\Gender;
 use Modules\Students\ValueObjects\PhoneNumber;
 
 class FamilyContact extends Model
@@ -15,6 +16,7 @@ class FamilyContact extends Model
         'relationship',
         'first_name',
         'last_name',
+        'sex',
         'email',
         'phone_number',
         'occupation',
@@ -48,6 +50,35 @@ class FamilyContact extends Model
     public function getFullName(): string
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    /**
+     * Get relationship label (translated)
+     */
+    public function getRelationshipLabel(): string
+    {
+        return $this->relationship->label();
+    }
+
+    /**
+     * Get gender as Gender value object
+     */
+    public function getGender(): ?Gender
+    {
+        if (!$this->sex) {
+            return null;
+        }
+
+        return new Gender($this->sex);
+    }
+
+    /**
+     * Set gender from Gender value object
+     */
+    public function setGenderFromObject(Gender $gender): self
+    {
+        $this->sex = $gender->value();
+        return $this;
     }
 
     /**

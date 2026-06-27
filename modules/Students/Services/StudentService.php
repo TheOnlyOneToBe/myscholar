@@ -146,8 +146,9 @@ class StudentService
         RelationshipType $relationship,
         string $firstName,
         string $lastName,
-        ?Email $email = null,
+        ?Gender $gender = null,
         ?PhoneNumber $phone = null,
+        ?Email $email = null,
         ?string $occupation = null,
         ?string $address = null,
         ?string $city = null,
@@ -161,8 +162,9 @@ class StudentService
                 $relationship,
                 $firstName,
                 $lastName,
-                $email,
+                $gender,
                 $phone,
+                $email,
                 $occupation,
                 $address,
                 $city,
@@ -180,8 +182,9 @@ class StudentService
                     'relationship' => $relationship->value,
                     'first_name' => $firstName,
                     'last_name' => $lastName,
-                    'email' => $email?->value(),
+                    'sex' => $gender?->value(),
                     'phone_number' => $phone && !$phone->isEmpty() ? $phone->value() : null,
+                    'email' => $email?->value(),
                     'occupation' => $occupation,
                     'address' => $address,
                     'city' => $city,
@@ -204,8 +207,9 @@ class StudentService
      */
     public function updateFamilyContact(
         FamilyContact $contact,
-        ?Email $email = null,
+        ?Gender $gender = null,
         ?PhoneNumber $phone = null,
+        ?Email $email = null,
         ?string $occupation = null,
         ?string $address = null,
         ?string $city = null,
@@ -216,8 +220,9 @@ class StudentService
         try {
             return DB::transaction(function () use (
                 $contact,
-                $email,
+                $gender,
                 $phone,
+                $email,
                 $occupation,
                 $address,
                 $city,
@@ -227,12 +232,16 @@ class StudentService
             ) {
                 $updateData = [];
 
-                if ($email !== null) {
-                    $updateData['email'] = $email->value();
+                if ($gender !== null) {
+                    $updateData['sex'] = $gender->value();
                 }
 
                 if ($phone !== null) {
                     $updateData['phone_number'] = $phone->isEmpty() ? null : $phone->value();
+                }
+
+                if ($email !== null) {
+                    $updateData['email'] = $email->value();
                 }
 
                 if ($occupation !== null) {
