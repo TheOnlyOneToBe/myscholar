@@ -6,23 +6,36 @@
         </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <input type="text" wire:model.debounce="search" placeholder="Rechercher..." 
-            class="border border-gray-300 rounded px-3 py-2">
-        
-        <select wire:model="building" class="border border-gray-300 rounded px-3 py-2">
-            <option value="">Tous les bâtiments</option>
-            @foreach($buildings as $b)
-                <option value="{{ $b }}">{{ $b }}</option>
-            @endforeach
-        </select>
+    <div class="mb-6 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input type="text" wire:model.debounce="search" placeholder="Rechercher..."
+                class="border border-gray-300 rounded px-3 py-2">
 
-        <select wire:model="type" class="border border-gray-300 rounded px-3 py-2">
-            <option value="">Tous les types</option>
-            @foreach($types as $t)
-                <option value="{{ $t }}">{{ $t }}</option>
-            @endforeach
-        </select>
+            <select wire:model="building" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Tous les bâtiments</option>
+                @foreach($buildings as $b)
+                    <option value="{{ $b }}">{{ $b }}</option>
+                @endforeach
+            </select>
+
+            <select wire:model="type" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Tous les types</option>
+                @foreach($types as $t)
+                    <option value="{{ $t }}">{{ $t }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Per Page Selector --}}
+        <div class="flex items-center gap-4">
+            <label for="per_page" class="text-sm font-medium text-gray-700">Afficher par page:</label>
+            <select wire:model="per_page" id="per_page" class="border border-gray-300 rounded px-3 py-2 text-sm">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -52,8 +65,17 @@
         @endforelse
     </div>
 
-    <div class="mt-4">
-        {{ $rooms->links() }}
+    {{-- Pagination --}}
+    <div class="mt-6 border-t border-gray-200 pt-4">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <p class="text-sm text-gray-700">
+                    <span class="font-medium">{{ $rooms->firstItem() ?? 0 }}</span> - <span class="font-medium">{{ $rooms->lastItem() ?? 0 }}</span>
+                    sur <span class="font-medium">{{ $rooms->total() }}</span> salles
+                </p>
+            </div>
+        </div>
+        {{ $rooms->links('pagination.tailwind') }}
     </div>
 
     @if($showForm)
