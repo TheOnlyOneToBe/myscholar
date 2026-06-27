@@ -148,14 +148,6 @@ POST   /api/config/school-years/{id}/activate → config.school_year.edit
 DELETE /api/config/school-years/{id}   → config.school_year.delete
 ```
 
-#### Legacy Session Routes
-
-```
-GET    /api/school-years               → config.school_year.view
-GET    /api/school-years/current       → config.school_year.view
-GET    /api/school-years/{id}          → config.school_year.view
-POST   /api/school-years/switch        → config.school_year.switch
-```
 
 ## Components
 
@@ -244,16 +236,6 @@ Manages school year operations.
 - `update(SchoolYear)` - Modify year
 - `destroy(SchoolYear)` - Delete year
 - `activate(SchoolYear)` - Set as active
-
-### SchoolYearSessionController
-
-Legacy endpoints for session management (maintained for compatibility).
-
-**Methods:**
-- `current()` - Get current session year
-- `index()` - List all years with session info
-- `switch()` - Change session year
-- `info(SchoolYear)` - Get year with status
 
 ## Models
 
@@ -376,8 +358,7 @@ modules/Config/
 ├── Controllers/
 │   ├── SchoolInfoController.php
 │   ├── SystemSettingController.php
-│   ├── SchoolYearController.php
-│   └── SchoolYearSessionController.php
+│   └── SchoolYearController.php
 ├── Livewire/
 │   ├── DetailComponent.php
 │   ├── SchoolYearComponent.php

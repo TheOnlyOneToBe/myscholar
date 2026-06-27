@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Config\Controllers\SchoolInfoController;
-use Modules\Config\Controllers\SchoolYearSessionController;
 use Modules\Config\Controllers\SystemSettingController;
 use Modules\Config\Controllers\SchoolYearController;
 
@@ -59,14 +58,4 @@ Route::prefix('api/config')->middleware('auth')->group(function () {
     Route::middleware('can:config.school_year.delete')->group(function () {
         Route::delete('/school-years/{schoolYear}', [SchoolYearController::class, 'destroy']);
     });
-
-    // Legacy School Year Session Management (maintained for compatibility)
-    Route::prefix('school-years')->middleware('can:config.school_year.view')->group(function () {
-        Route::get('/current', [SchoolYearSessionController::class, 'current']);
-        Route::get('/', [SchoolYearSessionController::class, 'index']);
-        Route::get('/{schoolYear}', [SchoolYearSessionController::class, 'info']);
-    });
-
-    Route::post('/school-years/switch', [SchoolYearSessionController::class, 'switch'])
-        ->middleware('can:config.school_year.switch');
 });
