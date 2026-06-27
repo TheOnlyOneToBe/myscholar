@@ -4,11 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * DEPRECATED: This migration has been superseded by bridge migrations
+ * See: bridges/2024_01_01_800501_config_link_classes.php
+ *
+ * This file is kept for backward compatibility with existing databases.
+ * New installations should use the bridge migration instead.
+ */
 return new class extends Migration
 {
     /**
      * BATCH 1: Primary Module Bridges
      * Classes, StudentEnrollments, GradePeriods
+     *
+     * DEPRECATED: Use bridges/2024_01_01_800501_config_link_classes.php instead
      */
     public function up(): void
     {

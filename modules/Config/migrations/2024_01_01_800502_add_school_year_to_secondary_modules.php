@@ -4,11 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * DEPRECATED: This migration has been superseded by bridge migrations
+ * See:
+ *   - bridges/2024_01_01_800503_config_link_grades.php
+ *   - bridges/2024_01_01_800504_config_link_attendance.php
+ *   - bridges/2024_01_01_800505_config_link_billing.php
+ *
+ * This file is kept for backward compatibility with existing databases.
+ * New installations should use the bridge migrations instead.
+ */
 return new class extends Migration
 {
     /**
      * BATCH 2: Secondary Module Links
      * Grades, Attendance, Billing core tables
+     *
+     * DEPRECATED: Use bridges/2024_01_01_800503_config_link_*.php instead
      */
     public function up(): void
     {

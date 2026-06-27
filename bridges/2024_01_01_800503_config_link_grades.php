@@ -5,27 +5,18 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * DEPRECATED: This migration has been superseded by bridge migrations
- * See:
- *   - bridges/2024_01_01_800505_config_link_billing.php
- *
- * This file is kept for backward compatibility with existing databases.
- * New installations should use the bridge migrations instead.
+ * Bridge: Config ↔ Grades Module
+ * Links school years to grades and related academic records
+ * Dependencies: Config (core), Grades
  */
 return new class extends Migration
 {
-    /**
-     * Add missing school_year_id columns to tables
-     * that were assumed to already exist in 800501/800502
-     *
-     * DEPRECATED: Use bridges/2024_01_01_800505_config_link_billing.php instead
-     */
     public function up(): void
     {
-        // Attendance Module
-        Schema::table('attendance_sessions', function (Blueprint $table) {
-            if (!Schema::hasColumn('attendance_sessions', 'school_year_id')) {
-                $table->unsignedBigInteger('school_year_id')->nullable()->after('class_id');
+        // Grades Module - Periods (Foundation)
+        Schema::table('grade_periods', function (Blueprint $table) {
+            if (!Schema::hasColumn('grade_periods', 'school_year_id')) {
+                $table->unsignedBigInteger('school_year_id')->nullable()->after('id');
                 $table->foreign('school_year_id')
                     ->references('id')
                     ->on('school_years')
@@ -34,9 +25,8 @@ return new class extends Migration
             }
         });
 
-        // Billing Module
-        Schema::table('invoices', function (Blueprint $table) {
-            if (!Schema::hasColumn('invoices', 'school_year_id')) {
+        Schema::table('grades', function (Blueprint $table) {
+            if (!Schema::hasColumn('grades', 'school_year_id')) {
                 $table->unsignedBigInteger('school_year_id')->nullable()->after('student_id');
                 $table->foreign('school_year_id')
                     ->references('id')
@@ -46,8 +36,8 @@ return new class extends Migration
             }
         });
 
-        Schema::table('payment_plans', function (Blueprint $table) {
-            if (!Schema::hasColumn('payment_plans', 'school_year_id')) {
+        Schema::table('averages_cache', function (Blueprint $table) {
+            if (!Schema::hasColumn('averages_cache', 'school_year_id')) {
                 $table->unsignedBigInteger('school_year_id')->nullable()->after('student_id');
                 $table->foreign('school_year_id')
                     ->references('id')
@@ -57,10 +47,20 @@ return new class extends Migration
             }
         });
 
-        // Billing Module - fee_structures needs school_year_id if not already present
-        Schema::table('fee_structures', function (Blueprint $table) {
-            if (!Schema::hasColumn('fee_structures', 'school_year_id')) {
+        Schema::table('class_averages', function (Blueprint $table) {
+            if (!Schema::hasColumn('class_averages', 'school_year_id')) {
                 $table->unsignedBigInteger('school_year_id')->nullable()->after('class_id');
+                $table->foreign('school_year_id')
+                    ->references('id')
+                    ->on('school_years')
+                    ->onDelete('cascade');
+                $table->index('school_year_id');
+            }
+        });
+
+        Schema::table('appeals', function (Blueprint $table) {
+            if (!Schema::hasColumn('appeals', 'school_year_id')) {
+                $table->unsignedBigInteger('school_year_id')->nullable()->after('grade_id');
                 $table->foreign('school_year_id')
                     ->references('id')
                     ->on('school_years')
@@ -72,6 +72,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Optionnel
+        // Down migrations intentionally left empty for production safety
     }
 };
