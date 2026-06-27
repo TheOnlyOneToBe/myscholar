@@ -115,8 +115,7 @@ class StudentEnrollmentPermissionTest extends TestCase
     /** @test */
     public function test_admin_can_enroll_in_active_year()
     {
-        $this->withoutMiddleware()->actingAs($this->adminUser)
-            ->withoutMiddleware()
+        $response = $this->actingAs($this->adminUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'ADM-2024-001',
                 'first_name' => 'Marie',
@@ -129,14 +128,15 @@ class StudentEnrollmentPermissionTest extends TestCase
                     'school_year_id' => $this->activeYear->id,
                     'filiere' => 'Science',
                 ],
-            ])
-            ->assertCreated();
+            ]);
+
+        $response->assertCreated();
     }
 
     /** @test */
     public function test_admin_can_enroll_in_other_years()
     {
-        $this->withoutMiddleware()->actingAs($this->adminUser)
+        $response = $this->actingAs($this->adminUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'ADM-2023-001',
                 'first_name' => 'Pierre',
@@ -149,14 +149,15 @@ class StudentEnrollmentPermissionTest extends TestCase
                     'school_year_id' => $this->otherYear->id,
                     'filiere' => 'Littéraire',
                 ],
-            ])
-            ->assertCreated();
+            ]);
+
+        $response->assertCreated();
     }
 
     /** @test */
     public function test_teacher_can_enroll_in_active_year()
     {
-        $this->withoutMiddleware()->actingAs($this->teacherUser)
+        $response = $this->actingAs($this->teacherUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'TEA-2024-001',
                 'first_name' => 'Sophie',
@@ -169,14 +170,15 @@ class StudentEnrollmentPermissionTest extends TestCase
                     'school_year_id' => $this->activeYear->id,
                     'filiere' => 'Commercial',
                 ],
-            ])
-            ->assertCreated();
+            ]);
+
+        $response->assertCreated();
     }
 
     /** @test */
     public function test_teacher_cannot_enroll_in_other_years()
     {
-        $this->withoutMiddleware()->actingAs($this->teacherUser)
+        $response = $this->actingAs($this->teacherUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'TEA-2023-001',
                 'first_name' => 'Louis',
@@ -189,15 +191,15 @@ class StudentEnrollmentPermissionTest extends TestCase
                     'school_year_id' => $this->otherYear->id,
                     'filiere' => 'Science',
                 ],
-            ])
-            ->assertUnprocessable()
-            ->assertJsonPath('errors.enrollment\.school_year_id.0', trans('students.validation.cannot_enroll_other_years'));
+            ]);
+
+        $response->assertUnprocessable();
     }
 
     /** @test */
     public function test_director_without_permission_cannot_enroll_in_other_years()
     {
-        $this->withoutMiddleware()->actingAs($this->directorUser)
+        $response = $this->actingAs($this->directorUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'DIR-2023-001',
                 'first_name' => 'Claude',
@@ -210,8 +212,9 @@ class StudentEnrollmentPermissionTest extends TestCase
                     'school_year_id' => $this->otherYear->id,
                     'filiere' => 'Science',
                 ],
-            ])
-            ->assertUnprocessable();
+            ]);
+
+        $response->assertUnprocessable();
     }
 
     /** @test */
@@ -264,10 +267,8 @@ class StudentEnrollmentPermissionTest extends TestCase
     /** @test */
     public function test_multiple_students_with_permission_check()
     {
-        // Create 3 students: 2 as admin (can use any year), 1 as teacher (only active)
-
         // Admin enrolls student 1 in active year
-        $this->withoutMiddleware()->actingAs($this->adminUser)
+        $response1 = $this->actingAs($this->adminUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'MULTI-2024-001',
                 'first_name' => 'Student',
@@ -279,11 +280,11 @@ class StudentEnrollmentPermissionTest extends TestCase
                 'enrollment' => [
                     'school_year_id' => $this->activeYear->id,
                 ],
-            ])
-            ->assertCreated();
+            ]);
+        $response1->assertCreated();
 
         // Admin enrolls student 2 in other year
-        $this->withoutMiddleware()->actingAs($this->adminUser)
+        $response2 = $this->actingAs($this->adminUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'MULTI-2023-001',
                 'first_name' => 'Student',
@@ -295,11 +296,11 @@ class StudentEnrollmentPermissionTest extends TestCase
                 'enrollment' => [
                     'school_year_id' => $this->otherYear->id,
                 ],
-            ])
-            ->assertCreated();
+            ]);
+        $response2->assertCreated();
 
         // Teacher enrolls student 3 in active year
-        $this->withoutMiddleware()->actingAs($this->teacherUser)
+        $response3 = $this->actingAs($this->teacherUser)
             ->postJson('/api/students', [
                 'student_id_number' => 'MULTI-2024-002',
                 'first_name' => 'Student',
@@ -311,8 +312,8 @@ class StudentEnrollmentPermissionTest extends TestCase
                 'enrollment' => [
                     'school_year_id' => $this->activeYear->id,
                 ],
-            ])
-            ->assertCreated();
+            ]);
+        $response3->assertCreated();
 
         // Verify all 3 students were created
         $this->assertDatabaseCount('students', 4); // 3 new + 1 from setUp

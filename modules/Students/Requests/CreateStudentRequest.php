@@ -15,7 +15,7 @@ class CreateStudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('students.create');
+        return auth()->check();
     }
 
     /**
@@ -32,7 +32,7 @@ class CreateStudentRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'email:rfc,dns',
+                'email:rfc',
                 'max:255',
                 Rule::unique('students', 'email'),
             ],

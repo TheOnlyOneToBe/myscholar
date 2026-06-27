@@ -2,7 +2,7 @@
 
 namespace Modules\Students\Policies;
 
-use App\Models\User;
+use Modules\Auth\Models\User;
 use Modules\Students\Models\StudentEnrollment;
 
 class EnrollmentPolicy

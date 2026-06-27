@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\Models\FamilyContact;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentEnrollment;
 use Modules\Students\Enums\RelationshipType;
 use Modules\Students\ValueObjects\Email;
 use Modules\Students\ValueObjects\Gender;

@@ -29,7 +29,7 @@ class EnrollmentController extends Controller
         $this->authorize('viewAny', StudentEnrollment::class);
 
         $query = StudentEnrollment::query()
-            ->with(['student', 'class', 'schoolYear']);
+            ->with(['student', 'schoolYear']);
 
         // Filter by student
         if ($request->has('student_id')) {
@@ -107,7 +107,7 @@ class EnrollmentController extends Controller
     {
         $this->authorize('view', $enrollment);
 
-        $enrollment->load(['student', 'class', 'schoolYear']);
+        $enrollment->load(['student', 'schoolYear']);
 
         return response()->json([
             'data' => $enrollment,

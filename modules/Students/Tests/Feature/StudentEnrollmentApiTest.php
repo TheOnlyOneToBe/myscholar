@@ -25,7 +25,6 @@ class StudentEnrollmentApiTest extends TestCase
     {
         parent::setUp();
 
-        // Create permissions for admin
         $enrollmentsViewPerm = Permission::create([
             'permission_id' => 'enrollments.view',
             'name' => 'View Enrollments',
@@ -80,7 +79,6 @@ class StudentEnrollmentApiTest extends TestCase
             'is_active' => true,
         ]);
 
-        // Create roles
         $adminRole = Role::create([
             'name' => 'super_administrator',
             'label' => 'Admin',
@@ -97,7 +95,6 @@ class StudentEnrollmentApiTest extends TestCase
             'is_active' => true,
         ]);
 
-        // Attach permissions to roles
         $adminRole->permissions()->attach([
             $enrollmentsViewPerm->id,
             $enrollmentsCreatePerm->id,
@@ -151,7 +148,7 @@ class StudentEnrollmentApiTest extends TestCase
     /** @test */
     public function test_list_enrollments_requires_auth()
     {
-        $this->withoutMiddleware()->getJson('/api/enrollments')
+        $this->getJson('/api/enrollments')
             ->assertUnauthorized();
     }
 
@@ -161,7 +158,7 @@ class StudentEnrollmentApiTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withoutMiddleware()->getJson('/api/enrollments')
+            ->getJson('/api/enrollments')
             ->assertForbidden();
     }
 
@@ -176,7 +173,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments')
+            ->getJson('/api/enrollments')
             ->assertOk()
             ->assertJsonStructure(['data', 'pagination']);
     }
@@ -192,7 +189,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?status=active')
+            ->getJson('/api/enrollments?status=active')
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -208,7 +205,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?school_year_id=' . $this->activeYear->id)
+            ->getJson('/api/enrollments?school_year_id=' . $this->activeYear->id)
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -224,7 +221,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?search=Jean')
+            ->getJson('/api/enrollments?search=Jean')
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -240,7 +237,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?search=TEST-2024-001')
+            ->getJson('/api/enrollments?search=TEST-2024-001')
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -256,7 +253,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson("/api/enrollments/{$enrollment->id}")
+            ->getJson("/api/enrollments/{$enrollment->id}")
             ->assertOk()
             ->assertJsonPath('data.id', $enrollment->id);
     }
@@ -267,7 +264,7 @@ class StudentEnrollmentApiTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withoutMiddleware()->postJson('/api/enrollments', [
+            ->postJson('/api/enrollments', [
                 'student_id' => $this->student->id,
                 'school_year_id' => $this->activeYear->id,
                 'enrollment_date' => now()->toDateString(),
@@ -279,7 +276,7 @@ class StudentEnrollmentApiTest extends TestCase
     public function test_create_enrollment_with_valid_data()
     {
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->postJson('/api/enrollments', [
+            ->postJson('/api/enrollments', [
                 'student_id' => $this->student->id,
                 'school_year_id' => $this->activeYear->id,
                 'filiere' => 'Science',
@@ -300,7 +297,7 @@ class StudentEnrollmentApiTest extends TestCase
     public function test_create_enrollment_requires_valid_student()
     {
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->postJson('/api/enrollments', [
+            ->postJson('/api/enrollments', [
                 'student_id' => 9999,
                 'school_year_id' => $this->activeYear->id,
                 'enrollment_date' => now()->toDateString(),
@@ -320,7 +317,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->putJson("/api/enrollments/{$enrollment->id}", [
+            ->putJson("/api/enrollments/{$enrollment->id}", [
                 'status' => 'suspended',
                 'filiere' => 'Littéraire',
             ])
@@ -342,7 +339,7 @@ class StudentEnrollmentApiTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withoutMiddleware()->putJson("/api/enrollments/{$enrollment->id}", [
+            ->putJson("/api/enrollments/{$enrollment->id}", [
                 'status' => 'suspended',
             ])
             ->assertForbidden();
@@ -359,7 +356,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->deleteJson("/api/enrollments/{$enrollment->id}")
+            ->deleteJson("/api/enrollments/{$enrollment->id}")
             ->assertOk();
 
         $this->assertDatabaseMissing('student_enrollments', [
@@ -378,7 +375,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->teacher)
-            ->withoutMiddleware()->deleteJson("/api/enrollments/{$enrollment->id}")
+            ->deleteJson("/api/enrollments/{$enrollment->id}")
             ->assertForbidden();
     }
 
@@ -393,7 +390,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->postJson("/api/enrollments/{$enrollment->id}/suspend")
+            ->postJson("/api/enrollments/{$enrollment->id}/suspend")
             ->assertOk()
             ->assertJsonPath('data.status', 'suspended');
     }
@@ -409,7 +406,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->postJson("/api/enrollments/{$enrollment->id}/resume")
+            ->postJson("/api/enrollments/{$enrollment->id}/resume")
             ->assertOk()
             ->assertJsonPath('data.status', 'active');
     }
@@ -420,7 +417,7 @@ class StudentEnrollmentApiTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withoutMiddleware()->getJson('/api/enrollments/export')
+            ->getJson('/api/enrollments/export')
             ->assertForbidden();
     }
 
@@ -435,7 +432,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments/export');
+            ->getJson('/api/enrollments/export');
 
         $response->assertOk()
             ->assertJsonStructure(['csv', 'filename', 'count']);
@@ -453,7 +450,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments/statistics')
+            ->getJson('/api/enrollments/statistics')
             ->assertOk()
             ->assertJsonStructure([
                 'total_enrollments',
@@ -477,7 +474,7 @@ class StudentEnrollmentApiTest extends TestCase
         }
 
         $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?per_page=25')
+            ->getJson('/api/enrollments?per_page=25')
             ->assertOk()
             ->assertJsonCount(25, 'data')
             ->assertJsonPath('pagination.total', 30);
@@ -501,7 +498,7 @@ class StudentEnrollmentApiTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->admin)
-            ->withoutMiddleware()->getJson('/api/enrollments?sort_by=enrollment_date&sort_order=asc');
+            ->getJson('/api/enrollments?sort_by=enrollment_date&sort_order=asc');
 
         $response->assertOk();
         $data = $response->json('data');
