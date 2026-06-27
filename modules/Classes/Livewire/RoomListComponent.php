@@ -13,7 +13,9 @@ class RoomListComponent extends Component
     public $search = '';
     public $building = '';
     public $type = '';
-    public $per_page = 10;
+    public $per_page = 25;
+
+    protected $paginationTheme = 'tailwind';
 
     public $showForm = false;
     public $editingId = null;

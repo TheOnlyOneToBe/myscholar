@@ -6,31 +6,44 @@
         </button>
     </div>
 
-    {{-- Filtres --}}
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <input type="text" wire:model.debounce="search" placeholder="Rechercher..." 
-            class="border border-gray-300 rounded px-3 py-2">
-        
-        <select wire:model="level" class="border border-gray-300 rounded px-3 py-2">
-            <option value="">Tous les niveaux</option>
-            @foreach($levels as $l)
-                <option value="{{ $l }}">{{ $l }}</option>
-            @endforeach
-        </select>
+    {{-- Filtres et Pagination Controls --}}
+    <div class="mb-6 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="text" wire:model.debounce="search" placeholder="Rechercher..."
+                class="border border-gray-300 rounded px-3 py-2">
 
-        <select wire:model="filiere" class="border border-gray-300 rounded px-3 py-2">
-            <option value="">Toutes les filières</option>
-            @foreach($filieres as $f)
-                <option value="{{ $f }}">{{ $f }}</option>
-            @endforeach
-        </select>
+            <select wire:model="level" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Tous les niveaux</option>
+                @foreach($levels as $l)
+                    <option value="{{ $l }}">{{ $l }}</option>
+                @endforeach
+            </select>
 
-        <select wire:model="school_year_id" class="border border-gray-300 rounded px-3 py-2">
-            <option value="">Sélectionner année</option>
-            @foreach($schoolYears as $year)
-                <option value="{{ $year->id }}">{{ $year->name }}</option>
-            @endforeach
-        </select>
+            <select wire:model="filiere" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Toutes les filières</option>
+                @foreach($filieres as $f)
+                    <option value="{{ $f }}">{{ $f }}</option>
+                @endforeach
+            </select>
+
+            <select wire:model="school_year_id" class="border border-gray-300 rounded px-3 py-2">
+                <option value="">Sélectionner année</option>
+                @foreach($schoolYears as $year)
+                    <option value="{{ $year->id }}">{{ $year->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Per Page Selector --}}
+        <div class="flex items-center gap-4">
+            <label for="per_page" class="text-sm font-medium text-gray-700">Afficher par page:</label>
+            <select wire:model="per_page" id="per_page" class="border border-gray-300 rounded px-3 py-2 text-sm">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
     </div>
 
     {{-- Tableau --}}
@@ -98,8 +111,16 @@
     </div>
 
     {{-- Pagination --}}
-    <div class="mt-4">
-        {{ $classes->links() }}
+    <div class="mt-6 border-t border-gray-200 pt-4">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <p class="text-sm text-gray-700">
+                    <span class="font-medium">{{ $classes->firstItem() ?? 0 }}</span> - <span class="font-medium">{{ $classes->lastItem() ?? 0 }}</span>
+                    sur <span class="font-medium">{{ $classes->total() }}</span> classes
+                </p>
+            </div>
+        </div>
+        {{ $classes->links('pagination.tailwind') }}
     </div>
 
     {{-- Modal Formulaire --}}

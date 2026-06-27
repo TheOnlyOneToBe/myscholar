@@ -17,7 +17,9 @@ class ClassListComponent extends Component
     public $school_year_id = '';
     public $sort_by = 'name';
     public $sort_order = 'asc';
-    public $per_page = 10;
+    public $per_page = 25;
+
+    protected $paginationTheme = 'tailwind';
 
     public $showForm = false;
     public $editingId = null;
