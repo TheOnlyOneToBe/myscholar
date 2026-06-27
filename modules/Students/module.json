@@ -1,0 +1,9 @@
+{
+  "name": "students",
+  "version": "1.0.0",
+  "description": "Gestion des élèves et inscriptions",
+  "type": "business",
+  "dependencies": ["auth", "config"],
+  "tables": ["students", "student_contacts", "student_enrollments", "student_history"],
+  "routes_prefix": "/api/students"
+}

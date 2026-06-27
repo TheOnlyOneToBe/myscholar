@@ -1,0 +1,9 @@
+{
+  "name": "reporting",
+  "version": "1.0.0",
+  "description": "Tableaux de bord, statistiques et exports",
+  "type": "core",
+  "dependencies": ["auth", "config"],
+  "tables": [],
+  "routes_prefix": "/api/reporting"
+}

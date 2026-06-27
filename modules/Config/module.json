@@ -1,0 +1,9 @@
+{
+  "name": "config",
+  "version": "1.0.0",
+  "description": "Configuration système et branding du lycée",
+  "type": "core",
+  "dependencies": [],
+  "tables": ["school_info", "system_settings"],
+  "routes_prefix": "/api/config"
+}

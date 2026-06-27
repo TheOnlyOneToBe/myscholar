@@ -1,0 +1,34 @@
+{
+  "permissions": [
+    {
+      "id": "auth.login",
+      "name": "Se connecter",
+      "description": "Permet de se connecter au système",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal", "enseignant", "parent", "student"]
+    },
+    {
+      "id": "auth.logout",
+      "name": "Se déconnecter",
+      "description": "Permet de se déconnecter",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal", "enseignant", "parent", "student"]
+    },
+    {
+      "id": "auth.change_password",
+      "name": "Changer le mot de passe",
+      "description": "Permet de changer son propre mot de passe",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal", "enseignant", "parent", "student"]
+    },
+    {
+      "id": "auth.manage_users",
+      "name": "Gérer les utilisateurs",
+      "description": "Permet de créer, modifier et désactiver des utilisateurs",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "auth.manage_roles",
+      "name": "Gérer les rôles",
+      "description": "Permet de créer et modifier les rôles et permissions",
+      "default_roles": ["admin"]
+    }
+  ]
+}

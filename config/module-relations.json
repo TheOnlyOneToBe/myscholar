@@ -1,0 +1,46 @@
+{
+  "relations": [
+    {
+      "module1": "students",
+      "module2": "grades",
+      "description": "Les notes sont liées aux élèves",
+      "type": "one-to-many",
+      "file": "bridges/students_grades.php"
+    },
+    {
+      "module1": "students",
+      "module2": "attendance",
+      "description": "Les absences sont liées aux élèves",
+      "type": "one-to-many",
+      "file": "bridges/students_attendance.php"
+    },
+    {
+      "module1": "students",
+      "module2": "classes",
+      "description": "Les élèves sont affectés aux classes",
+      "type": "many-to-many",
+      "file": "bridges/students_classes.php"
+    },
+    {
+      "module1": "students",
+      "module2": "billing",
+      "description": "Les factures sont liées aux élèves",
+      "type": "one-to-many",
+      "file": "bridges/students_billing.php"
+    },
+    {
+      "module1": "classes",
+      "module2": "grades",
+      "description": "Les notes sont organisées par classe",
+      "type": "one-to-many",
+      "file": "bridges/classes_grades.php"
+    },
+    {
+      "module1": "classes",
+      "module2": "attendance",
+      "description": "Les sessions d'appel sont par classe",
+      "type": "one-to-many",
+      "file": "bridges/classes_attendance.php"
+    }
+  ]
+}

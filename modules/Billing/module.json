@@ -1,0 +1,9 @@
+{
+  "name": "billing",
+  "version": "1.0.0",
+  "description": "Bourses, frais scolaires et facturation",
+  "type": "business",
+  "dependencies": ["auth", "config", "students"],
+  "tables": ["fee_structures", "invoices", "payments", "scholarships", "payment_plans", "fee_waivers"],
+  "routes_prefix": "/api/billing"
+}

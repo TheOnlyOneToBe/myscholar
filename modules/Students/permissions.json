@@ -1,0 +1,40 @@
+{
+  "permissions": [
+    {
+      "id": "students.view",
+      "name": "Voir les élèves",
+      "description": "Permet de consulter les fiches élèves",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal"]
+    },
+    {
+      "id": "students.create",
+      "name": "Créer un élève",
+      "description": "Permet d'inscrire un nouvel élève",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "students.edit",
+      "name": "Modifier un élève",
+      "description": "Permet de modifier la fiche d'un élève",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "students.delete",
+      "name": "Archiver un élève",
+      "description": "Permet d'archiver un élève (pas de suppression)",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "students.suspend",
+      "name": "Suspendre un élève",
+      "description": "Permet de suspendre ou réactiver un élève",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "students.export",
+      "name": "Exporter les élèves",
+      "description": "Permet d'exporter la liste des élèves",
+      "default_roles": ["admin", "directeur", "censeur"]
+    }
+  ]
+}

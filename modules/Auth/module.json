@@ -1,0 +1,9 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "Authentification et gestion des autorisations",
+  "type": "core",
+  "dependencies": [],
+  "tables": ["users", "roles", "permissions", "role_permissions", "user_roles"],
+  "routes_prefix": "/api/auth"
+}

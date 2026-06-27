@@ -1,0 +1,9 @@
+{
+  "name": "audit",
+  "version": "1.0.0",
+  "description": "Traçabilité et historique des modifications",
+  "type": "core",
+  "dependencies": ["auth"],
+  "tables": ["audit_logs", "deleted_records"],
+  "routes_prefix": "/api/audit"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "grades",
+  "version": "1.0.0",
+  "description": "Résultats académiques, notes et bulletins",
+  "type": "business",
+  "dependencies": ["auth", "config", "students"],
+  "tables": ["subjects", "grades", "averages_cache", "class_averages", "grade_periods", "appeals"],
+  "routes_prefix": "/api/grades"
+}

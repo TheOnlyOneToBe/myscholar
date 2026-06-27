@@ -1,0 +1,16 @@
+{
+  "permissions": [
+    {
+      "id": "config.view",
+      "name": "Voir la configuration",
+      "description": "Permet de consulter les paramètres du lycée",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.edit",
+      "name": "Modifier la configuration",
+      "description": "Permet de modifier les paramètres et informations du lycée",
+      "default_roles": ["admin", "directeur"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": [
+    {
+      "id": "notifications.send",
+      "name": "Envoyer des notifications",
+      "description": "Permet d'envoyer des notifications manuelles",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "notifications.view",
+      "name": "Voir ses notifications",
+      "description": "Permet de consulter ses propres notifications",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal", "enseignant", "parent", "student"]
+    }
+  ]
+}

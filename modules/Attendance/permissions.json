@@ -1,0 +1,40 @@
+{
+  "permissions": [
+    {
+      "id": "attendance.mark",
+      "name": "Marquer les présences",
+      "description": "Permet de faire l'appel quotidien",
+      "default_roles": ["admin", "prof_principal", "enseignant"]
+    },
+    {
+      "id": "attendance.edit",
+      "name": "Modifier un appel",
+      "description": "Permet de corriger un appel (24h)",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal"]
+    },
+    {
+      "id": "attendance.justify",
+      "name": "Justifier une absence",
+      "description": "Permet de soumettre un justificatif d'absence",
+      "default_roles": ["parent", "student"]
+    },
+    {
+      "id": "attendance.validate",
+      "name": "Valider les justificatifs",
+      "description": "Permet d'approuver ou refuser les justificatifs",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "attendance.view",
+      "name": "Voir les absences",
+      "description": "Permet de consulter l'historique des absences",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal"]
+    },
+    {
+      "id": "attendance.export",
+      "name": "Exporter les absences",
+      "description": "Permet d'exporter les rapports d'absences",
+      "default_roles": ["admin", "directeur", "censeur"]
+    }
+  ]
+}

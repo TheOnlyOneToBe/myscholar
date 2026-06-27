@@ -1,0 +1,9 @@
+{
+  "name": "attendance",
+  "version": "1.0.0",
+  "description": "Gestion des absences et présences",
+  "type": "business",
+  "dependencies": ["auth", "config", "students"],
+  "tables": ["attendance_records", "attendance_sessions", "justifications", "absence_counters", "absence_alerts"],
+  "routes_prefix": "/api/attendance"
+}

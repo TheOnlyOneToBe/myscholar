@@ -1,0 +1,9 @@
+{
+  "name": "notifications",
+  "version": "1.0.0",
+  "description": "Alertes et communications (Email, SMS, in-app)",
+  "type": "core",
+  "dependencies": ["auth"],
+  "tables": ["notifications", "notification_preferences", "email_templates", "sms_templates"],
+  "routes_prefix": "/api/notifications"
+}

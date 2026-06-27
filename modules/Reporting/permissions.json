@@ -1,0 +1,16 @@
+{
+  "permissions": [
+    {
+      "id": "reporting.dashboard",
+      "name": "Voir le tableau de bord",
+      "description": "Permet d'accéder au tableau de bord principal",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "reporting.export",
+      "name": "Exporter les rapports",
+      "description": "Permet d'exporter les rapports en Excel/PDF/CSV",
+      "default_roles": ["admin", "directeur", "censeur"]
+    }
+  ]
+}

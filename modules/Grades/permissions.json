@@ -1,0 +1,40 @@
+{
+  "permissions": [
+    {
+      "id": "grades.create",
+      "name": "Saisir des notes",
+      "description": "Permet de saisir les notes des élèves",
+      "default_roles": ["admin", "prof_principal", "enseignant"]
+    },
+    {
+      "id": "grades.view",
+      "name": "Voir les notes",
+      "description": "Permet de consulter les notes et moyennes",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal"]
+    },
+    {
+      "id": "grades.edit",
+      "name": "Modifier les notes",
+      "description": "Permet de modifier les notes (48h ou avec justification)",
+      "default_roles": ["admin", "prof_principal", "enseignant"]
+    },
+    {
+      "id": "grades.publish",
+      "name": "Publier les résultats",
+      "description": "Permet de publier les bulletins",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "grades.export",
+      "name": "Exporter les résultats",
+      "description": "Permet d'exporter les classements et résultats",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "grades.appeal",
+      "name": "Contester une note",
+      "description": "Permet de soumettre un recours sur une note",
+      "default_roles": ["parent", "student"]
+    }
+  ]
+}

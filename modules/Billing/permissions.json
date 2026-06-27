@@ -1,0 +1,58 @@
+{
+  "permissions": [
+    {
+      "id": "billing.create_tariff",
+      "name": "Créer les tarifs",
+      "description": "Permet de définir la structure tarifaire",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.generate_invoice",
+      "name": "Générer les factures",
+      "description": "Permet de générer des factures",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.record_payment",
+      "name": "Enregistrer un paiement",
+      "description": "Permet d'enregistrer les paiements reçus",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "billing.validate_payment",
+      "name": "Valider un paiement",
+      "description": "Permet de valider les paiements enregistrés",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.view_invoice",
+      "name": "Voir les factures",
+      "description": "Permet de consulter les factures",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "billing.view_reports",
+      "name": "Voir les rapports financiers",
+      "description": "Permet de consulter les rapports de revenus",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.export",
+      "name": "Exporter les données financières",
+      "description": "Permet d'exporter les rapports financiers",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.manage_payment_plan",
+      "name": "Gérer les plans de paiement",
+      "description": "Permet de créer et gérer les échéanciers",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "billing.manage_scholarship",
+      "name": "Gérer les bourses",
+      "description": "Permet d'attribuer et gérer les bourses",
+      "default_roles": ["admin", "directeur"]
+    }
+  ]
+}

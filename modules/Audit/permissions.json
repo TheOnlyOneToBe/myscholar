@@ -1,0 +1,16 @@
+{
+  "permissions": [
+    {
+      "id": "audit.view",
+      "name": "Voir les logs d'audit",
+      "description": "Permet de consulter l'historique des modifications",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "audit.export",
+      "name": "Exporter les logs d'audit",
+      "description": "Permet d'exporter l'historique au format Excel/CSV",
+      "default_roles": ["admin", "directeur"]
+    }
+  ]
+}

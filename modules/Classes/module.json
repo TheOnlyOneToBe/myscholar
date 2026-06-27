@@ -1,0 +1,9 @@
+{
+  "name": "classes",
+  "version": "1.0.0",
+  "description": "Organisation pédagogique, emplois du temps et salles",
+  "type": "business",
+  "dependencies": ["auth", "config"],
+  "tables": ["classes", "class_assignments", "class_subjects", "timetables", "rooms"],
+  "routes_prefix": "/api/classes"
+}
