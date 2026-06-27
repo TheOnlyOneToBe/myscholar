@@ -27,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Load Auth module views
+        $this->loadViewsFrom(base_path('modules/Auth/Resources/views'), 'auth');
+
+        // Load web routes for Auth module
+        if (file_exists(base_path('modules/Auth/Routes/web.php'))) {
+            $this->loadRoutesFrom(base_path('modules/Auth/Routes/web.php'));
+        }
+
         // Enregistrer les commandes personnalisées
         if ($this->app->runningInConsole()) {
             $this->commands([
