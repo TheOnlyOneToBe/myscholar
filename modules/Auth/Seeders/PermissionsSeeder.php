@@ -159,7 +159,7 @@ class PermissionsSeeder extends Seeder
 
         // Censeur (level 2) → Academic and disciplinary management
         if ($censeur) {
-            $censeurPerms = Permission::where('permission_id', 'IN', [
+            $censeurPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.view_users',
                 'auth.view_roles',
@@ -210,7 +210,7 @@ class PermissionsSeeder extends Seeder
 
         // Prof Principal (level 3) → Class and student management
         if ($profPrincipal) {
-            $profPrincipalPerms = Permission::where('permission_id', 'IN', [
+            $profPrincipalPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 'auth.view_roles',
@@ -244,7 +244,7 @@ class PermissionsSeeder extends Seeder
 
         // Chef de Classe (level 3) → Limited class and student access
         if ($chefClasse) {
-            $chefClassePerms = Permission::where('permission_id', 'IN', [
+            $chefClassePerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 // Students
@@ -268,7 +268,7 @@ class PermissionsSeeder extends Seeder
 
         // Enseignant (level 4) → Teaching-related permissions
         if ($enseignant) {
-            $enseignantPerms = Permission::where('permission_id', 'IN', [
+            $enseignantPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 // Students
@@ -294,7 +294,7 @@ class PermissionsSeeder extends Seeder
 
         // Surveillant (level 5) → Attendance and monitoring
         if ($surveillant) {
-            $surveillantPerms = Permission::where('permission_id', 'IN', [
+            $surveillantPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 // Students
@@ -311,7 +311,7 @@ class PermissionsSeeder extends Seeder
 
         // Parent (level 99) → View-only access to own child's data
         if ($parent) {
-            $parentPerms = Permission::where('permission_id', 'IN', [
+            $parentPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 // Students
@@ -326,7 +326,7 @@ class PermissionsSeeder extends Seeder
 
         // Student (level 100) → View-only access to own data
         if ($student) {
-            $studentPerms = Permission::where('permission_id', 'IN', [
+            $studentPerms = Permission::whereIn('permission_id', [
                 // Auth
                 'auth.change_password',
                 // Students

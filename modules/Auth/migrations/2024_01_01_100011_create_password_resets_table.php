@@ -19,9 +19,6 @@ return new class extends Migration
 
             // Timestamp de création (expiré après 1 heure)
             $table->timestamp('created_at')->useCurrent();
-
-            // Index
-            $table->index('email');
         });
     }
 
