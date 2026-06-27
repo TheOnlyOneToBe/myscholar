@@ -4,9 +4,12 @@ namespace Modules\Auth\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Traits\HasPermissions;
 
 class User extends Authenticatable
 {
+    use HasPermissions;
+
     protected $fillable = [
         'username',
         'email',
