@@ -112,7 +112,7 @@ class Role extends Model
 
     public function hasPermissionTo(Permission $permission): bool
     {
-        return $this->permissions()->where('id', $permission->id)->exists();
+        return $this->permissions()->where('permissions.id', $permission->id)->exists();
     }
 
     public function getPermissionIds(): array
