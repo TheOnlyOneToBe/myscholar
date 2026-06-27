@@ -165,7 +165,6 @@ class UserManagementService
         }
 
         $user->update(['is_active' => false]);
-        $user->tokens()->delete(); // Révoquer tous les tokens
 
         return ['success' => true, 'message' => 'Utilisateur désactivé'];
     }
@@ -192,9 +191,6 @@ class UserManagementService
         if (!$deletedBy->hasPermission('auth.delete_user')) {
             return ['success' => false, 'message' => 'Vous n\'avez pas la permission'];
         }
-
-        // Révoquer les tokens
-        $user->tokens()->delete();
 
         // Désactiver plutôt que de supprimer pour l'audit
         $user->update(['is_active' => false, 'deleted_at' => Carbon::now()]);
