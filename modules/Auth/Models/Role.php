@@ -5,9 +5,11 @@ namespace Modules\Auth\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'label',
@@ -72,6 +74,17 @@ class Role extends Model
         }
     }
 
+    public function givePermissionTo(Permission|array $permission): void
+    {
+        if (is_array($permission)) {
+            $this->permissions()->syncWithoutDetaching(
+                collect($permission)->mapWithKeys(fn($p) => [$p->id => []])->toArray()
+            );
+        } else {
+            $this->permissions()->syncWithoutDetaching([$permission->id]);
+        }
+    }
+
     public function removePermission(string $permissionId): void
     {
         $permission = Permission::where('permission_id', $permissionId)->first();
@@ -80,9 +93,26 @@ class Role extends Model
         }
     }
 
+    public function revokePermissionTo(Permission $permission): void
+    {
+        $this->permissions()->detach($permission);
+    }
+
+    public function syncPermissions(array $permissions): void
+    {
+        $this->permissions()->sync(
+            collect($permissions)->mapWithKeys(fn($p) => [$p->id => []])->toArray()
+        );
+    }
+
     public function hasPermission(string $permissionId): bool
     {
         return $this->permissions()->where('permission_id', $permissionId)->exists();
+    }
+
+    public function hasPermissionTo(Permission $permission): bool
+    {
+        return $this->permissions()->where('id', $permission->id)->exists();
     }
 
     public function getPermissionIds(): array

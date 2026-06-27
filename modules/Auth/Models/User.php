@@ -5,11 +5,13 @@ namespace Modules\Auth\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Hash;
 use App\Traits\HasPermissions;
 
 class User extends Authenticatable
 {
-    use HasPermissions;
+    use HasFactory, HasPermissions;
 
     protected $fillable = [
         'first_name',
@@ -53,6 +55,15 @@ class User extends Authenticatable
             'ip_whitelist' => 'array',
             'password_history' => 'array',
         ];
+    }
+
+    protected function setPasswordAttribute($value)
+    {
+        if (!empty($value) && !str_starts_with($value, '$2y$')) {
+            $this->attributes['password'] = Hash::make($value);
+        } else {
+            $this->attributes['password'] = $value;
+        }
     }
 
     public function roles(): BelongsToMany

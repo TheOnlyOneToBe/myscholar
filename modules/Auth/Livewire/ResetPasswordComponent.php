@@ -60,7 +60,7 @@ class ResetPasswordComponent extends Component
             $reset->delete();
 
             session()->flash('success', 'Your password has been reset. Please log in.');
-            return redirect()->route('login');
+            return $this->redirect(route('login'), navigate: true);
         }
     }
 

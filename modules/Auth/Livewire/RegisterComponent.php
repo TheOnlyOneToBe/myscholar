@@ -29,16 +29,12 @@ class RegisterComponent extends Component
     #[Rule('required')]
     public string $password_confirmation = '';
 
+    #[Rule('accepted')]
     public bool $agree_terms = false;
 
     public function register()
     {
         $this->validate();
-
-        if (!$this->agree_terms) {
-            $this->addError('agree_terms', 'You must agree to the terms and conditions.');
-            return;
-        }
 
         User::create([
             'first_name' => $this->first_name,
@@ -50,7 +46,7 @@ class RegisterComponent extends Component
         ]);
 
         session()->flash('success', 'Registration successful! Please log in.');
-        return redirect()->route('login');
+        return $this->redirect(route('login'), navigate: true);
     }
 
     public function render()
