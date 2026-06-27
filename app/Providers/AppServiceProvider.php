@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Services\PasswordService;
 use App\Services\PermissionService;
+use App\Services\AlertService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PermissionService::class, function () {
             return new PermissionService();
         });
+
+        $this->app->singleton(AlertService::class, function () {
+            return new AlertService();
+        });
     }
 
     /**
@@ -27,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Load helpers
+        require_once __DIR__ . '/../helpers.php';
+
         // Enregistrer les commandes personnalisées
         if ($this->app->runningInConsole()) {
             $this->commands([
