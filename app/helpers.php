@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\AlertService;
+use App\Services\DatabaseConfigManager;
 
 /**
  * Get the alert service instance
@@ -48,4 +49,44 @@ function get_alerts(): array
 function clear_alerts(): void
 {
     alerts()->clear();
+}
+
+/**
+ * Get the database config manager instance
+ */
+function database_config(): DatabaseConfigManager
+{
+    return app(DatabaseConfigManager::class);
+}
+
+/**
+ * Check if database is configured
+ */
+function is_database_configured(): bool
+{
+    return database_config()->isConfigured();
+}
+
+/**
+ * Get database driver (mysql or sqlite)
+ */
+function get_database_driver(): ?string
+{
+    return database_config()->getDriver();
+}
+
+/**
+ * Check if using MySQL
+ */
+function is_mysql(): bool
+{
+    return database_config()->isMysql();
+}
+
+/**
+ * Check if using SQLite
+ */
+function is_sqlite(): bool
+{
+    return database_config()->isSqlite();
 }

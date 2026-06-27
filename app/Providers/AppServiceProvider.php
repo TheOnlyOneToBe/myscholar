@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Services\PasswordService;
 use App\Services\PermissionService;
 use App\Services\AlertService;
+use App\Services\DatabaseConfigManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AlertService::class, function () {
             return new AlertService();
         });
+
+        $this->app->singleton(DatabaseConfigManager::class, function () {
+            return new DatabaseConfigManager();
+        });
     }
 
     /**
@@ -40,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $this->commands([
                 \App\Console\Commands\HashPassword::class,
                 \App\Console\Commands\SyncPermissions::class,
+                \App\Console\Commands\SetupDatabase::class,
             ]);
         }
 

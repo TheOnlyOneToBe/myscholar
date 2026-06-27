@@ -2,6 +2,21 @@
 
 use Illuminate\Support\Str;
 use Pdo\Mysql;
+use App\Services\DatabaseConfigManager;
+
+// Load database configuration from code if available
+$dbConfigFile = base_path('storage/database-config.json');
+$codeDbConfig = null;
+
+if (file_exists($dbConfigFile)) {
+    $json = file_get_contents($dbConfigFile);
+    $codeDbConfig = json_decode($json, true);
+}
+
+$defaultConnection = env('DB_CONNECTION', 'sqlite');
+if ($codeDbConfig && isset($codeDbConfig['driver'])) {
+    $defaultConnection = $codeDbConfig['driver'];
+}
 
 return [
 
@@ -17,7 +32,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => $defaultConnection,
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +50,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => $codeDbConfig['database'] ?? env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
@@ -47,14 +62,14 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => $codeDbConfig['host'] ?? env('DB_HOST', '127.0.0.1'),
+            'port' => $codeDbConfig['port'] ?? env('DB_PORT', '3306'),
+            'database' => $codeDbConfig['database'] ?? env('DB_DATABASE', 'laravel'),
+            'username' => $codeDbConfig['username'] ?? env('DB_USERNAME', 'root'),
+            'password' => $codeDbConfig['password'] ?? env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'charset' => $codeDbConfig['charset'] ?? env('DB_CHARSET', 'utf8mb4'),
+            'collation' => $codeDbConfig['collation'] ?? env('DB_COLLATION', 'utf8mb4_unicode_ci'),
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
