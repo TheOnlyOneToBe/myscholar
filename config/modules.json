@@ -1,10 +1,16 @@
 {
-    "clientId": "Academic Client",
+    "clientId": "DEV",
     "installedModules": [
-        "Auth",
-        "Classes",
         "Config",
-        "Students"
+        "Auth",
+        "Audit",
+        "Notifications",
+        "Reporting",
+        "Students",
+        "Classes",
+        "Grades",
+        "Attendance",
+        "Billing"
     ],
-    "installedAt": "2026-06-27T15:03:31+00:00"
+    "installedAt": "2026-06-27T15:05:16+00:00"
 }

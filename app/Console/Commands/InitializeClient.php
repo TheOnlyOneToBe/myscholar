@@ -137,16 +137,26 @@ class InitializeClient extends Command
         $coreModules = ['Config', 'Auth'];
         $this->selectedModules = $coreModules;
 
-        $this->info('Core modules (required):');
+        $this->info('📌 Core modules (required):');
         foreach ($coreModules as $module) {
             $this->info('  ✓ ' . $module);
         }
         $this->line('');
 
-        // Optional modules
+        // Show available optional modules with their dependencies
+        $this->info('📦 Optional modules (dependencies shown):');
         $optionalModules = array_diff(array_keys($this->moduleMap), $coreModules);
+
+        foreach ($optionalModules as $module) {
+            $deps = $this->moduleMap[$module]['dependencies'] ?? [];
+            $depString = empty($deps) ? '(no extra dependencies)' : '(requires: ' . implode(', ', $deps) . ')';
+            $this->info('  • ' . $module . ' ' . $depString);
+        }
+        $this->line('');
+
+        // Select optional modules
         $selected = $this->choice(
-            'Select optional modules to install (comma-separated, or press enter for all)',
+            'Select optional modules to install (comma-separated, or press enter to skip)',
             array_combine($optionalModules, $optionalModules),
             null,
             null,
@@ -158,7 +168,8 @@ class InitializeClient extends Command
             $this->validateDependencies();
         }
 
-        $this->info('Selected modules: ' . implode(', ', $this->selectedModules));
+        $this->line('');
+        $this->info('✅ Final selection: ' . implode(', ', $this->selectedModules));
     }
 
     private function validateModuleSelection(array $requested): array
@@ -166,8 +177,9 @@ class InitializeClient extends Command
         // Validate that requested modules exist
         $invalid = array_diff($requested, array_keys($this->moduleMap));
         if (!empty($invalid)) {
-            $this->warn('Invalid modules: ' . implode(', ', $invalid));
+            $this->error('❌ Invalid modules: ' . implode(', ', $invalid));
             $this->info('Available modules: ' . implode(', ', array_keys($this->moduleMap)));
+            throw new \InvalidArgumentException('Invalid modules requested');
         }
 
         $selected = array_intersect($requested, array_keys($this->moduleMap));
@@ -175,11 +187,14 @@ class InitializeClient extends Command
         // Always include core modules
         $selected = array_unique(array_merge(['Config', 'Auth'], $selected));
 
+        $this->line('');
+        $this->info('📋 Requested modules: ' . implode(', ', $requested));
+
         // Validate dependencies
         $this->selectedModules = $selected;
         $this->validateDependencies();
 
-        $this->info('Selected modules: ' . implode(', ', $this->selectedModules));
+        $this->info('✅ Final modules: ' . implode(', ', $this->selectedModules));
         $this->line('');
 
         return $this->selectedModules;
@@ -205,7 +220,22 @@ class InitializeClient extends Command
         }
 
         if (!empty($added)) {
-            $this->warn('Auto-added dependencies: ' . implode(', ', array_unique($added)));
+            $this->line('');
+            $this->warn('⚠️  DEPENDENCY WARNING');
+            $this->warn('The following modules were automatically added because they are required:');
+            $this->line('');
+
+            foreach (array_unique($added) as $module) {
+                $dependentModules = [];
+                foreach ($this->selectedModules as $selected) {
+                    $deps = $this->moduleMap[$selected]['dependencies'] ?? [];
+                    if (in_array($module, $deps)) {
+                        $dependentModules[] = $selected;
+                    }
+                }
+                $this->warn('  • ' . $module . ' (required by: ' . implode(', ', $dependentModules) . ')');
+            }
+            $this->line('');
         }
 
         sort($this->selectedModules);
