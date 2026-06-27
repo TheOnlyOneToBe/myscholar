@@ -1,46 +1,10 @@
 {
   "permissions": [
-    {
-      "id": "classes.create",
-      "name": "Créer une classe",
-      "description": "Permet de créer des classes pour l'année scolaire",
-      "default_roles": ["admin", "directeur", "censeur"]
-    },
-    {
-      "id": "classes.edit",
-      "name": "Modifier une classe",
-      "description": "Permet de modifier les informations d'une classe",
-      "default_roles": ["admin", "directeur", "censeur"]
-    },
-    {
-      "id": "classes.assign_students",
-      "name": "Affecter des élèves",
-      "description": "Permet d'affecter des élèves dans les classes",
-      "default_roles": ["admin", "directeur", "censeur"]
-    },
-    {
-      "id": "classes.assign_teachers",
-      "name": "Affecter des enseignants",
-      "description": "Permet d'affecter des enseignants aux matières",
-      "default_roles": ["admin", "directeur", "censeur"]
-    },
-    {
-      "id": "classes.manage_timetable",
-      "name": "Gérer les emplois du temps",
-      "description": "Permet de créer et modifier les emplois du temps",
-      "default_roles": ["admin", "censeur"]
-    },
-    {
-      "id": "classes.view",
-      "name": "Voir les classes",
-      "description": "Permet de consulter les classes et emplois du temps",
-      "default_roles": ["admin", "directeur", "censeur", "prof_principal", "enseignant"]
-    },
-    {
-      "id": "classes.export",
-      "name": "Exporter les données",
-      "description": "Permet d'exporter les listes et emplois du temps",
-      "default_roles": ["admin", "directeur", "censeur"]
-    }
+    { "id": "classes.view", "name": "Voir les classes", "default_roles": ["admin", "directeur", "enseignant"] },
+    { "id": "classes.create", "name": "Créer une classe", "default_roles": ["admin", "directeur"] },
+    { "id": "classes.edit", "name": "Modifier une classe", "default_roles": ["admin", "directeur"] },
+    { "id": "classes.delete", "name": "Supprimer une classe", "default_roles": ["admin"] },
+    { "id": "classes.manage_assignments", "name": "Gérer les affectations", "default_roles": ["admin", "directeur"] },
+    { "id": "classes.export", "name": "Exporter les classes", "default_roles": ["admin", "directeur"] }
   ]
 }

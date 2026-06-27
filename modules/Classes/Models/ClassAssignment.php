@@ -3,50 +3,38 @@
 namespace Modules\Classes\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Config\Models\SchoolYear;
 
 class ClassAssignment extends Model
 {
     protected $fillable = [
-        'student_id',
         'class_id',
+        'user_id',
+        'role',
+        'subject',
         'school_year_id',
-        'assignment_date',
-        'status',
+        'assigned_at',
+        'ended_at',
         'notes',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'assigned_at' => 'datetime',
+        'ended_at' => 'datetime',
+    ];
+
+    public function class()
     {
-        return [
-            'assignment_date' => 'date',
-        ];
+        return $this->belongsTo(ClassModel::class, 'class_id');
     }
 
-    public function student(): BelongsTo
+    public function teacher()
     {
-        return $this->belongsTo(\Modules\Students\Models\Student::class);
+        return $this->belongsTo(\Modules\Auth\Models\User::class, 'user_id');
     }
 
-    public function class(): BelongsTo
+    public function schoolYear()
     {
-        return $this->belongsTo(SchoolClass::class, 'class_id');
-    }
-
-    public static function getStatuses(): array
-    {
-        return ['active', 'transferred', 'suspended', 'withdrawn'];
-    }
-
-    public function transfer(SchoolClass $newClass): void
-    {
-        $this->update(['status' => 'transferred']);
-        static::create([
-            'student_id' => $this->student_id,
-            'class_id' => $newClass->id,
-            'school_year_id' => $this->school_year_id,
-            'assignment_date' => now()->toDateString(),
-            'status' => 'active',
-        ]);
+        return $this->belongsTo(SchoolYear::class);
     }
 }

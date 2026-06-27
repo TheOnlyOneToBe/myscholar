@@ -3,47 +3,33 @@
 namespace Modules\Classes\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Config\Models\SchoolYear;
 
 class ClassSubject extends Model
 {
     protected $fillable = [
         'class_id',
-        'subject_id',
-        'teacher_id',
+        'subject_code',
+        'subject_name',
         'hours_per_week',
-        'start_date',
-        'end_date',
+        'school_year_id',
+        'is_optional',
+        'is_active',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'hours_per_week' => 'integer',
+        'is_optional' => 'boolean',
+        'is_active' => 'boolean',
+    ];
+
+    public function class()
     {
-        return [
-            'hours_per_week' => 'float',
-            'start_date' => 'date',
-            'end_date' => 'date',
-        ];
+        return $this->belongsTo(ClassModel::class, 'class_id');
     }
 
-    public function class(): BelongsTo
+    public function schoolYear()
     {
-        return $this->belongsTo(SchoolClass::class, 'class_id');
-    }
-
-    public function subject(): BelongsTo
-    {
-        return $this->belongsTo(\Modules\Grades\Models\Subject::class);
-    }
-
-    public function teacher(): BelongsTo
-    {
-        return $this->belongsTo(\Modules\Auth\Models\User::class, 'teacher_id');
-    }
-
-    public function isActive(): bool
-    {
-        $today = now()->toDateString();
-        return $today >= $this->start_date->toDateString() &&
-               $today <= $this->end_date->toDateString();
+        return $this->belongsTo(SchoolYear::class);
     }
 }

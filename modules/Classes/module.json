@@ -1,7 +1,7 @@
 {
   "name": "classes",
   "version": "1.0.0",
-  "description": "Organisation pédagogique, emplois du temps et salles",
+  "description": "Gestion des classes, salles, emplois du temps et affectations",
   "type": "business",
   "dependencies": ["auth", "config"],
   "tables": ["classes", "class_assignments", "class_subjects", "timetables", "rooms"],
