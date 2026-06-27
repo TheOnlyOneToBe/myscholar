@@ -3,14 +3,98 @@
     {
       "id": "config.view",
       "name": "Voir la configuration",
-      "description": "Permet de consulter les paramètres du lycée",
-      "default_roles": ["admin", "directeur"]
+      "description": "Permet de consulter les paramètres et informations du lycée",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin", "directeur", "censeur"]
     },
     {
       "id": "config.edit",
       "name": "Modifier la configuration",
       "description": "Permet de modifier les paramètres et informations du lycée",
+      "category": "update",
+      "scope": "all",
       "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.school_info.edit",
+      "name": "Modifier les infos de l'établissement",
+      "description": "Permet de modifier le nom, logo, adresse, etc. du lycée",
+      "category": "update",
+      "scope": "all",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.school_info.logo",
+      "name": "Gérer le logo de l'établissement",
+      "description": "Permet d'uploader et modifier le logo du lycée",
+      "category": "update",
+      "scope": "all",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.settings.view",
+      "name": "Voir les paramètres système",
+      "description": "Permet de consulter tous les paramètres système du lycée",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "config.settings.edit",
+      "name": "Modifier les paramètres système",
+      "description": "Permet de modifier les paramètres système (année scolaire, devise, etc.)",
+      "category": "update",
+      "scope": "all",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "config.school_year.view",
+      "name": "Voir les années scolaires",
+      "description": "Permet de consulter la liste des années scolaires",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "config.school_year.create",
+      "name": "Créer une année scolaire",
+      "description": "Permet de créer une nouvelle année scolaire",
+      "category": "create",
+      "scope": "all",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "config.school_year.edit",
+      "name": "Modifier une année scolaire",
+      "description": "Permet de modifier les paramètres d'une année scolaire",
+      "category": "update",
+      "scope": "all",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.school_year.delete",
+      "name": "Supprimer une année scolaire",
+      "description": "Permet de supprimer une année scolaire",
+      "category": "delete",
+      "scope": "all",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "config.school_year.switch",
+      "name": "Changer l'année scolaire active",
+      "description": "Permet de basculer vers une autre année scolaire",
+      "category": "update",
+      "scope": "all",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "config.export",
+      "name": "Exporter la configuration",
+      "description": "Permet d'exporter les paramètres du lycée",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin"]
     }
   ]
 }

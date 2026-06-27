@@ -71,4 +71,20 @@ trait HasPermissions
 
         return true;
     }
+
+    /**
+     * Override the can method to check permissions.
+     */
+    public function can($ability, $arguments = []): bool
+    {
+        $userRoles = $this->roles()->pluck('name')->toArray();
+        $userPermissions = $this->getPermissions();
+        \Log::debug("can() called for user {$this->id} with ability: {$ability}");
+        \Log::debug("User roles: " . json_encode($userRoles));
+        \Log::debug("User permissions: " . json_encode($userPermissions));
+
+        $hasPermission = $this->hasPermission($ability);
+        \Log::debug("Result: " . ($hasPermission ? 'true' : 'false'));
+        return $hasPermission;
+    }
 }
