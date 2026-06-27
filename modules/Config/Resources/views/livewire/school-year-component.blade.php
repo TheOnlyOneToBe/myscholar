@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <div class="card border-primary">
                 <div class="card-header bg-primary text-white">
-                    <h6 class="mb-0">📅 {{ __('config.labels.active_year') }}</h6>
+                    <h6 class="mb-0"><i class="fas fa-calendar-alt"></i> {{ __('config.labels.active_year') }}</h6>
                 </div>
                 <div class="card-body">
                     @if ($activeYear)
@@ -35,7 +35,7 @@
         <div class="col-md-6">
             <div class="card border-info">
                 <div class="card-header bg-info text-white">
-                    <h6 class="mb-0">🎯 {{ __('config.labels.session_year') }}</h6>
+                    <h6 class="mb-0"><i class="fas fa-graduation-cap"></i> {{ __('config.labels.session_year') }}</h6>
                 </div>
                 <div class="card-body">
                     @if ($sessionYear)
@@ -82,7 +82,11 @@
         <div class="card mb-4 border-warning">
             <div class="card-header bg-warning text-dark">
                 <h5 class="mb-0">
-                    {{ $editingYear ? '✏️ ' . __('config.labels.edit_year') : '➕ ' . __('config.labels.create_year') }}
+                    @if ($editingYear)
+                        <i class="fas fa-edit"></i> {{ __('config.labels.edit_year') }}
+                    @else
+                        <i class="fas fa-plus-circle"></i> {{ __('config.labels.create_year') }}
+                    @endif
                 </h5>
             </div>
             <div class="card-body">
@@ -242,7 +246,7 @@
                                                     class="btn btn-outline-info"
                                                     title="{{ __('config.labels.switch_session') }}"
                                                 >
-                                                    <i class="fas fa-exchange"></i> {{ __('config.labels.switch_session') }}
+                                                    <i class="fas fa-exchange-alt"></i> {{ __('config.labels.switch_session') }}
                                                 </button>
                                             @elseif ($sessionYear?->id === $year->id)
                                                 <button
