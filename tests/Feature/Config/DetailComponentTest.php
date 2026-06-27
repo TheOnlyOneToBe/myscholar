@@ -3,14 +3,17 @@
 namespace Tests\Feature\Config;
 
 use Modules\Auth\Models\User;
+use Modules\Auth\Models\Role;
 use Modules\Config\Models\SchoolInfo;
 use Modules\Config\Models\SchoolYear;
 use Modules\Config\Livewire\DetailComponent;
 use Tests\TestCase;
+use Tests\Traits\CreatesPermissions;
 use Livewire\Livewire;
 
 class DetailComponentTest extends TestCase
 {
+    use CreatesPermissions;
     public function test_detail_component_loads_school_info()
     {
         $user = User::factory()->create();
@@ -62,8 +65,10 @@ class DetailComponentTest extends TestCase
     public function test_can_update_school_info()
     {
         $admin = User::factory()->create();
-        $adminRole = \Modules\Auth\Models\Role::firstOrCreate(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $admin->assignRole($adminRole);
+
+        $this->grantPermission('config.school_info.edit', 'admin');
 
         $this->actingAs($admin);
 
@@ -92,10 +97,15 @@ class DetailComponentTest extends TestCase
             'school_type' => 'public',
         ]);
 
-        $this->expectException(\Illuminate\Auth\Access\AuthorizationException::class);
-
-        Livewire::test(DetailComponent::class, [])
-            ->call('updateSchoolInfo');
+        // Verify the authorization exception is raised
+        try {
+            Livewire::test(DetailComponent::class)
+                ->set('formData.name', 'New Name')
+                ->call('updateSchoolInfo');
+            $this->fail('Expected AuthorizationException');
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function test_get_system_setting()

@@ -80,10 +80,13 @@ class SystemSettingTest extends TestCase
 
     public function test_can_update_existing_setting()
     {
-        SystemSetting::set('key', 'value1', 'string', 'group');
-        SystemSetting::set('key', 'value2', 'string', 'group');
+        SystemSetting::set('test_key', 'value1', 'string', 'test_group');
+        $initialCount = SystemSetting::where('key', 'test_key')->count();
 
-        $this->assertDatabaseCount('system_settings', 1);
-        $this->assertEquals('value2', SystemSetting::get('key'));
+        SystemSetting::set('test_key', 'value2', 'string', 'test_group');
+        $updatedCount = SystemSetting::where('key', 'test_key')->count();
+
+        $this->assertEquals($initialCount, $updatedCount);
+        $this->assertEquals('value2', SystemSetting::get('test_key'));
     }
 }
