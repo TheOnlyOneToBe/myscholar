@@ -1,0 +1,19 @@
+{
+  "errors": {
+    "no_school_year_available": "Aucune année scolaire disponible. Veuillez créer une année scolaire d'abord.",
+    "cannot_modify_locked_year": "Impossible de modifier une année scolaire verrouillée.",
+    "permission_denied_past_year": "Vous n'avez pas la permission de modifier les données d'une année scolaire passée."
+  },
+  "messages": {
+    "school_year_activated": "L'année scolaire {name} a été activée avec succès.",
+    "school_year_switched": "Vous avez changé vers l'année scolaire {name}.",
+    "active_school_year": "Année scolaire active",
+    "current_session": "Session actuelle"
+  },
+  "validation": {
+    "school_year_required": "Une année scolaire doit être sélectionnée."
+  },
+  "permissions": {
+    "scholarity_modify_past_years": "Modifier les années scolaires passées (Scolarité)"
+  }
+}

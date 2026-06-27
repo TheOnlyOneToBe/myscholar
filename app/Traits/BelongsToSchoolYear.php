@@ -17,7 +17,21 @@ trait BelongsToSchoolYear
     }
 
     /**
-     * Scope: Filter by current school year
+     * Scope: Filter by session school year (user's selected year)
+     */
+    public function scopeSessionYear(Builder $query): Builder
+    {
+        $yearId = app(\Modules\Config\Services\SchoolYearSessionService::class)->getActiveYearId();
+
+        if (!$yearId) {
+            return $query;
+        }
+
+        return $query->where('school_year_id', $yearId);
+    }
+
+    /**
+     * Scope: Filter by current school year (active year in database)
      */
     public function scopeCurrentYear(Builder $query): Builder
     {

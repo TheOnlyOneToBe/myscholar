@@ -1,0 +1,19 @@
+{
+  "errors": {
+    "no_school_year_available": "No school year available. Please create a school year first.",
+    "cannot_modify_locked_year": "Cannot modify a locked school year.",
+    "permission_denied_past_year": "You do not have permission to modify data in a past school year."
+  },
+  "messages": {
+    "school_year_activated": "The school year {name} has been activated successfully.",
+    "school_year_switched": "You have switched to the school year {name}.",
+    "active_school_year": "Active school year",
+    "current_session": "Current session"
+  },
+  "validation": {
+    "school_year_required": "A school year must be selected."
+  },
+  "permissions": {
+    "scholarity_modify_past_years": "Modify past school years (Scholarity)"
+  }
+}

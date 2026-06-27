@@ -44,6 +44,15 @@ class ModuleServiceProvider extends ServiceProvider
             return;
         }
 
+        // Load service provider if exists
+        $providerPath = "{$modulePath}/Providers/{$moduleName}ServiceProvider.php";
+        if (File::exists($providerPath)) {
+            $namespace = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
+            if (class_exists($namespace)) {
+                $this->app->register($namespace);
+            }
+        }
+
         $migrationsPath = "{$modulePath}/migrations";
         if (File::isDirectory($migrationsPath)) {
             $this->loadMigrationsFrom($migrationsPath);
