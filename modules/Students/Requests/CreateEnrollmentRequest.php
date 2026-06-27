@@ -12,7 +12,7 @@ class CreateEnrollmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('enrollments.create');
+        return auth()->check();
     }
 
     /**

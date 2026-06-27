@@ -12,7 +12,7 @@ class UpdateEnrollmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('enrollments.edit');
+        return auth()->check();
     }
 
     /**
