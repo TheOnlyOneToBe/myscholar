@@ -10,20 +10,16 @@ return new class extends Migration
     {
         Schema::create('fee_structures', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('class_id')->nullable();
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('set null');
             $table->unsignedBigInteger('school_year_id')->nullable();
-            $table->string('level')->nullable();
-            $table->enum('filiere', ['general', 'technique', 'pro'])->nullable();
-            $table->decimal('inscription_fee', 10, 2)->default(0);
-            $table->decimal('monthly_fee', 10, 2)->default(0);
-            $table->decimal('trimester_fee', 10, 2)->default(0);
-            $table->decimal('material_fee_t1', 10, 2)->default(0);
-            $table->decimal('material_fee_t2', 10, 2)->default(0);
-            $table->decimal('material_fee_t3', 10, 2)->default(0);
-            $table->decimal('exam_fee_bac_white', 10, 2)->default(0);
-            $table->decimal('exam_fee_bac_official', 10, 2)->default(0);
-            $table->json('optional_fees')->nullable();
+            $table->decimal('total_amount', 10, 2)->default(0);
+            $table->string('currency')->default('FCFA');
+            $table->date('due_date')->nullable();
+            $table->boolean('is_mandatory')->default(true);
             $table->timestamps();
-            $table->unique(['school_year_id', 'level', 'filiere']);
         });
     }
 

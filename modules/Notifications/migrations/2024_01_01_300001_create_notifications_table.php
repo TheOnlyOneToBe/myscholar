@@ -14,8 +14,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('message');
             $table->enum('type', ['academic', 'financial', 'attendance']);
-            $table->string('related_entity')->nullable();
+            $table->string('related_entity_type')->nullable();
             $table->unsignedBigInteger('related_entity_id')->nullable();
+            $table->json('data')->nullable();
             $table->boolean('is_read')->default(false);
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

@@ -10,14 +10,18 @@ return new class extends Migration
     {
         Schema::create('payment_plans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_id');
-            $table->integer('installment_count');
-            $table->date('start_date');
+            $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('set null');
+            $table->unsignedBigInteger('student_id')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('set null');
+            $table->integer('total_installments');
+            $table->decimal('installment_amount', 10, 2);
+            $table->enum('frequency', ['weekly', 'bi_weekly', 'monthly', 'quarterly'])->default('monthly');
+            $table->date('start_date')->nullable();
             $table->enum('status', ['active', 'completed', 'failed'])->default('active');
-            $table->unsignedBigInteger('approved_by_user_id')->nullable();
-            $table->timestamp('approval_date')->nullable();
             $table->timestamps();
             $table->index('invoice_id');
+            $table->index('student_id');
         });
     }
 

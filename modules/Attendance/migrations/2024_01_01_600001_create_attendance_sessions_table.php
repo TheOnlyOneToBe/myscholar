@@ -12,15 +12,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('class_id');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('set null');
             $table->date('date');
-            $table->enum('time_slot', ['morning', 'afternoon']);
-            $table->unsignedBigInteger('teacher_id')->nullable();
-            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('set null');
-            $table->boolean('is_submitted')->default(false);
-            $table->timestamp('submitted_at')->nullable();
+            $table->dateTime('start_time')->nullable();
+            $table->dateTime('end_time')->nullable();
+            $table->unsignedBigInteger('created_by_teacher_id')->nullable();
+            $table->foreign('created_by_teacher_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
-            $table->unique(['class_id', 'date', 'time_slot']);
             $table->index('class_id');
+            $table->index('subject_id');
             $table->index('date');
         });
     }

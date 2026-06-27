@@ -55,7 +55,7 @@ final class StudentIdFormat
             '__PLACEHOLDER_3HASH__' => '\d{3}',
             '__PLACEHOLDER_2HASH__' => '\d{2}',
             '__PLACEHOLDER_1HASH__' => '\d',
-            '__PLACEHOLDER_FILIERE__' => '[A-Z0-9]+',
+            '__PLACEHOLDER_FILIERE__' => '[A-Za-z0-9]+',
             '__PLACEHOLDER_LEVEL__' => '\d+',
         ];
 

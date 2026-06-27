@@ -14,6 +14,7 @@ return new class extends Migration
             $table->enum('action', ['create', 'update', 'delete']);
             $table->string('entity_type');
             $table->unsignedBigInteger('entity_id');
+            $table->text('description')->nullable();
             $table->json('old_values')->nullable();
             $table->json('new_values')->nullable();
             $table->string('ip_address', 45)->nullable();
