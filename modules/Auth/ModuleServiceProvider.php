@@ -40,7 +40,16 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Register routes
+        // Load views from the module
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'auth');
+
+        // Load web routes
+        $webRoutesFile = __DIR__ . '/../Routes/web.php';
+        if (file_exists($webRoutesFile)) {
+            $this->loadRoutesFrom($webRoutesFile);
+        }
+
+        // Register API routes
         $this->loadRoutes();
 
         // Register migrations

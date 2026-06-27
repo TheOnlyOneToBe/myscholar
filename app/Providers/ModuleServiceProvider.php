@@ -44,6 +44,15 @@ class ModuleServiceProvider extends ServiceProvider
             return;
         }
 
+        // Load root ModuleServiceProvider if exists (for service registration and bootstrapping)
+        $rootProviderPath = "{$modulePath}/ModuleServiceProvider.php";
+        if (File::exists($rootProviderPath)) {
+            $rootNamespace = "Modules\\{$moduleName}\\ModuleServiceProvider";
+            if (class_exists($rootNamespace)) {
+                $this->app->register($rootNamespace);
+            }
+        }
+
         // Load service provider if exists
         $providerPath = "{$modulePath}/Providers/{$moduleName}ServiceProvider.php";
         if (File::exists($providerPath)) {
