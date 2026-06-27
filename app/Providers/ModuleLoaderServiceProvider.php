@@ -16,6 +16,7 @@ class ModuleLoaderServiceProvider extends ServiceProvider
             'Modules\Auth\Providers\AuthServiceProvider',
             'Modules\Config\Providers\ConfigServiceProvider',
             'Modules\Audit\Providers\AuditServiceProvider',
+            'Modules\Notifications\Providers\NotificationServiceProvider',
         ];
 
         foreach ($modules as $module) {

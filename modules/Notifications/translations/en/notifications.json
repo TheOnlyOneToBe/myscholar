@@ -1,0 +1,51 @@
+{
+  "errors": {
+    "permission_denied": "You do not have permission to access this notification.",
+    "notification_not_found": "Notification not found.",
+    "action_already_processed": "This action has already been processed."
+  },
+  "messages": {
+    "notification_sent": "Notification sent successfully.",
+    "marked_as_read": "Notification marked as read.",
+    "marked_as_unread": "Notification marked as unread.",
+    "all_marked_as_read": "All notifications have been marked as read.",
+    "notification_deleted": "Notification deleted successfully.",
+    "action_approved": "The action has been approved.",
+    "action_rejected": "The action has been rejected.",
+    "user_requested_password_reset": "{name} has requested to reset their password.",
+    "password_reset_by_admin": "An administrator has reset your password. Your temporary password is: {password}",
+    "password_reset_rejected": "Your password reset request has been rejected. Reason: {reason}"
+  },
+  "labels": {
+    "notifications": "Notifications",
+    "no_notifications": "No notifications",
+    "unread_notifications": "Unread Notifications",
+    "all_notifications": "All Notifications",
+    "pending_actions": "Pending Actions",
+    "password_reset_request": "Password Reset Request",
+    "password_reset": "Password Reset",
+    "password_reset_rejected": "Password Reset Request Rejected"
+  },
+  "actions": {
+    "approve": "Approve",
+    "reject": "Reject",
+    "mark_as_read": "Mark as Read",
+    "mark_as_unread": "Mark as Unread",
+    "delete": "Delete",
+    "view_details": "View Details"
+  },
+  "types": {
+    "academic": "Academic",
+    "financial": "Financial",
+    "attendance": "Attendance",
+    "system": "System",
+    "security": "Security",
+    "approval": "Approval"
+  },
+  "priorities": {
+    "low": "Low",
+    "normal": "Normal",
+    "high": "High",
+    "critical": "Critical"
+  }
+}

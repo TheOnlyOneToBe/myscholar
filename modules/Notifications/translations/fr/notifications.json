@@ -1,0 +1,51 @@
+{
+  "errors": {
+    "permission_denied": "Vous n'avez pas la permission d'accéder à cette notification.",
+    "notification_not_found": "Notification non trouvée.",
+    "action_already_processed": "Cette action a déjà été traitée."
+  },
+  "messages": {
+    "notification_sent": "Notification envoyée avec succès.",
+    "marked_as_read": "Notification marquée comme lue.",
+    "marked_as_unread": "Notification marquée comme non lue.",
+    "all_marked_as_read": "Toutes les notifications ont été marquées comme lues.",
+    "notification_deleted": "Notification supprimée avec succès.",
+    "action_approved": "L'action a été approuvée.",
+    "action_rejected": "L'action a été rejetée.",
+    "user_requested_password_reset": "{name} a demandé la réinitialisation de son mot de passe.",
+    "password_reset_by_admin": "Un administrateur a réinitialisé votre mot de passe. Votre mot de passe temporaire est: {password}",
+    "password_reset_rejected": "Votre demande de réinitialisation de mot de passe a été rejetée. Raison: {reason}"
+  },
+  "labels": {
+    "notifications": "Notifications",
+    "no_notifications": "Aucune notification",
+    "unread_notifications": "Notifications non lues",
+    "all_notifications": "Toutes les notifications",
+    "pending_actions": "Actions en attente",
+    "password_reset_request": "Demande de réinitialisation de mot de passe",
+    "password_reset": "Réinitialisation de mot de passe",
+    "password_reset_rejected": "Demande de réinitialisation rejetée"
+  },
+  "actions": {
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "mark_as_read": "Marquer comme lu",
+    "mark_as_unread": "Marquer comme non lu",
+    "delete": "Supprimer",
+    "view_details": "Voir les détails"
+  },
+  "types": {
+    "academic": "Académique",
+    "financial": "Financier",
+    "attendance": "Présence",
+    "system": "Système",
+    "security": "Sécurité",
+    "approval": "Approbation"
+  },
+  "priorities": {
+    "low": "Basse",
+    "normal": "Normal",
+    "high": "Haute",
+    "critical": "Critique"
+  }
+}
