@@ -48,7 +48,8 @@ class TestModuleIntegration extends Command
             'username' => 'test_teacher_' . $timestamp,
             'email' => 'teacher_' . $timestamp . '@school.local',
             'password' => bcrypt('TestPassword123!@#'),
-            'full_name' => 'Prof. Test Teacher',
+            'first_name' => 'Prof.',
+            'last_name' => 'Test Teacher',
             'is_active' => true,
         ]);
         $this->line('   ✓ Admin user created: ' . $user->email);

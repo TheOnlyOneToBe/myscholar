@@ -33,7 +33,8 @@ class TestModules extends Command
                 'username' => 'test_admin_' . $timestamp,
                 'email' => 'admin_' . $timestamp . '@test.local',
                 'password' => bcrypt('TestPassword123!@#'),
-                'full_name' => 'Test Admin',
+                'first_name' => 'Test',
+                'last_name' => 'Admin',
                 'is_active' => true,
             ]);
             $this->line('<info>✓</info>');
