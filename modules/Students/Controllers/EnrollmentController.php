@@ -5,6 +5,7 @@ namespace Modules\Students\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Modules\Students\Models\StudentEnrollment;
 use Modules\Students\Models\Student;
 use Modules\Students\Requests\CreateEnrollmentRequest;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 
 class EnrollmentController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         protected StudentService $studentService
     ) {}
