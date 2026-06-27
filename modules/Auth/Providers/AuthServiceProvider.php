@@ -16,6 +16,9 @@ class AuthServiceProvider extends ServiceProvider
         // Load views from the module
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'auth');
 
+        // Load translations from the module
+        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'auth');
+
         // Load routes from web.php
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
     }

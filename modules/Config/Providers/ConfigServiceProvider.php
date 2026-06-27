@@ -20,6 +20,7 @@ class ConfigServiceProvider extends ServiceProvider
         $this->loadMigrations();
         $this->loadRoutes();
         $this->loadViews();
+        $this->loadTranslations();
         $this->loadHelpers();
         $this->registerMiddleware();
     }
@@ -57,6 +58,11 @@ class ConfigServiceProvider extends ServiceProvider
     private function loadViews(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'config');
+    }
+
+    private function loadTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'config');
     }
 
     private function loadHelpers(): void
