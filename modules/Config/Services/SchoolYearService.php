@@ -20,16 +20,20 @@ class SchoolYearService
     }
 
     /**
-     * Set a school year as active
+     * Set a school year as active (allows any year including future ones)
      */
     public function setActiveSchoolYear(SchoolYear $schoolYear): void
     {
+        if (!$schoolYear->exists) {
+            throw new \InvalidArgumentException('School year must be saved to the database first');
+        }
+
         // Deactivate all other years
         SchoolYear::where('is_active', true)
             ->where('id', '!=', $schoolYear->id)
             ->update(['is_active' => false]);
 
-        // Activate the selected year
+        // Activate the selected year (allows future years for planning purposes)
         $schoolYear->update(['is_active' => true]);
 
         // Clear cache
