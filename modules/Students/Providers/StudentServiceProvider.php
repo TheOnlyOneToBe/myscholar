@@ -4,7 +4,9 @@ namespace Modules\Students\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentEnrollment;
 use Modules\Students\Policies\StudentPolicy;
+use Modules\Students\Policies\EnrollmentPolicy;
 use Modules\Students\Services\StudentService;
 use Modules\Students\Services\StudentIdService;
 
@@ -53,5 +55,6 @@ class StudentServiceProvider extends ServiceProvider
     private function registerPolicies(): void
     {
         $this->app['auth']->policy(Student::class, StudentPolicy::class);
+        $this->app['auth']->policy(StudentEnrollment::class, EnrollmentPolicy::class);
     }
 }

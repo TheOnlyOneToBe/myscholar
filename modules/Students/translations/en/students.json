@@ -45,8 +45,11 @@
     "student_not_created": "Student could not be created: {error}",
     "student_not_updated": "Student could not be updated: {error}",
     "export_failed": "Failed to export students",
-    "enrollment_creation_failed": "Failed to create enrollment: {error}",
-    "enrollment_update_failed": "Failed to update enrollment: {error}",
+    "enrollment_creation_failed": "Failed to create enrollment",
+    "enrollment_update_failed": "Failed to update enrollment",
+    "enrollment_deletion_failed": "Failed to delete enrollment",
+    "enrollment_suspension_failed": "Failed to suspend enrollment",
+    "enrollment_resumption_failed": "Failed to resume enrollment",
     "family_contact_not_created": "Failed to create family contact: {error}",
     "family_contact_not_updated": "Failed to update family contact: {error}"
   },
@@ -70,7 +73,9 @@
     "primary_contact_set": "{name} has been set as primary contact",
     "enrollment_created": "Student enrollment has been created successfully",
     "enrollment_updated": "Student enrollment has been updated successfully",
-    "enrollment_deleted": "Student enrollment has been deleted successfully"
+    "enrollment_deleted": "Student enrollment has been deleted successfully",
+    "enrollment_suspended": "Student enrollment has been suspended",
+    "enrollment_resumed": "Student enrollment has been resumed"
   },
   "validation": {
     "email_required": "Email address is required",
@@ -84,6 +89,44 @@
     "gender_required": "Gender is required",
     "student_id_number_required": "Student number is required",
     "student_id_number_unique": "This student number is already in use",
-    "cannot_enroll_other_years": "You do not have permission to enroll students in school years other than the current year"
+    "cannot_enroll_other_years": "You do not have permission to enroll students in school years other than the current year",
+    "student_required": "Student is required",
+    "student_not_found": "Student not found",
+    "school_year_not_found": "School year not found",
+    "class_not_found": "Class not found",
+    "filiere_max": "Stream name must not exceed 100 characters",
+    "level_max": "Level must not exceed 50 characters",
+    "enrollment_date_invalid": "Enrollment date must be a valid date",
+    "status_invalid": "Selected status is invalid"
+  },
+  "labels": {
+    "enrollments": "Student Enrollments",
+    "enrollment_details": "Enrollment Details",
+    "filters": "Filters",
+    "search": "Search",
+    "school_year": "School Year",
+    "class": "Class",
+    "filiere": "Stream",
+    "level": "Level",
+    "status": "Status",
+    "from_date": "From Date",
+    "to_date": "To Date",
+    "date": "Date",
+    "student": "Student",
+    "student_id": "Student ID",
+    "year": "Year",
+    "notes": "Notes"
+  },
+  "placeholders": {
+    "search_name": "Name, ID...",
+    "class": "Class ID...",
+    "filiere": "Science, Literature..."
+  },
+  "filters": {
+    "today": "Today",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "active": "Active Only",
+    "suspended": "Suspended Only"
   }
 }

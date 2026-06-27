@@ -45,8 +45,11 @@
     "student_not_created": "L'étudiant n'a pas pu être créé: {error}",
     "student_not_updated": "L'étudiant n'a pas pu être mis à jour: {error}",
     "export_failed": "Impossible d'exporter les étudiants",
-    "enrollment_creation_failed": "Impossible de créer l'inscription: {error}",
-    "enrollment_update_failed": "Impossible de mettre à jour l'inscription: {error}",
+    "enrollment_creation_failed": "Impossible de créer l'inscription",
+    "enrollment_update_failed": "Impossible de mettre à jour l'inscription",
+    "enrollment_deletion_failed": "Impossible de supprimer l'inscription",
+    "enrollment_suspension_failed": "Impossible de suspendre l'inscription",
+    "enrollment_resumption_failed": "Impossible de reprendre l'inscription",
     "family_contact_not_created": "Impossible de créer le contact familial: {error}",
     "family_contact_not_updated": "Impossible de mettre à jour le contact familial: {error}"
   },
@@ -68,9 +71,11 @@
     "family_contact_updated": "Le contact familial {name} a été mis à jour avec succès",
     "family_contact_deleted": "Le contact familial {name} a été supprimé avec succès",
     "primary_contact_set": "{name} a été défini comme contact principal",
-    "enrollment_created": "L'inscription de l'étudiant a été créée avec succès",
-    "enrollment_updated": "L'inscription de l'étudiant a été mise à jour avec succès",
-    "enrollment_deleted": "L'inscription de l'étudiant a été supprimée avec succès"
+    "enrollment_created": "L'inscription de l'élève a été créée avec succès",
+    "enrollment_updated": "L'inscription de l'élève a été mise à jour avec succès",
+    "enrollment_deleted": "L'inscription de l'élève a été supprimée avec succès",
+    "enrollment_suspended": "L'inscription de l'élève a été suspendue",
+    "enrollment_resumed": "L'inscription de l'élève a été reprise"
   },
   "validation": {
     "email_required": "L'adresse email est requise",
@@ -84,6 +89,44 @@
     "gender_required": "Le genre est requis",
     "student_id_number_required": "Le numéro d'étudiant est requis",
     "student_id_number_unique": "Ce numéro d'étudiant est déjà utilisé",
-    "cannot_enroll_other_years": "Vous n'avez pas la permission d'inscrire des élèves dans des années scolaires autre que l'année en cours"
+    "cannot_enroll_other_years": "Vous n'avez pas la permission d'inscrire des élèves dans des années scolaires autre que l'année en cours",
+    "student_required": "L'élève est requis",
+    "student_not_found": "Élève non trouvé",
+    "school_year_not_found": "Année scolaire non trouvée",
+    "class_not_found": "Classe non trouvée",
+    "filiere_max": "Le nom de la filière ne doit pas dépasser 100 caractères",
+    "level_max": "Le niveau ne doit pas dépasser 50 caractères",
+    "enrollment_date_invalid": "La date d'inscription doit être une date valide",
+    "status_invalid": "Le statut sélectionné est invalide"
+  },
+  "labels": {
+    "enrollments": "Inscriptions des Élèves",
+    "enrollment_details": "Détails de l'Inscription",
+    "filters": "Filtres",
+    "search": "Rechercher",
+    "school_year": "Année Scolaire",
+    "class": "Classe",
+    "filiere": "Filière",
+    "level": "Niveau",
+    "status": "Statut",
+    "from_date": "Date Début",
+    "to_date": "Date Fin",
+    "date": "Date",
+    "student": "Élève",
+    "student_id": "N° Matricule",
+    "year": "Année",
+    "notes": "Notes"
+  },
+  "placeholders": {
+    "search_name": "Nom, ID...",
+    "class": "ID Classe...",
+    "filiere": "Science, Littéraire..."
+  },
+  "filters": {
+    "today": "Aujourd'hui",
+    "this_week": "Cette Semaine",
+    "this_month": "Ce Mois",
+    "active": "Actif Seulement",
+    "suspended": "Suspendu Seulement"
   }
 }

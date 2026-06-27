@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Students\Controllers\StudentController;
 use Modules\Students\Controllers\StudentIdFormatController;
+use Modules\Students\Controllers\EnrollmentController;
 
 Route::middleware(['api', 'auth:sanctum'])->group(function () {
     // Student ID Format Configuration
@@ -32,5 +33,21 @@ Route::middleware(['api', 'auth:sanctum'])->group(function () {
         Route::get('{student}/enrollments', [StudentController::class, 'getEnrollments'])->name('students.enrollments');
         Route::get('{student}/family-contacts', [StudentController::class, 'getFamilyContacts'])->name('students.family-contacts');
         Route::get('{student}/history', [StudentController::class, 'getHistory'])->name('students.history');
+    });
+
+    // Enrollment Management
+    Route::prefix('enrollments')->group(function () {
+        Route::get('', [EnrollmentController::class, 'index'])->name('enrollments.index')->middleware('can:enrollments.view');
+        Route::post('', [EnrollmentController::class, 'store'])->name('enrollments.store')->middleware('can:enrollments.create');
+        Route::get('statistics', [EnrollmentController::class, 'statistics'])->name('enrollments.statistics')->middleware('can:enrollments.view');
+        Route::get('export', [EnrollmentController::class, 'export'])->name('enrollments.export')->middleware('can:enrollments.export');
+
+        Route::get('{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show')->middleware('can:view,enrollment');
+        Route::put('{enrollment}', [EnrollmentController::class, 'update'])->name('enrollments.update')->middleware('can:update,enrollment');
+        Route::delete('{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy')->middleware('can:delete,enrollment');
+
+        // Enrollment Actions
+        Route::post('{enrollment}/suspend', [EnrollmentController::class, 'suspend'])->name('enrollments.suspend')->middleware('can:manageStatus,enrollment');
+        Route::post('{enrollment}/resume', [EnrollmentController::class, 'resume'])->name('enrollments.resume')->middleware('can:manageStatus,enrollment');
     });
 });
