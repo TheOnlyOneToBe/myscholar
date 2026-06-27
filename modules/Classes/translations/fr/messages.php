@@ -9,4 +9,13 @@ return [
     'assignment_created' => 'Affectation créée avec succès',
     'assignment_updated' => 'Affectation mise à jour avec succès',
     'assignment_deleted' => 'Affectation supprimée avec succès',
+    'days' => [
+        'monday' => 'Lundi',
+        'tuesday' => 'Mardi',
+        'wednesday' => 'Mercredi',
+        'thursday' => 'Jeudi',
+        'friday' => 'Vendredi',
+        'saturday' => 'Samedi',
+        'sunday' => 'Dimanche',
+    ],
 ];
