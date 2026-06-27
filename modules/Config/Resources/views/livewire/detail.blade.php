@@ -115,7 +115,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <!-- Address -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📍 Localisation</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4"><i class="fas fa-map-marker-alt"></i> Localisation</h2>
             @if ($editMode)
                 <div class="space-y-4">
                     <div>
@@ -153,7 +153,7 @@
 
         <!-- Contact Information -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📞 Contact</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4"><i class="fas fa-phone"></i> Contact</h2>
             @if ($editMode)
                 <div class="space-y-4">
                     <div>
@@ -194,7 +194,7 @@
     <!-- Administrative Information -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📋 Informations Administratives</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4"><i class="fas fa-clipboard"></i> Informations Administratives</h2>
             @if ($editMode)
                 <div class="space-y-4">
                     <div>
@@ -224,7 +224,7 @@
 
         <!-- Historical Information -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">👥 Historique</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4"><i class="fas fa-history"></i> Historique</h2>
             @if ($editMode)
                 <div class="space-y-4">
                     <div>
@@ -266,7 +266,7 @@
 
     <!-- School Year Information -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📅 Année Scolaire Active</h2>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4"><i class="fas fa-calendar-alt"></i> Année Scolaire Active</h2>
         @if ($currentSchoolYear)
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="bg-blue-50 dark:bg-blue-900 rounded p-4">

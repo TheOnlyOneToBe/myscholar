@@ -20,7 +20,7 @@
             <!-- Address -->
             @if ($schoolInfo && $schoolInfo->getFullAddress())
                 <div class="col-span-1">
-                    <h4 class="text-white font-semibold mb-4">📍 Adresse</h4>
+                    <h4 class="text-white font-semibold mb-4"><i class="fas fa-map-marker-alt"></i> Adresse</h4>
                     <p class="text-sm text-gray-400">{{ $schoolInfo->getFullAddress() }}</p>
                     @if ($schoolInfo->po_box)
                         <p class="text-sm text-gray-400 mt-2">B.P. {{ $schoolInfo->po_box }}</p>
@@ -31,7 +31,7 @@
             <!-- Contact -->
             @if ($contactInfo)
                 <div class="col-span-1">
-                    <h4 class="text-white font-semibold mb-4">📞 Contact</h4>
+                    <h4 class="text-white font-semibold mb-4"><i class="fas fa-phone"></i> Contact</h4>
                     <ul class="text-sm space-y-2">
                         @if ($contactInfo['phone'])
                             <li>
@@ -60,7 +60,7 @@
 
             <!-- Quick Links -->
             <div class="col-span-1">
-                <h4 class="text-white font-semibold mb-4">🔗 Liens Utiles</h4>
+                <h4 class="text-white font-semibold mb-4"><i class="fas fa-link"></i> Liens Utiles</h4>
                 <ul class="text-sm space-y-2">
                     <li><a href="/" class="hover:text-white transition">Accueil</a></li>
                     <li><a href="/#about" class="hover:text-white transition">À Propos</a></li>
