@@ -39,12 +39,20 @@ return new class extends Migration
     {
         if (Schema::hasTable('attendance_sessions')) {
             Schema::table('attendance_sessions', function (Blueprint $table) {
-                $table->dropForeignKeyIfExists(['class_id']);
+                try {
+                    $table->dropForeign('attendance_sessions_class_id_foreign');
+                } catch (\Exception $e) {
+                    // FK doesn't exist
+                }
             });
         }
         if (Schema::hasTable('attendance_records')) {
             Schema::table('attendance_records', function (Blueprint $table) {
-                $table->dropForeignKeyIfExists(['session_id']);
+                try {
+                    $table->dropForeign('attendance_records_session_id_foreign');
+                } catch (\Exception $e) {
+                    // FK doesn't exist
+                }
             });
         }
     }
