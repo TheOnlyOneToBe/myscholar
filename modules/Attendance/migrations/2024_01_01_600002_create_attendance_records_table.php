@@ -10,18 +10,16 @@ return new class extends Migration
     {
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('attendance_session_id');
+            $table->foreign('attendance_session_id')->references('id')->on('attendance_sessions')->onDelete('cascade');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->unsignedBigInteger('session_id');
-            $table->foreign('session_id')->references('id')->on('attendance_sessions')->onDelete('cascade');
-            $table->enum('status', ['present', 'absent', 'late']);
-            $table->unsignedBigInteger('marked_by_teacher_id')->nullable();
-            $table->foreign('marked_by_teacher_id')->references('id')->on('users')->onDelete('set null');
+            $table->enum('status', ['present', 'absent', 'late', 'justified']);
             $table->text('notes')->nullable();
             $table->timestamps();
-            $table->unique(['student_id', 'session_id']);
+            $table->unique(['student_id', 'attendance_session_id']);
             $table->index('student_id');
-            $table->index('session_id');
+            $table->index('attendance_session_id');
         });
     }
 

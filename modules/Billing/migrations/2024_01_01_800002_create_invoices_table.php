@@ -10,19 +10,18 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_number')->unique();
+            $table->string('invoice_number')->unique()->nullable();
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->unsignedBigInteger('school_year_id')->nullable();
+            $table->unsignedBigInteger('fee_structure_id')->nullable();
+            $table->foreign('fee_structure_id')->references('id')->on('fee_structures')->onDelete('set null');
+            $table->decimal('amount', 12, 2);
+            $table->decimal('amount_paid', 12, 2)->default(0);
+            $table->string('currency')->default('FCFA');
             $table->date('issue_date');
             $table->date('due_date');
-            $table->decimal('amount_total', 12, 2);
-            $table->decimal('discount_applied', 12, 2)->default(0);
-            $table->string('discount_reason')->nullable();
-            $table->decimal('amount_after_discount', 12, 2);
-            $table->enum('status', ['draft', 'issued', 'paid', 'partial', 'overdue'])->default('draft');
-            $table->json('items')->nullable();
-            $table->timestamp('sent_to_parent_at')->nullable();
+            $table->enum('status', ['pending', 'issued', 'paid', 'partial', 'overdue'])->default('pending');
+            $table->text('notes')->nullable();
             $table->timestamps();
             $table->index('student_id');
             $table->index('status');
