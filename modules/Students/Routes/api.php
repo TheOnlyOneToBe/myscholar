@@ -5,7 +5,7 @@ use Modules\Students\Controllers\StudentController;
 use Modules\Students\Controllers\StudentIdFormatController;
 use Modules\Students\Controllers\EnrollmentController;
 
-Route::middleware(['api', 'auth:sanctum'])->group(function () {
+Route::prefix('api')->middleware(['api', 'auth'])->group(function () {
     // Student ID Format Configuration
     Route::prefix('students/id-format')->group(function () {
         Route::get('', [StudentIdFormatController::class, 'show'])->name('students.id-format.show');

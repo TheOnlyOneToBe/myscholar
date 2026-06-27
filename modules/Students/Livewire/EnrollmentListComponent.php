@@ -236,11 +236,7 @@ class EnrollmentListComponent extends Component
             );
         }
 
-        $filename = 'enrollments_' . now()->format('Y-m-d_H-i-s') . '.csv';
-
-        return response()->streamDownload(function () use ($csv) {
-            echo $csv;
-        }, $filename);
+        // Note: CSV export functionality needs to be implemented via API endpoint for Livewire compatibility
     }
 
     public function filterToday(): void
