@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Modules\Config\Models\SchoolInfo;
 use Modules\Config\Models\SystemSetting;
 use Modules\Config\Models\SchoolYear;
@@ -13,8 +14,23 @@ use Modules\Auth\Models\Permission;
 
 class InitializeClient extends Command
 {
-    protected $signature = 'client:initialize {--admin=} {--skip-roles} {--skip-school}';
+    protected $signature = 'client:initialize {--all} {--modules=} {--admin=} {--skip-roles} {--skip-school}';
     protected $description = 'Initialize school information and modules for a new client installation';
+
+    private $allModules = [];
+    private $selectedModules = [];
+    private $moduleMap = [
+        'Config' => ['dependencies' => []],
+        'Auth' => ['dependencies' => []],
+        'Audit' => ['dependencies' => []],
+        'Notifications' => ['dependencies' => []],
+        'Reporting' => ['dependencies' => []],
+        'Students' => ['dependencies' => ['Config', 'Auth']],
+        'Classes' => ['dependencies' => ['Config', 'Auth']],
+        'Grades' => ['dependencies' => ['Config', 'Auth', 'Students', 'Classes']],
+        'Attendance' => ['dependencies' => ['Config', 'Auth', 'Students', 'Classes']],
+        'Billing' => ['dependencies' => ['Config', 'Auth', 'Students']],
+    ];
 
     public function handle(): int
     {
@@ -22,23 +38,32 @@ class InitializeClient extends Command
         $this->line('');
 
         try {
-            // Initialize school information
+            // Step 1: Select modules
+            $this->selectModules();
+
+            // Step 2: Update modules configuration
+            $this->updateModulesConfig();
+
+            // Step 3: Run migrations for selected modules
+            $this->runMigrations();
+
+            // Step 4: Initialize school information
             if (!$this->option('skip-school')) {
                 $this->initializeSchoolInfo();
             }
 
-            // Initialize roles and permissions
+            // Step 5: Initialize roles and permissions
             if (!$this->option('skip-roles')) {
                 $this->initializeRolesAndPermissions();
             }
 
-            // Setup admin user
+            // Step 6: Setup admin user
             $this->setupAdminUser();
 
-            // Initialize system settings
+            // Step 7: Initialize system settings
             $this->initializeSystemSettings();
 
-            // Verify school years
+            // Step 8: Verify school years
             $this->verifySchoolYears();
 
             $this->info('');
@@ -47,8 +72,10 @@ class InitializeClient extends Command
             $this->table(
                 ['Component', 'Status'],
                 [
-                    ['School Information', '✓ Configured'],
-                    ['Roles & Permissions', '✓ Created'],
+                    ['Selected Modules', '✓ ' . count($this->selectedModules) . ' installed'],
+                    ['Database Migrations', '✓ Completed'],
+                    ['School Information', $this->option('skip-school') ? '⊘ Skipped' : '✓ Configured'],
+                    ['Roles & Permissions', $this->option('skip-roles') ? '⊘ Skipped' : '✓ Created'],
                     ['Admin User', '✓ Assigned'],
                     ['System Settings', '✓ Initialized'],
                     ['School Years', '✓ Verified'],
@@ -60,6 +87,158 @@ class InitializeClient extends Command
             $this->error('❌ Initialization failed: ' . $e->getMessage());
             return Command::FAILURE;
         }
+    }
+
+    private function selectModules(): void
+    {
+        $this->info('📦 Module Selection');
+        $this->line('');
+
+        // If --all flag is set, install all modules
+        if ($this->option('all')) {
+            $this->selectedModules = array_keys($this->moduleMap);
+            $this->info('✓ Installing all ' . count($this->selectedModules) . ' modules');
+            $this->line('  Modules: ' . implode(', ', $this->selectedModules));
+            $this->line('');
+            return;
+        }
+
+        // If --modules flag is set, use specific modules
+        if ($this->option('modules')) {
+            $requested = explode(',', $this->option('modules'));
+            $requested = array_map('trim', $requested);
+            $this->selectedModules = $this->validateModuleSelection($requested);
+            return;
+        }
+
+        // Interactive selection
+        $choice = $this->choice(
+            'Install all modules or select specific modules?',
+            [
+                'all' => 'Install all modules (recommended)',
+                'select' => 'Select specific modules',
+            ],
+            'all'
+        );
+
+        if ($choice === 'all') {
+            $this->selectedModules = array_keys($this->moduleMap);
+            $this->info('✓ All ' . count($this->selectedModules) . ' modules selected');
+        } else {
+            $this->selectModulesInteractive();
+        }
+
+        $this->line('');
+    }
+
+    private function selectModulesInteractive(): void
+    {
+        // Core modules (must install)
+        $coreModules = ['Config', 'Auth'];
+        $this->selectedModules = $coreModules;
+
+        $this->info('Core modules (required):');
+        foreach ($coreModules as $module) {
+            $this->info('  ✓ ' . $module);
+        }
+        $this->line('');
+
+        // Optional modules
+        $optionalModules = array_diff(array_keys($this->moduleMap), $coreModules);
+        $selected = $this->choice(
+            'Select optional modules to install (comma-separated, or press enter for all)',
+            array_combine($optionalModules, $optionalModules),
+            null,
+            null,
+            true
+        );
+
+        if (!empty($selected)) {
+            $this->selectedModules = array_merge($this->selectedModules, $selected);
+            $this->validateDependencies();
+        }
+
+        $this->info('Selected modules: ' . implode(', ', $this->selectedModules));
+    }
+
+    private function validateModuleSelection(array $requested): array
+    {
+        // Validate that requested modules exist
+        $invalid = array_diff($requested, array_keys($this->moduleMap));
+        if (!empty($invalid)) {
+            $this->warn('Invalid modules: ' . implode(', ', $invalid));
+            $this->info('Available modules: ' . implode(', ', array_keys($this->moduleMap)));
+        }
+
+        $selected = array_intersect($requested, array_keys($this->moduleMap));
+
+        // Always include core modules
+        $selected = array_unique(array_merge(['Config', 'Auth'], $selected));
+
+        // Validate dependencies
+        $this->selectedModules = $selected;
+        $this->validateDependencies();
+
+        $this->info('Selected modules: ' . implode(', ', $this->selectedModules));
+        $this->line('');
+
+        return $this->selectedModules;
+    }
+
+    private function validateDependencies(): void
+    {
+        $added = [];
+        $changed = true;
+
+        while ($changed) {
+            $changed = false;
+            foreach ($this->selectedModules as $module) {
+                $dependencies = $this->moduleMap[$module]['dependencies'] ?? [];
+                foreach ($dependencies as $dep) {
+                    if (!in_array($dep, $this->selectedModules)) {
+                        $this->selectedModules[] = $dep;
+                        $added[] = $dep;
+                        $changed = true;
+                    }
+                }
+            }
+        }
+
+        if (!empty($added)) {
+            $this->warn('Auto-added dependencies: ' . implode(', ', array_unique($added)));
+        }
+
+        sort($this->selectedModules);
+    }
+
+    private function updateModulesConfig(): void
+    {
+        $this->info('⚙️  Updating module configuration...');
+
+        $config = [
+            'clientId' => $this->ask('Client ID', 'DEV'),
+            'installedModules' => $this->selectedModules,
+            'installedAt' => now()->toIso8601String(),
+        ];
+
+        File::put(
+            config_path('modules.json'),
+            json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+        );
+
+        $this->info('   ✓ Module configuration updated');
+        $this->line('');
+    }
+
+    private function runMigrations(): void
+    {
+        $this->info('📊 Running database migrations...');
+
+        // Run all pending migrations (they'll only run for selected modules)
+        $this->call('migrate', ['--force' => true]);
+
+        $this->info('   ✓ All migrations completed');
+        $this->line('');
     }
 
     private function initializeSchoolInfo(): void
@@ -164,7 +343,7 @@ class InitializeClient extends Command
 
     private function definePermissions(): array
     {
-        return [
+        $allPermissions = [
             // Config permissions
             ['permission_id' => 'config.view', 'name' => 'View Configuration', 'module' => 'config'],
             ['permission_id' => 'config.edit', 'name' => 'Edit Configuration', 'module' => 'config'],
@@ -208,6 +387,12 @@ class InitializeClient extends Command
             // Audit permissions
             ['permission_id' => 'audit.view', 'name' => 'View Audit Logs', 'module' => 'audit'],
         ];
+
+        // Filter permissions for selected modules only
+        return array_filter($allPermissions, function ($perm) {
+            $module = strtolower($perm['module']);
+            return in_array(ucfirst($module), $this->selectedModules);
+        });
     }
 
     private function assignPermissionsToRoles(): void
@@ -219,12 +404,12 @@ class InitializeClient extends Command
         $parent = Role::where('name', 'parent')->first();
         $student = Role::where('name', 'student')->first();
 
-        // Admin gets all permissions
+        // Admin gets all available permissions (for selected modules)
         $allPermissions = Permission::pluck('id');
         $admin?->permissions()->sync($allPermissions);
 
-        // Director permissions
-        $directeurPerms = Permission::whereIn('permission_id', [
+        // Director permissions (if available)
+        $directeurPermNames = [
             'config.view', 'config.edit', 'config.manage_years',
             'students.view', 'students.create', 'students.edit',
             'classes.view', 'classes.create', 'classes.edit',
@@ -232,40 +417,55 @@ class InitializeClient extends Command
             'scholarity.view', 'scholarity.manage',
             'users.view', 'users.create', 'users.edit',
             'audit.view',
-        ])->pluck('id');
-        $directeur?->permissions()->sync($directeurPerms);
+        ];
+        $directeurPerms = Permission::whereIn('permission_id', $directeurPermNames)->pluck('id');
+        if ($directeurPerms->isNotEmpty()) {
+            $directeur?->permissions()->sync($directeurPerms);
+        }
 
-        // Teacher permissions
-        $enseignantPerms = Permission::whereIn('permission_id', [
+        // Teacher permissions (if available)
+        $enseignantPermNames = [
             'students.view',
             'classes.view',
             'grades.view', 'grades.create', 'grades.edit',
             'attendance.view', 'attendance.record', 'attendance.edit',
-        ])->pluck('id');
-        $enseignant?->permissions()->sync($enseignantPerms);
+        ];
+        $enseignantPerms = Permission::whereIn('permission_id', $enseignantPermNames)->pluck('id');
+        if ($enseignantPerms->isNotEmpty()) {
+            $enseignant?->permissions()->sync($enseignantPerms);
+        }
 
-        // Monitor permissions
-        $surveillantPerms = Permission::whereIn('permission_id', [
+        // Monitor permissions (if available)
+        $surveillantPermNames = [
             'students.view',
             'classes.view',
             'attendance.view', 'attendance.record',
-        ])->pluck('id');
-        $surveillant?->permissions()->sync($surveillantPerms);
+        ];
+        $surveillantPerms = Permission::whereIn('permission_id', $surveillantPermNames)->pluck('id');
+        if ($surveillantPerms->isNotEmpty()) {
+            $surveillant?->permissions()->sync($surveillantPerms);
+        }
 
-        // Parent permissions
-        $parentPerms = Permission::whereIn('permission_id', [
+        // Parent permissions (if available)
+        $parentPermNames = [
             'students.view',
             'grades.view',
             'attendance.view',
-        ])->pluck('id');
-        $parent?->permissions()->sync($parentPerms);
+        ];
+        $parentPerms = Permission::whereIn('permission_id', $parentPermNames)->pluck('id');
+        if ($parentPerms->isNotEmpty()) {
+            $parent?->permissions()->sync($parentPerms);
+        }
 
-        // Student gets minimal permissions
-        $studentPerms = Permission::whereIn('permission_id', [
+        // Student permissions (if available)
+        $studentPermNames = [
             'grades.view',
             'attendance.view',
-        ])->pluck('id');
-        $student?->permissions()->sync($studentPerms);
+        ];
+        $studentPerms = Permission::whereIn('permission_id', $studentPermNames)->pluck('id');
+        if ($studentPerms->isNotEmpty()) {
+            $student?->permissions()->sync($studentPerms);
+        }
     }
 
     private function setupAdminUser(): void
