@@ -507,7 +507,7 @@ class InitializeClient extends Command
         if ($admin) {
             $adminRole = Role::where('name', 'admin')->first();
             if ($adminRole && !$admin->hasRole('admin')) {
-                $admin->roles()->attach($adminRole);
+                $admin->assignRole($adminRole);
                 $this->info('   ✓ Admin user assigned admin role');
             } else {
                 $this->info('   ⓘ Admin user already has admin role');

@@ -72,27 +72,35 @@ class User extends Authenticatable
 
     public function hasRole(string $roleName): bool
     {
-        return $this->roles()->where('name', $roleName)->exists();
+        return $this->currentRoles()
+            ->whereHas('role', fn($q) => $q->where('name', $roleName))
+            ->exists();
     }
 
     public function hasAnyRole(array $roleNames): bool
     {
-        return $this->roles()->whereIn('name', $roleNames)->exists();
+        return $this->currentRoles()
+            ->whereHas('role', fn($q) => $q->whereIn('name', $roleNames))
+            ->exists();
     }
 
     public function giveRole(string $roleName): void
     {
         $role = Role::where('name', $roleName)->first();
         if ($role && !$this->hasRole($roleName)) {
-            $this->roles()->attach($role);
+            $this->assignRole($role);
         }
     }
 
     public function removeRole(string $roleName): void
     {
         $role = Role::where('name', $roleName)->first();
-        if ($role) {
-            $this->roles()->detach($role);
+        if ($role && $this->hasRole($roleName)) {
+            // Mark the current role assignment as ended
+            $this->userRoles()
+                ->where('role_id', $role->id)
+                ->whereNull('ended_at')
+                ->update(['ended_at' => now()]);
         }
     }
 
