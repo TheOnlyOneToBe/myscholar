@@ -18,6 +18,9 @@ class ClassesServiceProvider extends ServiceProvider
         $this->loadMigrations();
         $this->loadRoutes();
         $this->registerPolicies();
+        $this->registerLivewireComponents();
+        $this->loadViews();
+        $this->loadTranslations();
     }
 
     private function loadMigrations(): void
@@ -34,5 +37,24 @@ class ClassesServiceProvider extends ServiceProvider
     private function registerPolicies(): void
     {
         Gate::policy(ClassModel::class, ClassPolicy::class);
+    }
+
+    private function registerLivewireComponents(): void
+    {
+        \Livewire\Livewire::component('classes.class-list', \Modules\Classes\Livewire\ClassListComponent::class);
+        \Livewire\Livewire::component('classes.room-list', \Modules\Classes\Livewire\RoomListComponent::class);
+        \Livewire\Livewire::component('classes.class-assignment', \Modules\Classes\Livewire\ClassAssignmentComponent::class);
+        \Livewire\Livewire::component('classes.timetable', \Modules\Classes\Livewire\TimetableComponent::class);
+        \Livewire\Livewire::component('classes.dashboard', \Modules\Classes\Livewire\DashboardComponent::class);
+    }
+
+    private function loadViews(): void
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'classes');
+    }
+
+    private function loadTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'classes');
     }
 }
