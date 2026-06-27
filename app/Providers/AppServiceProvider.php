@@ -27,19 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Load Auth module views - register the livewire and layouts subdirectories separately
-        $viewsPath = base_path('modules/Auth/Resources/views');
-        if (is_dir($viewsPath)) {
-            // Register all views from the views directory with 'auth' namespace
-            // Views will be accessed like: view('auth::livewire.login') or view('auth.livewire.login')
-            $this->loadViewsFrom($viewsPath, 'auth');
-        }
-
-        // Load web routes for Auth module
-        if (file_exists(base_path('modules/Auth/Routes/web.php'))) {
-            $this->loadRoutesFrom(base_path('modules/Auth/Routes/web.php'));
-        }
-
         // Enregistrer les commandes personnalisées
         if ($this->app->runningInConsole()) {
             $this->commands([
