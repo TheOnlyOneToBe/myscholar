@@ -147,12 +147,58 @@ echo $admin->roles->first()->name; // Should show 'admin'
 
 ## Command Options
 
+### Module Selection
+
+**Install all modules (recommended):**
+```bash
+php artisan client:initialize --all
+```
+
+**Install specific modules:**
+```bash
+php artisan client:initialize --modules=Config,Auth,Students,Classes,Grades
+```
+
+**Interactive module selection:**
+```bash
+php artisan client:initialize
+# Then select which optional modules to install
+```
+
+**Available modules:**
+- Config (core, required)
+- Auth (core, required)
+- Audit (core, optional)
+- Notifications (core, optional)
+- Reporting (core, optional)
+- Students (business, optional)
+- Classes (business, optional)
+- Grades (business, optional)
+- Attendance (business, optional)
+- Billing (business, optional)
+
+### Automatic Dependency Resolution
+
+When you select modules, dependencies are automatically included:
+
+```
+Config, Auth always required
+├─ Students depends on: Config, Auth
+├─ Classes depends on: Config, Auth
+├─ Grades depends on: Config, Auth, Students, Classes
+├─ Attendance depends on: Config, Auth, Students, Classes
+└─ Billing depends on: Config, Auth, Students
+```
+
+**Example:** If you select only "Grades", the system automatically includes:
+- Config, Auth, Students, Classes
+
 ### Skip School Information Setup
 
 If you want to set up school info later:
 
 ```bash
-php artisan client:initialize --skip-school
+php artisan client:initialize --all --skip-school
 ```
 
 ### Skip Roles and Permissions Setup
@@ -160,13 +206,13 @@ php artisan client:initialize --skip-school
 If you already have roles/permissions configured:
 
 ```bash
-php artisan client:initialize --skip-roles
+php artisan client:initialize --all --skip-roles
 ```
 
-### Both Options
+### Combine Options
 
 ```bash
-php artisan client:initialize --skip-school --skip-roles
+php artisan client:initialize --modules=Config,Auth,Students --skip-school --skip-roles
 ```
 
 ## Created Roles
@@ -223,7 +269,35 @@ The following 6 roles are created with predefined permissions:
 - **Use case**: View own grades and attendance
 - **Typical assignments**: All registered students
 
-## Created Permissions (27 Total)
+## Created Permissions
+
+The number of permissions created depends on which modules are installed:
+
+**Only selected modules get permissions:**
+- 10 modules total available
+- 27 total permissions possible
+- Only permissions for installed modules are created
+
+**Examples:**
+
+**Config + Auth only:**
+- 6 permissions (3 config + 3 auth/user management)
+
+**Config + Auth + Students + Classes:**
+- 11 permissions (3 config + 4 students + 4 classes)
+
+**All 10 modules:**
+- 27 permissions (all modules enabled)
+
+**To check which permissions were created:**
+```bash
+php artisan tinker
+# Permission::all();
+# Or by module:
+# Permission::where('module', 'students')->get();
+```
+
+## All Available Permissions (27 Total)
 
 ### Config Module (3)
 - `config.view` - View system configuration
@@ -288,6 +362,39 @@ $director = User::where('email', 'director@school.edu')->first();
 $permission = Permission::where('permission_id', 'scholarity.modify_past_years')->first();
 $director->givePermission($permission);
 ```
+
+## Module Configuration File
+
+After initialization, `config/modules.json` is updated with:
+
+```json
+{
+    "clientId": "School Name",
+    "installedModules": [
+        "Config",
+        "Auth",
+        "Students",
+        "Classes",
+        "Grades"
+    ],
+    "installedAt": "2026-06-27T15:03:10+00:00"
+}
+```
+
+**What this means:**
+- Only these 5 modules are installed
+- Migrations for other modules won't run
+- Bridge migrations only execute for selected modules
+- Permissions only created for selected modules
+- API routes only loaded for selected modules
+
+**To view installed modules:**
+```bash
+cat config/modules.json
+```
+
+**To reinstall with different modules:**
+Simply run the command again with different `--modules` flag.
 
 ## System Settings Initialized
 
