@@ -3,16 +3,28 @@
 namespace Modules\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Modules\Auth\Models\User;
+use Modules\Auth\Policies\UserPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    public function register()
+    /**
+     * Register services.
+     */
+    public function register(): void
     {
         //
     }
 
-    public function boot()
+    /**
+     * Bootstrap services.
+     */
+    public function boot(Gate $gate): void
     {
+        // Register policies
+        $gate->policy(User::class, UserPolicy::class);
+
         // Load views from the module
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'auth');
 

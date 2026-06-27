@@ -17,14 +17,16 @@ class UserController extends Controller
     ) {}
 
     /**
-     * Get all users (with permission check)
+     * Get all users (with authorization check via policy)
      */
     public function index(Request $request): JsonResponse
     {
         $user = auth('sanctum')->user();
-        if (!$user || !$user->hasPermission('auth.view_users')) {
-            return response()->json(['message' => 'Accès refusé'], 403);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
         }
+
+        $this->authorize('viewAny', User::class);
 
         $users = User::where('is_active', true)
             ->with('currentRoles.role')
@@ -34,11 +36,12 @@ class UserController extends Controller
     }
 
     /**
-     * Create a new user
+     * Create a new user (with authorization check via policy)
      */
     public function store(CreateUserRequest $request): JsonResponse
     {
         $user = auth('sanctum')->user();
+        $this->authorize('create', User::class);
 
         $result = $this->userManagementService->createUser(
             $request->validated(),
@@ -60,14 +63,11 @@ class UserController extends Controller
     }
 
     /**
-     * Get user details
+     * Get user details (with authorization check via policy)
      */
     public function show(User $user, Request $request): JsonResponse
     {
-        $authUser = auth('sanctum')->user();
-        if (!$authUser || !$authUser->hasPermission('auth.view_users')) {
-            return response()->json(['message' => 'Accès refusé'], 403);
-        }
+        $this->authorize('view', $user);
 
         return response()->json([
             'user' => $user->load('currentRoles.role'),
@@ -75,11 +75,12 @@ class UserController extends Controller
     }
 
     /**
-     * Update user
+     * Update user (with authorization check via policy)
      */
     public function update(User $user, Request $request): JsonResponse
     {
         $authUser = auth('sanctum')->user();
+        $this->authorize('update', $user);
 
         $validated = $request->validate([
             'first_name' => 'nullable|string|max:100',
@@ -109,11 +110,12 @@ class UserController extends Controller
     }
 
     /**
-     * Assign role to user
+     * Assign role to user (with authorization check via policy)
      */
     public function assignRole(User $user, Request $request): JsonResponse
     {
         $authUser = auth('sanctum')->user();
+        $this->authorize('assignRole', $user);
 
         $validated = $request->validate([
             'role_id' => 'required|exists:roles,id',
@@ -146,11 +148,12 @@ class UserController extends Controller
     }
 
     /**
-     * Remove role from user
+     * Remove role from user (with authorization check via policy)
      */
     public function removeRole(User $user, Request $request): JsonResponse
     {
         $authUser = auth('sanctum')->user();
+        $this->authorize('removeRole', $user);
 
         $validated = $request->validate([
             'role_id' => 'required|exists:roles,id',
@@ -178,11 +181,12 @@ class UserController extends Controller
     }
 
     /**
-     * Deactivate user
+     * Deactivate user (with authorization check via policy)
      */
     public function deactivate(User $user, Request $request): JsonResponse
     {
         $authUser = auth('sanctum')->user();
+        $this->authorize('deactivate', $user);
 
         $result = $this->userManagementService->deactivateUser($user, $authUser);
 
@@ -200,11 +204,12 @@ class UserController extends Controller
     }
 
     /**
-     * Activate user
+     * Activate user (with authorization check via policy)
      */
     public function activate(User $user, Request $request): JsonResponse
     {
         $authUser = auth('sanctum')->user();
+        $this->authorize('activate', $user);
 
         $result = $this->userManagementService->activateUser($user, $authUser);
 
