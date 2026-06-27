@@ -3,13 +3,49 @@
     {
       "id": "audit.view",
       "name": "Voir les logs d'audit",
-      "description": "Permet de consulter l'historique des modifications",
+      "description": "Permet de consulter l'historique des modifications et actions",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "audit.view_errors",
+      "name": "Voir les erreurs et crashs",
+      "description": "Permet de consulter les logs d'erreurs, crashs et requêtes échouées",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "audit.view_stats",
+      "name": "Voir les statistiques d'audit",
+      "description": "Permet de consulter le dashboard des statistiques et activités suspectes",
+      "category": "read",
+      "scope": "all",
       "default_roles": ["admin", "directeur"]
     },
     {
       "id": "audit.export",
       "name": "Exporter les logs d'audit",
       "description": "Permet d'exporter l'historique au format Excel/CSV",
+      "category": "read",
+      "scope": "all",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "audit.delete",
+      "name": "Supprimer les logs d'audit",
+      "description": "Permet de supprimer les logs d'audit (à utiliser avec prudence)",
+      "category": "delete",
+      "scope": "all",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "audit.monitoring",
+      "name": "Accès au monitoring temps réel",
+      "description": "Permet d'accéder au dashboard de monitoring en temps réel",
+      "category": "read",
+      "scope": "all",
       "default_roles": ["admin", "directeur"]
     }
   ]

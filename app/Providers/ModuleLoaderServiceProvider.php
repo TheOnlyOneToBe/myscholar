@@ -13,7 +13,9 @@ class ModuleLoaderServiceProvider extends ServiceProvider
     {
         // Load module service providers
         $modules = [
-            'Modules\Auth\ModuleServiceProvider',
+            'Modules\Auth\Providers\AuthServiceProvider',
+            'Modules\Config\Providers\ConfigServiceProvider',
+            'Modules\Audit\Providers\AuditServiceProvider',
         ];
 
         foreach ($modules as $module) {

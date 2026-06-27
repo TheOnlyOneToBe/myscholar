@@ -1,9 +1,19 @@
 {
   "name": "audit",
   "version": "1.0.0",
-  "description": "Traçabilité et historique des modifications",
+  "description": "Module d'audit et monitoring - Enregistre toutes les actions, erreurs, crashs et requêtes HTTP",
   "type": "core",
   "dependencies": ["auth"],
   "tables": ["audit_logs", "deleted_records"],
-  "routes_prefix": "/api/audit"
+  "routes_prefix": "/api/audit",
+  "features": [
+    "action_logging",
+    "error_tracking",
+    "crash_monitoring",
+    "http_request_logging",
+    "permission_denied_tracking",
+    "deleted_records_tracking",
+    "audit_dashboard",
+    "activity_statistics"
+  ]
 }
