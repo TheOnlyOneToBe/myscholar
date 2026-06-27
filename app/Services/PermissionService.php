@@ -49,7 +49,10 @@ class PermissionService
             );
 
             $permissions = $roleData['permissions'] ?? [];
-            if (!is_array($permissions)) {
+            // Handle '*' (all permissions) - convert to array
+            if ($permissions === '*') {
+                $permissions = ['*'];
+            } elseif (!is_array($permissions)) {
                 $permissions = [];
             }
 

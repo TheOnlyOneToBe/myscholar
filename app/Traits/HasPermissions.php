@@ -9,7 +9,7 @@ trait HasPermissions
     /**
      * Check if user has permission.
      */
-    public function can(string $permission): bool
+    public function hasPermission(string $permission): bool
     {
         $service = app(PermissionService::class);
         return $service->hasPermission($this, $permission);
@@ -18,7 +18,7 @@ trait HasPermissions
     /**
      * Check if user has any of the permissions.
      */
-    public function canAny(array $permissions): bool
+    public function hasAnyPermission(array $permissions): bool
     {
         $service = app(PermissionService::class);
         return $service->hasAnyPermission($this, $permissions);
