@@ -90,6 +90,105 @@ class CreateStudentRequest extends FormRequest
                 'string',
                 Rule::in(array_map(fn($case) => $case->value, EnrollmentStatus::cases())),
             ],
+
+            // Enrollment Information
+            'enrollment.school_year_id' => [
+                'nullable',
+                'exists:school_years,id',
+            ],
+            'enrollment.class_id' => [
+                'nullable',
+                'exists:classes,id',
+            ],
+            'enrollment.filiere' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'enrollment.level' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'enrollment.enrollment_date' => [
+                'nullable',
+                'date',
+            ],
+            'enrollment.status' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'enrollment.notes' => [
+                'nullable',
+                'string',
+                'max:500',
+            ],
+
+            // Family Contacts (Parents/Guardians)
+            'parents' => [
+                'nullable',
+                'array',
+                'min:1',
+            ],
+            'parents.*.relationship' => [
+                'required_with:parents',
+                'string',
+                Rule::in(array_map(fn($case) => $case->value, \Modules\Students\Enums\RelationshipType::cases())),
+            ],
+            'parents.*.first_name' => [
+                'required_with:parents',
+                'string',
+                'max:100',
+            ],
+            'parents.*.last_name' => [
+                'required_with:parents',
+                'string',
+                'max:100',
+            ],
+            'parents.*.sex' => [
+                'nullable',
+                'string',
+                Rule::in(['M', 'F']),
+            ],
+            'parents.*.email' => [
+                'nullable',
+                'email:rfc,dns',
+                'max:255',
+            ],
+            'parents.*.phone_number' => [
+                'nullable',
+                'string',
+                'regex:/^(\+?237[-.\s]?)?[6789]\d{7,8}$/',
+            ],
+            'parents.*.occupation' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'parents.*.address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'parents.*.city' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'parents.*.postal_code' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+            'parents.*.is_primary_contact' => [
+                'nullable',
+                'boolean',
+            ],
+            'parents.*.is_emergency_contact' => [
+                'nullable',
+                'boolean',
+            ],
         ];
     }
 

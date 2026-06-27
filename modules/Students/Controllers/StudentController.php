@@ -93,7 +93,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Create a new student
+     * Create a new student with enrollment and parents
      */
     public function store(CreateStudentRequest $request): JsonResponse
     {
@@ -126,9 +126,60 @@ class StudentController extends Controller
                 enrollmentStatus: $enrollmentStatus
             );
 
+            // Add enrollment if provided
+            if (!empty($validated['enrollment'])) {
+                $this->studentService->addEnrollment(
+                    student: $student,
+                    schoolYearId: $validated['enrollment']['school_year_id'] ?? null,
+                    classId: $validated['enrollment']['class_id'] ?? null,
+                    filiere: $validated['enrollment']['filiere'] ?? null,
+                    level: $validated['enrollment']['level'] ?? null,
+                    enrollmentDate: $validated['enrollment']['enrollment_date']
+                        ? Carbon::parse($validated['enrollment']['enrollment_date'])
+                        : now(),
+                    status: $validated['enrollment']['status'] ?? 'active',
+                    notes: $validated['enrollment']['notes'] ?? null
+                );
+            }
+
+            // Add parents/family contacts if provided
+            if (!empty($validated['parents'])) {
+                foreach ($validated['parents'] as $parentData) {
+                    $parentGender = isset($parentData['sex'])
+                        ? Gender::from($parentData['sex'])
+                        : null;
+
+                    $parentPhone = isset($parentData['phone_number'])
+                        ? PhoneNumber::from($parentData['phone_number'])
+                        : null;
+
+                    $parentEmail = isset($parentData['email'])
+                        ? Email::from($parentData['email'])
+                        : null;
+
+                    $this->studentService->addFamilyContact(
+                        student: $student,
+                        relationship: \Modules\Students\Enums\RelationshipType::from($parentData['relationship']),
+                        firstName: $parentData['first_name'],
+                        lastName: $parentData['last_name'],
+                        gender: $parentGender,
+                        phone: $parentPhone,
+                        email: $parentEmail,
+                        occupation: $parentData['occupation'] ?? null,
+                        address: $parentData['address'] ?? null,
+                        city: $parentData['city'] ?? null,
+                        postalCode: $parentData['postal_code'] ?? null,
+                        isPrimaryContact: $parentData['is_primary_contact'] ?? false,
+                        isEmergencyContact: $parentData['is_emergency_contact'] ?? false
+                    );
+                }
+            }
+
+            $student->load(['enrollments', 'familyContacts', 'contacts']);
+
             return response()->json([
                 'message' => trans('students.messages.student_created_successfully'),
-                'data' => $student->fresh(),
+                'data' => $student,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([

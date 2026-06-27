@@ -44,7 +44,11 @@
     "student_activation_failed": "Impossible d'activer l'étudiant",
     "student_not_created": "L'étudiant n'a pas pu être créé: {error}",
     "student_not_updated": "L'étudiant n'a pas pu être mis à jour: {error}",
-    "export_failed": "Impossible d'exporter les étudiants"
+    "export_failed": "Impossible d'exporter les étudiants",
+    "enrollment_creation_failed": "Impossible de créer l'inscription: {error}",
+    "enrollment_update_failed": "Impossible de mettre à jour l'inscription: {error}",
+    "family_contact_not_created": "Impossible de créer le contact familial: {error}",
+    "family_contact_not_updated": "Impossible de mettre à jour le contact familial: {error}"
   },
   "messages": {
     "student_created": "L'étudiant {name} a été créé avec succès",
@@ -63,7 +67,10 @@
     "family_contact_added": "Le contact familial {name} a été ajouté avec succès",
     "family_contact_updated": "Le contact familial {name} a été mis à jour avec succès",
     "family_contact_deleted": "Le contact familial {name} a été supprimé avec succès",
-    "primary_contact_set": "{name} a été défini comme contact principal"
+    "primary_contact_set": "{name} a été défini comme contact principal",
+    "enrollment_created": "L'inscription de l'étudiant a été créée avec succès",
+    "enrollment_updated": "L'inscription de l'étudiant a été mise à jour avec succès",
+    "enrollment_deleted": "L'inscription de l'étudiant a été supprimée avec succès"
   },
   "validation": {
     "email_required": "L'adresse email est requise",

@@ -44,7 +44,11 @@
     "student_activation_failed": "Failed to activate student",
     "student_not_created": "Student could not be created: {error}",
     "student_not_updated": "Student could not be updated: {error}",
-    "export_failed": "Failed to export students"
+    "export_failed": "Failed to export students",
+    "enrollment_creation_failed": "Failed to create enrollment: {error}",
+    "enrollment_update_failed": "Failed to update enrollment: {error}",
+    "family_contact_not_created": "Failed to create family contact: {error}",
+    "family_contact_not_updated": "Failed to update family contact: {error}"
   },
   "messages": {
     "student_created": "Student {name} has been created successfully",
@@ -63,7 +67,10 @@
     "family_contact_added": "Family contact {name} has been added successfully",
     "family_contact_updated": "Family contact {name} has been updated successfully",
     "family_contact_deleted": "Family contact {name} has been deleted successfully",
-    "primary_contact_set": "{name} has been set as primary contact"
+    "primary_contact_set": "{name} has been set as primary contact",
+    "enrollment_created": "Student enrollment has been created successfully",
+    "enrollment_updated": "Student enrollment has been updated successfully",
+    "enrollment_deleted": "Student enrollment has been deleted successfully"
   },
   "validation": {
     "email_required": "Email address is required",
