@@ -20,12 +20,17 @@
   ],
   "routes_prefix": "/api/auth",
   "migrations": [
-    "2024_01_01_100002_add_hierarchy_to_roles_table",
-    "2024_01_01_100003_add_scope_to_permissions_table",
-    "2024_01_01_100006_create_user_roles_table",
-    "2024_01_01_100007_create_password_histories_table",
-    "2024_01_01_100008_create_login_attempts_table",
-    "2024_01_01_100009_create_password_resets_table"
+    "2024_01_01_100001_create_users_table",
+    "2024_01_01_100002_create_roles_table",
+    "2024_01_01_100003_add_hierarchy_to_roles_table",
+    "2024_01_01_100004_create_permissions_table",
+    "2024_01_01_100005_add_scope_to_permissions_table",
+    "2024_01_01_100006_create_role_permissions_table",
+    "2024_01_01_100007_add_security_properties_to_users_table",
+    "2024_01_01_100008_create_user_roles_table",
+    "2024_01_01_100009_create_password_histories_table",
+    "2024_01_01_100010_create_login_attempts_table",
+    "2024_01_01_100011_create_password_resets_table"
   ],
   "seeders": [
     "RolesSeeder",
