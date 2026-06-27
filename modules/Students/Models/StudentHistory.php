@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StudentHistory extends Model
 {
+    protected $table = 'student_history';
+
     protected $fillable = [
         'student_id',
         'school_year',

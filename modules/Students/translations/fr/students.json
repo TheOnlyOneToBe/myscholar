@@ -1,0 +1,67 @@
+{
+  "genders": {
+    "male": "Masculin",
+    "female": "Féminin"
+  },
+  "enrollment_status": {
+    "active": "Actif",
+    "suspended": "Suspendu",
+    "withdrawn": "Retiré",
+    "graduated": "Diplômé",
+    "deferred": "Ajourné"
+  },
+  "enrollment_status_descriptions": {
+    "active": "L'étudiant est actuellement inscrit et actif",
+    "suspended": "L'étudiant a été temporairement suspendu",
+    "withdrawn": "L'étudiant s'est retiré du programme",
+    "graduated": "L'étudiant a obtenu son diplôme",
+    "deferred": "L'étudiant a ajourné son année"
+  },
+  "relationships": {
+    "father": "Père",
+    "mother": "Mère",
+    "guardian": "Tuteur",
+    "emergency_contact": "Contact d'urgence",
+    "sibling": "Frère/Sœur",
+    "grandparent": "Grand-parent",
+    "uncle": "Oncle",
+    "aunt": "Tante",
+    "cousin": "Cousin",
+    "other": "Autre"
+  },
+  "errors": {
+    "invalid_gender": "Genre invalide: {value}. Valeurs acceptées: M (Masculin) ou F (Féminin)",
+    "invalid_email": "Adresse email invalide: {email}",
+    "invalid_phone": "Numéro de téléphone invalide: {phone}. Formats acceptés: +237XXXXXXXXX ou 6XXXXXXXX",
+    "cannot_modify_status": "Impossible de modifier le statut de l'étudiant avec le statut courant: {status}",
+    "student_not_found": "Étudiant non trouvé: {id}",
+    "duplicate_email": "Un étudiant avec cet email existe déjà: {email}",
+    "duplicate_student_id": "Un étudiant avec ce numéro d'étudiant existe déjà: {student_id_number}"
+  },
+  "messages": {
+    "student_created": "L'étudiant {name} a été créé avec succès",
+    "student_updated": "L'étudiant {name} a été mis à jour avec succès",
+    "student_deleted": "L'étudiant {name} a été supprimé avec succès",
+    "student_suspended": "L'étudiant {name} a été suspendu",
+    "student_reactivated": "L'étudiant {name} a été réactivé",
+    "student_withdrawn": "L'étudiant {name} s'est retiré du programme",
+    "student_graduated": "L'étudiant {name} a obtenu son diplôme",
+    "student_deferred": "L'étudiant {name} a ajourné son année",
+    "family_contact_added": "Le contact familial {name} a été ajouté avec succès",
+    "family_contact_updated": "Le contact familial {name} a été mis à jour avec succès",
+    "family_contact_deleted": "Le contact familial {name} a été supprimé avec succès",
+    "primary_contact_set": "{name} a été défini comme contact principal"
+  },
+  "validation": {
+    "email_required": "L'adresse email est requise",
+    "email_unique": "Cet email est déjà utilisé",
+    "phone_required": "Le numéro de téléphone est requis",
+    "phone_format": "Le format du numéro de téléphone est invalide",
+    "first_name_required": "Le prénom est requis",
+    "last_name_required": "Le nom de famille est requis",
+    "date_of_birth_required": "La date de naissance est requise",
+    "gender_required": "Le genre est requis",
+    "student_id_number_required": "Le numéro d'étudiant est requis",
+    "student_id_number_unique": "Ce numéro d'étudiant est déjà utilisé"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "genders": {
+    "male": "Male",
+    "female": "Female"
+  },
+  "enrollment_status": {
+    "active": "Active",
+    "suspended": "Suspended",
+    "withdrawn": "Withdrawn",
+    "graduated": "Graduated",
+    "deferred": "Deferred"
+  },
+  "enrollment_status_descriptions": {
+    "active": "The student is currently enrolled and active",
+    "suspended": "The student has been temporarily suspended",
+    "withdrawn": "The student has withdrawn from the program",
+    "graduated": "The student has graduated",
+    "deferred": "The student has deferred their year"
+  },
+  "relationships": {
+    "father": "Father",
+    "mother": "Mother",
+    "guardian": "Guardian",
+    "emergency_contact": "Emergency Contact",
+    "sibling": "Sibling",
+    "grandparent": "Grandparent",
+    "uncle": "Uncle",
+    "aunt": "Aunt",
+    "cousin": "Cousin",
+    "other": "Other"
+  },
+  "errors": {
+    "invalid_gender": "Invalid gender: {value}. Accepted values: M (Male) or F (Female)",
+    "invalid_email": "Invalid email address: {email}",
+    "invalid_phone": "Invalid phone number: {phone}. Accepted formats: +237XXXXXXXXX or 6XXXXXXXX",
+    "cannot_modify_status": "Cannot modify student status with current status: {status}",
+    "student_not_found": "Student not found: {id}",
+    "duplicate_email": "A student with this email already exists: {email}",
+    "duplicate_student_id": "A student with this student number already exists: {student_id_number}"
+  },
+  "messages": {
+    "student_created": "Student {name} has been created successfully",
+    "student_updated": "Student {name} has been updated successfully",
+    "student_deleted": "Student {name} has been deleted successfully",
+    "student_suspended": "Student {name} has been suspended",
+    "student_reactivated": "Student {name} has been reactivated",
+    "student_withdrawn": "Student {name} has withdrawn from the program",
+    "student_graduated": "Student {name} has graduated",
+    "student_deferred": "Student {name} has deferred their year",
+    "family_contact_added": "Family contact {name} has been added successfully",
+    "family_contact_updated": "Family contact {name} has been updated successfully",
+    "family_contact_deleted": "Family contact {name} has been deleted successfully",
+    "primary_contact_set": "{name} has been set as primary contact"
+  },
+  "validation": {
+    "email_required": "Email address is required",
+    "email_unique": "This email is already in use",
+    "phone_required": "Phone number is required",
+    "phone_format": "Phone number format is invalid",
+    "first_name_required": "First name is required",
+    "last_name_required": "Last name is required",
+    "date_of_birth_required": "Date of birth is required",
+    "gender_required": "Gender is required",
+    "student_id_number_required": "Student number is required",
+    "student_id_number_unique": "This student number is already in use"
+  }
+}
