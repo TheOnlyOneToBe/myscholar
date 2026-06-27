@@ -61,10 +61,12 @@ Route::prefix('api/config')->middleware('auth')->group(function () {
     });
 
     // Legacy School Year Session Management (maintained for compatibility)
-    Route::prefix('school-years')->group(function () {
+    Route::prefix('school-years')->middleware('can:config.school_year.view')->group(function () {
         Route::get('/current', [SchoolYearSessionController::class, 'current']);
         Route::get('/', [SchoolYearSessionController::class, 'index']);
-        Route::post('/switch', [SchoolYearSessionController::class, 'switch']);
         Route::get('/{schoolYear}', [SchoolYearSessionController::class, 'info']);
     });
+
+    Route::post('/school-years/switch', [SchoolYearSessionController::class, 'switch'])
+        ->middleware('can:config.school_year.switch');
 });

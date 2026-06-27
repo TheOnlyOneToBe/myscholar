@@ -22,6 +22,8 @@ class SchoolYearSessionController extends Controller
      */
     public function current(): array
     {
+        $this->authorize('config.school_year.view');
+
         $year = $this->sessionService->getActiveYear();
 
         return [
@@ -39,6 +41,8 @@ class SchoolYearSessionController extends Controller
      */
     public function index(): array
     {
+        $this->authorize('config.school_year.view');
+
         $years = SchoolYear::orderBy('start_date', 'desc')->get();
 
         return [
@@ -61,6 +65,8 @@ class SchoolYearSessionController extends Controller
      */
     public function switch(Request $request): array
     {
+        $this->authorize('config.school_year.switch');
+
         $request->validate([
             'school_year_id' => 'required|exists:school_years,id',
         ]);
@@ -82,6 +88,8 @@ class SchoolYearSessionController extends Controller
      */
     public function info(SchoolYear $schoolYear): array
     {
+        $this->authorize('config.school_year.view');
+
         return [
             'id' => $schoolYear->id,
             'name' => $schoolYear->name,
