@@ -22,10 +22,7 @@ class SchoolYearTest extends TestCase
             'description' => 'Academic year 2024-2025',
         ]);
 
-        if ($response->status() !== 201) {
-            $this->fail("Expected status 201, got {$response->status()}. Response: " . $response->getContent());
-        }
-
+        $response->assertStatus(201);
         $this->assertDatabaseHas('school_years', ['name' => '2024-2025']);
     }
 
