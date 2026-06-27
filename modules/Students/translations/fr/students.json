@@ -83,6 +83,7 @@
     "date_of_birth_required": "La date de naissance est requise",
     "gender_required": "Le genre est requis",
     "student_id_number_required": "Le numéro d'étudiant est requis",
-    "student_id_number_unique": "Ce numéro d'étudiant est déjà utilisé"
+    "student_id_number_unique": "Ce numéro d'étudiant est déjà utilisé",
+    "cannot_enroll_other_years": "Vous n'avez pas la permission d'inscrire des élèves dans des années scolaires autre que l'année en cours"
   }
 }

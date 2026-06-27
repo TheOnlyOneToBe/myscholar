@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\ValueObjects\Gender;
+use Modules\Config\Models\SchoolYear;
 
 class CreateStudentRequest extends FormRequest
 {
@@ -95,6 +96,20 @@ class CreateStudentRequest extends FormRequest
             'enrollment.school_year_id' => [
                 'nullable',
                 'exists:school_years,id',
+                Rule::prohibitedIf(function () {
+                    if (!$this->has('enrollment.school_year_id') || !$this->input('enrollment.school_year_id')) {
+                        return false;
+                    }
+
+                    $activeYear = SchoolYear::active();
+                    $requestedYearId = $this->input('enrollment.school_year_id');
+
+                    if (!$activeYear || $activeYear->id != $requestedYearId) {
+                        return !auth()->user()->hasPermission('students.enroll_other_years');
+                    }
+
+                    return false;
+                }),
             ],
             'enrollment.class_id' => [
                 'nullable',
@@ -210,6 +225,7 @@ class CreateStudentRequest extends FormRequest
             'date_of_birth.required' => trans('students.validation.date_of_birth_required'),
             'sex.required' => trans('students.validation.gender_required'),
             'sex.in' => trans('students.errors.invalid_gender', ['value' => $this->sex]),
+            'enrollment.school_year_id.prohibited_if' => trans('students.validation.cannot_enroll_other_years'),
         ];
     }
 
@@ -221,5 +237,17 @@ class CreateStudentRequest extends FormRequest
         $this->merge([
             'sex' => strtoupper($this->sex ?? ''),
         ]);
+
+        // Auto-set active school year for enrollment if not provided
+        if ($this->has('enrollment') && is_array($this->input('enrollment'))) {
+            $enrollment = $this->input('enrollment');
+            if (empty($enrollment['school_year_id'])) {
+                $activeYear = SchoolYear::active();
+                if ($activeYear) {
+                    $enrollment['school_year_id'] = $activeYear->id;
+                    $this->merge(['enrollment' => $enrollment]);
+                }
+            }
+        }
     }
 }

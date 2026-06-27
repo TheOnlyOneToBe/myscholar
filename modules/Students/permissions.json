@@ -35,6 +35,12 @@
       "name": "Exporter les élèves",
       "description": "Permet d'exporter la liste des élèves",
       "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "students.enroll_other_years",
+      "name": "Inscrire les élèves d'autres années",
+      "description": "Permet d'inscrire les élèves dans des années scolaires autre que l'année en cours",
+      "default_roles": ["admin"]
     }
   ]
 }

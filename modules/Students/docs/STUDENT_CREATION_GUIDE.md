@@ -80,13 +80,18 @@ POST /api/students
 
 | Field | Type | Rules | Description |
 |-------|------|-------|-------------|
-| `enrollment.school_year_id` | integer | nullable, exists:school_years,id | Reference to school year |
+| `enrollment.school_year_id` | integer | nullable, exists:school_years,id | Reference to school year (auto-set to active year if omitted) |
 | `enrollment.class_id` | integer | nullable, exists:classes,id | Reference to class |
 | `enrollment.filiere` | string | nullable, max:100 | Academic stream/specialization |
 | `enrollment.level` | string | nullable, max:50 | Grade/form level |
 | `enrollment.enrollment_date` | date | nullable, date | When student was enrolled |
 | `enrollment.status` | string | nullable, max:50 | Enrollment status (active, deferred, etc.) |
 | `enrollment.notes` | string | nullable, max:500 | Additional notes about enrollment |
+
+**Important:** 
+- If `enrollment.school_year_id` is **not provided**, it is **automatically set to the current/active school year**
+- To enroll students in **other school years**, you must have the `students.enroll_other_years` permission (admin only by default)
+- Without this permission, attempting to specify a different school year will result in a validation error
 
 ### Family Contacts / Parents (Optional)
 
@@ -365,11 +370,32 @@ curl -X POST http://localhost:8000/api/students \
 }
 ```
 
-### Scenario 2: Student with Class Enrollment
+### Scenario 2: Student with Class Enrollment (Auto Active Year)
 
 ```json
 {
   "student_id_number": "SCI-2024-0002",
+  "first_name": "Marie",
+  "last_name": "Dubois",
+  "date_of_birth": "2009-03-20",
+  "sex": "F",
+  "email": "marie@example.com",
+  "phone_number": "+237691234568",
+  "enrollment": {
+    "class_id": 5,
+    "filiere": "Science",
+    "level": "Form 4"
+  }
+}
+```
+
+**Note:** `school_year_id` is omitted, so it will automatically use the current active school year.
+
+### Scenario 2b: Student with Class Enrollment (Explicit Active Year)
+
+```json
+{
+  "student_id_number": "SCI-2024-0002b",
   "first_name": "Marie",
   "last_name": "Dubois",
   "date_of_birth": "2009-03-20",
@@ -384,6 +410,8 @@ curl -X POST http://localhost:8000/api/students \
   }
 }
 ```
+
+**Note:** Same result as Scenario 2 if school_year_id=1 is the active year.
 
 ### Scenario 3: Complete Student with Parents
 
@@ -404,7 +432,24 @@ All fields filled as shown in the complete example above.
 
 ## Permissions Required
 
-- `students.create` — Create new student records
+| Permission | Description |
+|------------|-------------|
+| `students.create` | Create new student records (required) |
+| `students.enroll_other_years` | Enroll students in school years other than the current year (admin only by default) |
+
+### School Year Enrollment Logic
+
+**Default behavior:** If you omit `enrollment.school_year_id`, the current/active school year is used automatically.
+
+**Permission restriction:** To explicitly specify a different school year:
+- You must have the `students.enroll_other_years` permission
+- Only admins have this permission by default
+- Without it, specifying a non-active year will result in a 422 validation error
+
+**Example scenarios:**
+- ✅ Create enrollment without `school_year_id` → Uses active year (no permission needed)
+- ✅ Create enrollment with `school_year_id` = active year → Works for all users with `students.create`
+- ❌ Create enrollment with `school_year_id` ≠ active year → Only works with `students.enroll_other_years` permission
 
 ---
 

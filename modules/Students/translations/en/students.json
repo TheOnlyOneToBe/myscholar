@@ -83,6 +83,7 @@
     "date_of_birth_required": "Date of birth is required",
     "gender_required": "Gender is required",
     "student_id_number_required": "Student number is required",
-    "student_id_number_unique": "This student number is already in use"
+    "student_id_number_unique": "This student number is already in use",
+    "cannot_enroll_other_years": "You do not have permission to enroll students in school years other than the current year"
   }
 }
