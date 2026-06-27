@@ -41,6 +41,7 @@ final class StudentIdFormat
             '{###}' => '__PLACEHOLDER_3HASH__',
             '{##}' => '__PLACEHOLDER_2HASH__',
             '{#}' => '__PLACEHOLDER_1HASH__',
+            '{filiere}' => '__PLACEHOLDER_FILIERE__',
             '{FILIERE}' => '__PLACEHOLDER_FILIERE__',
             '{LEVEL}' => '__PLACEHOLDER_LEVEL__',
         ];
@@ -74,7 +75,7 @@ final class StudentIdFormat
 
     public function getTokens(): array
     {
-        preg_match_all('/\{([A-Z_#]+)\}/', $this->pattern, $matches);
+        preg_match_all('/\{([A-Za-z_#]+)\}/', $this->pattern, $matches);
         return array_unique($matches[1]);
     }
 

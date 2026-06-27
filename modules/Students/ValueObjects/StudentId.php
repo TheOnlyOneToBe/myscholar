@@ -8,7 +8,8 @@ final class StudentId
 
     public function __construct(string $value)
     {
-        $format = self::getFormat();
+        $config = self::getConfig();
+        $format = new StudentIdFormat($config->toPattern());
         if (!$format->validate($value)) {
             throw new \InvalidArgumentException("Invalid student ID format: {$value}. Expected format: {$format->toString()}");
         }
@@ -17,40 +18,39 @@ final class StudentId
 
     public static function generate(array $tokens = []): self
     {
-        $format = self::getFormat();
-        $pattern = $format->toString();
-        $requiredTokens = $format->getTokens();
+        $config = self::getConfig();
+        $elements = $config->elements();
 
         $values = [
             'YYYY' => date('Y'),
             'YY' => date('y'),
             'MM' => date('m'),
             'DD' => date('d'),
-            '####' => str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT),
-            '###' => str_pad(mt_rand(1, 999), 3, '0', STR_PAD_LEFT),
-            '##' => str_pad(mt_rand(1, 99), 2, '0', STR_PAD_LEFT),
-            '#' => mt_rand(1, 9),
+            'filiere' => $tokens['filiere'] ?? '',
+            '####' => str_pad(($tokens['####'] ?? mt_rand(1, 9999)), 4, '0', STR_PAD_LEFT),
+            '###' => str_pad(($tokens['###'] ?? mt_rand(1, 999)), 3, '0', STR_PAD_LEFT),
+            '##' => str_pad(($tokens['##'] ?? mt_rand(1, 99)), 2, '0', STR_PAD_LEFT),
+            '#' => $tokens['#'] ?? mt_rand(1, 9),
         ];
 
-        $values = array_merge($values, $tokens);
-
-        $studentId = $pattern;
-        foreach ($requiredTokens as $token) {
-            if (!isset($values[$token])) {
-                throw new \InvalidArgumentException("Missing required token: {$token}");
+        $parts = [];
+        foreach ($elements as $element) {
+            if (!isset($values[$element])) {
+                throw new \InvalidArgumentException("Missing required element: {$element}");
             }
-            $value = (string) $values[$token];
-            $studentId = str_replace("{{$token}}", $value, $studentId);
+            $parts[] = (string) $values[$element];
         }
+
+        $studentId = implode($config->separator(), $parts);
 
         return new self($studentId);
     }
 
-    public static function getFormat(): StudentIdFormat
+    public static function getConfig(): StudentIdFormatConfig
     {
-        $setting = \Modules\Config\Models\SystemSetting::where('key', 'student_id_format')->first();
-        $pattern = $setting?->value ?? 'STD-{YYYY}-{####}';
-        return new StudentIdFormat($pattern);
+        $setting = \Modules\Config\Models\SystemSetting::where('key', 'student_id_format_config')->first();
+        $configArray = $setting ? json_decode($setting->value, true) : null;
+        return StudentIdFormatConfig::from($configArray ?? []);
     }
 
     public function toString(): string
@@ -68,4 +68,5 @@ final class StudentId
         return $this->value === $other->value;
     }
 }
+
 
