@@ -110,10 +110,10 @@ class RoleAndPermissionTest extends TestCase
 
     public function test_permission_has_unique_name_constraint()
     {
-        Permission::factory()->create(['name' => 'edit-users']);
+        Permission::factory()->create(['permission_id' => 'auth.edit']);
 
         $this->expectException(\Illuminate\Database\QueryException::class);
-        Permission::factory()->create(['name' => 'edit-users']);
+        Permission::factory()->create(['permission_id' => 'auth.edit']);
     }
 
     public function test_role_can_revoke_permission()
@@ -139,9 +139,9 @@ class RoleAndPermissionTest extends TestCase
         $role->givePermissionTo([$permission1, $permission2]);
         $user->assignRole($role);
 
-        $this->assertTrue($user->can($permission1->name));
-        $this->assertTrue($user->can($permission2->name));
-        $this->assertFalse($user->can($permission3->name));
+        $this->assertTrue($user->can($permission1->permission_id));
+        $this->assertTrue($user->can($permission2->permission_id));
+        $this->assertFalse($user->can($permission3->permission_id));
     }
 
     public function test_role_description_is_optional()

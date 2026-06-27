@@ -31,7 +31,7 @@ class ResetPasswordComponent extends Component
 
         $reset = PasswordReset::where('token', $token)->first();
 
-        if (!$reset || now()->diffInHours($reset->created_at) > 24) {
+        if (!$reset || $reset->isExpired()) {
             $this->invalid_token = true;
         }
     }
@@ -44,7 +44,7 @@ class ResetPasswordComponent extends Component
             ->where('email', $this->email)
             ->first();
 
-        if (!$reset || now()->diffInHours($reset->created_at) > 24) {
+        if (!$reset || $reset->isExpired()) {
             $this->addError('email', 'This password reset link is invalid or has expired.');
             return;
         }

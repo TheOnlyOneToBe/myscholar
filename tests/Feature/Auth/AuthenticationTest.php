@@ -109,13 +109,14 @@ class AuthenticationTest extends TestCase
 
         $guestToken = session()->token();
 
-        $this->post('/login', [
-            'email' => 'test@example.com',
+        $response = $this->postJson('/api/auth/login', [
+            'email_or_username' => 'test@example.com',
             'password' => 'password123',
         ]);
 
-        // In a real test, we'd check if CSRF token was regenerated
-        $this->assertAuthenticatedAs($user);
+        $response->assertStatus(200);
+        $this->assertTrue($response->json('success'));
+        $this->assertNotNull($response->json('token'));
     }
 
     public function test_user_login_updates_last_login()

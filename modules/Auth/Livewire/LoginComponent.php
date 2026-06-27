@@ -23,6 +23,18 @@ class LoginComponent extends Component
     {
         $this->validate();
 
+        $user = User::where('email', $this->email)->first();
+
+        if (!$user || !\Illuminate\Support\Facades\Hash::check($this->password, $user->password)) {
+            $this->addError('email', 'These credentials do not match our records.');
+            return;
+        }
+
+        if (!$user->is_active) {
+            $this->addError('email', 'This account is inactive.');
+            return;
+        }
+
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
             return $this->redirect('/dashboard', navigate: true);

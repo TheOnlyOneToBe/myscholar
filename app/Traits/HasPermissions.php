@@ -73,6 +73,17 @@ trait HasPermissions
     }
 
     /**
+     * Override the canAny method to check permissions.
+     */
+    public function canAny($abilities, $arguments = []): bool
+    {
+        if (is_array($abilities)) {
+            return $this->hasAnyPermission($abilities);
+        }
+        return parent::canAny($abilities, $arguments);
+    }
+
+    /**
      * Override the can method to check permissions.
      */
     public function can($ability, $arguments = []): bool

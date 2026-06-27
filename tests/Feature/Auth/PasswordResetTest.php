@@ -92,7 +92,7 @@ class PasswordResetTest extends TestCase
         PasswordReset::create([
             'email' => 'test@example.com',
             'token' => $token,
-            'created_at' => Carbon::now()->subHours(25),
+            'created_at' => Carbon::now()->subHours(2),
         ]);
 
         Livewire::test('modules.auth.livewire.reset-password-component', ['token' => $token])

@@ -246,7 +246,7 @@ class User extends Authenticatable
         return $currentRole->canCreateRole($targetRole);
     }
 
-    public function assignRole(Role $role, User $assignedBy = null, string $reason = null, ?\Carbon\Carbon $endsAt = null): UserRole
+    public function assignRole(Role $role, ?User $assignedBy = null, ?string $reason = null, ?\Carbon\Carbon $endsAt = null): UserRole
     {
         return UserRole::create([
             'user_id' => $this->id,

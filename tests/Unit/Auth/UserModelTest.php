@@ -87,21 +87,21 @@ class UserModelTest extends TestCase
         $role->givePermissionTo($permission);
         $user->assignRole($role);
 
-        $this->assertTrue($user->can($permission->name));
+        $this->assertTrue($user->can($permission->permission_id));
     }
 
     public function test_user_can_check_any_permission()
     {
         $user = User::factory()->create();
         $role = Role::factory()->create();
-        $permission1 = Permission::factory()->create(['name' => 'edit-users']);
-        $permission2 = Permission::factory()->create(['name' => 'delete-users']);
+        $permission1 = Permission::factory()->create();
+        $permission2 = Permission::factory()->create();
 
         $role->givePermissionTo($permission1);
         $user->assignRole($role);
 
-        $this->assertTrue($user->canAny(['edit-users', 'delete-users']));
-        $this->assertFalse($user->canAny(['create-posts', 'delete-posts']));
+        $this->assertTrue($user->canAny([$permission1->permission_id, $permission2->permission_id]));
+        $this->assertFalse($user->canAny(['nonexistent.action', 'another.action']));
     }
 
     public function test_user_has_created_at_timestamp()
@@ -172,8 +172,8 @@ class UserModelTest extends TestCase
         $role->givePermissionTo([$permission1, $permission2]);
         $user->assignRole($role);
 
-        $this->assertTrue($user->can($permission1->name));
-        $this->assertTrue($user->can($permission2->name));
+        $this->assertTrue($user->can($permission1->permission_id));
+        $this->assertTrue($user->can($permission2->permission_id));
     }
 
     public function test_user_login_attempts_are_tracked()
