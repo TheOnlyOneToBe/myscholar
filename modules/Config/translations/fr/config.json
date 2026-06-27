@@ -2,18 +2,77 @@
   "errors": {
     "no_school_year_available": "Aucune année scolaire disponible. Veuillez créer une année scolaire d'abord.",
     "cannot_modify_locked_year": "Impossible de modifier une année scolaire verrouillée.",
-    "permission_denied_past_year": "Vous n'avez pas la permission de modifier les données d'une année scolaire passée."
+    "permission_denied_past_year": "Vous n'avez pas la permission de modifier les données d'une année scolaire passée.",
+    "cannot_delete_active": "Impossible de supprimer l'année scolaire active.",
+    "year_not_found": "Année scolaire introuvable.",
+    "invalid_dates": "La date de fin doit être après la date de début."
   },
   "messages": {
     "school_year_activated": "L'année scolaire {name} a été activée avec succès.",
     "school_year_switched": "Vous avez changé vers l'année scolaire {name}.",
+    "school_year_created": "Année scolaire créée avec succès.",
+    "school_year_updated": "Année scolaire modifiée avec succès.",
+    "school_year_deleted": "Année scolaire supprimée avec succès.",
     "active_school_year": "Année scolaire active",
-    "current_session": "Session actuelle"
+    "current_session": "Session actuelle",
+    "active": "En cours",
+    "archived": "Archivée",
+    "available": "Disponible",
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette année?"
+  },
+  "labels": {
+    "school_years": "Années Scolaires",
+    "school_year_name": "Nom de l'année",
+    "start_year": "Année de début",
+    "end_year": "Année de fin",
+    "start_date": "Date de début",
+    "end_date": "Date de fin",
+    "description": "Description",
+    "active_year": "Année en cours",
+    "session_year": "Année en session",
+    "actions": "Actions",
+    "create_year": "Créer une nouvelle année",
+    "edit_year": "Modifier l'année",
+    "delete_year": "Supprimer l'année",
+    "activate_year": "Activer",
+    "switch_session": "Session",
+    "year_status": "Statut",
+    "period": "Période"
   },
   "validation": {
-    "school_year_required": "Une année scolaire doit être sélectionnée."
+    "school_year_required": "Une année scolaire doit être sélectionnée.",
+    "name_required": "Le nom de l'année est requis.",
+    "name_unique": "Ce nom d'année existe déjà.",
+    "start_year_required": "L'année de début est requise.",
+    "end_year_required": "L'année de fin est requise.",
+    "start_date_required": "La date de début est requise.",
+    "end_date_required": "La date de fin est requise.",
+    "end_date_after": "La date de fin doit être après la date de début."
   },
   "permissions": {
-    "scholarity_modify_past_years": "Modifier les années scolaires passées (Scolarité)"
+    "scholarity_modify_past_years": "Modifier les années scolaires passées (Scolarité)",
+    "school_year_view": "Voir les années scolaires",
+    "school_year_create": "Créer une année scolaire",
+    "school_year_edit": "Modifier une année scolaire",
+    "school_year_delete": "Supprimer une année scolaire",
+    "school_year_switch": "Changer l'année scolaire"
+  },
+  "alerts": {
+    "created": "Année scolaire créée avec succès",
+    "updated": "Année scolaire modifiée avec succès",
+    "deleted": "Année scolaire supprimée avec succès",
+    "activated": "Année scolaire {name} activée",
+    "session_switched": "Année en session changée avec succès",
+    "cannot_delete_active": "Impossible de supprimer l'année scolaire active",
+    "error_creating": "Erreur lors de la création de l'année scolaire",
+    "error_updating": "Erreur lors de la modification de l'année scolaire",
+    "error_deleting": "Erreur lors de la suppression de l'année scolaire",
+    "error_activating": "Erreur lors de l'activation de l'année scolaire",
+    "error_switching": "Erreur lors du changement de session"
+  },
+  "messages_ui": {
+    "no_years_created": "Aucune année scolaire créée. Commencez par en créer une.",
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette année?",
+    "session_description": "(Année utilisée pour les opérations courantes)"
   }
 }

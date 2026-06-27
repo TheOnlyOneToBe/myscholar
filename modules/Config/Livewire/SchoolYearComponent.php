@@ -44,7 +44,11 @@ class SchoolYearComponent extends Component
 
         // Initialize session if no year is selected
         $sessionService = new SchoolYearSessionService();
-        $sessionService->initializeSession();
+        try {
+            $sessionService->initializeSession();
+        } catch (\Exception $e) {
+            \Log::warning('Failed to initialize school year session', ['error' => $e->getMessage()]);
+        }
         $this->sessionYear = $sessionService->getActiveYear();
     }
 
@@ -55,6 +59,11 @@ class SchoolYearComponent extends Component
 
     public function toggleForm(): void
     {
+        if (!auth()->user()->can('config.school_year.create') && !$this->editingYear) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         $this->showForm = !$this->showForm;
         if (!$this->showForm) {
             $this->resetForm();
@@ -63,6 +72,11 @@ class SchoolYearComponent extends Component
 
     public function startEdit(SchoolYear $year): void
     {
+        if (!auth()->user()->can('config.school_year.edit')) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         $this->editingYear = $year;
         $this->name = $year->name;
         $this->start_year = $year->start_year;
@@ -84,6 +98,11 @@ class SchoolYearComponent extends Component
 
     public function createYear(): void
     {
+        if (!auth()->user()->can('config.school_year.create')) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         $this->validateOnly('name');
         $this->validateOnly('start_year');
         $this->validateOnly('end_year');
@@ -101,17 +120,23 @@ class SchoolYearComponent extends Component
                 'is_active' => false,
             ]);
 
-            $this->success('Année scolaire créée avec succès', 'SCHOOL_YEAR_CREATED');
+            $this->success(__('config.messages.school_year_created'), 'SCHOOL_YEAR_CREATED');
             $this->loadSchoolYears();
             $this->resetForm();
             $this->showForm = false;
         } catch (\Exception $e) {
-            $this->error('Erreur lors de la création: ' . $e->getMessage(), 'CREATE_ERROR');
+            \Log::error('Error creating school year', ['error' => $e->getMessage()]);
+            $this->error(__('config.alerts.error_creating'), 'CREATE_ERROR');
         }
     }
 
     public function updateYear(): void
     {
+        if (!auth()->user()->can('config.school_year.edit')) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         if (!$this->editingYear) {
             return;
         }
@@ -126,33 +151,45 @@ class SchoolYearComponent extends Component
                 'description' => $this->description,
             ]);
 
-            $this->success('Année scolaire modifiée avec succès', 'SCHOOL_YEAR_UPDATED');
+            $this->success(__('config.messages.school_year_updated'), 'SCHOOL_YEAR_UPDATED');
             $this->loadSchoolYears();
             $this->resetForm();
             $this->showForm = false;
         } catch (\Exception $e) {
-            $this->error('Erreur lors de la modification: ' . $e->getMessage(), 'UPDATE_ERROR');
+            \Log::error('Error updating school year', ['error' => $e->getMessage()]);
+            $this->error(__('config.alerts.error_updating'), 'UPDATE_ERROR');
         }
     }
 
     public function deleteYear(SchoolYear $year): void
     {
+        if (!auth()->user()->can('config.school_year.delete')) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         if ($year->is_active) {
-            $this->error('Impossible de supprimer l\'année scolaire active', 'CANNOT_DELETE_ACTIVE');
+            $this->error(__('config.alerts.cannot_delete_active'), 'CANNOT_DELETE_ACTIVE');
             return;
         }
 
         try {
             $year->delete();
-            $this->success('Année scolaire supprimée avec succès', 'SCHOOL_YEAR_DELETED');
+            $this->success(__('config.messages.school_year_deleted'), 'SCHOOL_YEAR_DELETED');
             $this->loadSchoolYears();
         } catch (\Exception $e) {
-            $this->error('Erreur lors de la suppression: ' . $e->getMessage(), 'DELETE_ERROR');
+            \Log::error('Error deleting school year', ['error' => $e->getMessage()]);
+            $this->error(__('config.alerts.error_deleting'), 'DELETE_ERROR');
         }
     }
 
     public function activateYear(SchoolYear $year): void
     {
+        if (!auth()->user()->can('config.school_year.edit')) {
+            $this->error(__('config.errors.permission_denied_past_year'), 'PERMISSION_DENIED');
+            return;
+        }
+
         try {
             // Désactiver l'année active précédente
             SchoolYear::where('is_active', true)->update(['is_active' => false]);
@@ -164,14 +201,15 @@ class SchoolYearComponent extends Component
             $sessionService = new SchoolYearSessionService();
             $sessionService->setActiveYear($year);
 
-            $this->success('Année scolaire ' . $year->name . ' activée', 'SCHOOL_YEAR_ACTIVATED');
+            $this->success(__('config.alerts.activated', ['name' => $year->name]), 'SCHOOL_YEAR_ACTIVATED');
             $this->loadSchoolYears();
             $this->activeYear = $year;
             $this->sessionYear = $year;
 
             $this->dispatch('school-year-changed', schoolYearId: $year->id);
         } catch (\Exception $e) {
-            $this->error('Erreur lors de l\'activation: ' . $e->getMessage(), 'ACTIVATION_ERROR');
+            \Log::error('Error activating school year', ['error' => $e->getMessage()]);
+            $this->error(__('config.alerts.error_activating'), 'ACTIVATION_ERROR');
         }
     }
 
@@ -181,10 +219,11 @@ class SchoolYearComponent extends Component
             $sessionService = new SchoolYearSessionService();
             $sessionService->setActiveYear($year);
             $this->sessionYear = $year;
-            $this->success('Année en session changée vers ' . $year->name, 'SESSION_SWITCHED');
+            $this->success(__('config.alerts.session_switched'), 'SESSION_SWITCHED');
             $this->dispatch('school-year-changed', schoolYearId: $year->id);
         } catch (\Exception $e) {
-            $this->error('Erreur lors du changement de session: ' . $e->getMessage(), 'SWITCH_ERROR');
+            \Log::error('Error switching session', ['error' => $e->getMessage()]);
+            $this->error(__('config.alerts.error_switching'), 'SWITCH_ERROR');
         }
     }
 
@@ -208,6 +247,11 @@ class SchoolYearComponent extends Component
 
     public function render()
     {
-        return view('config::livewire.school-year-component');
+        return view('config::livewire.school-year-component', [
+            'canCreate' => auth()->user()->can('config.school_year.create'),
+            'canEdit' => auth()->user()->can('config.school_year.edit'),
+            'canDelete' => auth()->user()->can('config.school_year.delete'),
+            'canSwitch' => auth()->user()->can('config.school_year.edit'),
+        ]);
     }
 }

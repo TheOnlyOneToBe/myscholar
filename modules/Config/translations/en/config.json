@@ -2,18 +2,77 @@
   "errors": {
     "no_school_year_available": "No school year available. Please create a school year first.",
     "cannot_modify_locked_year": "Cannot modify a locked school year.",
-    "permission_denied_past_year": "You do not have permission to modify data in a past school year."
+    "permission_denied_past_year": "You do not have permission to modify data in a past school year.",
+    "cannot_delete_active": "Cannot delete the active school year.",
+    "year_not_found": "School year not found.",
+    "invalid_dates": "The end date must be after the start date."
   },
   "messages": {
     "school_year_activated": "The school year {name} has been activated successfully.",
     "school_year_switched": "You have switched to the school year {name}.",
+    "school_year_created": "School year created successfully.",
+    "school_year_updated": "School year updated successfully.",
+    "school_year_deleted": "School year deleted successfully.",
     "active_school_year": "Active school year",
-    "current_session": "Current session"
+    "current_session": "Current session",
+    "active": "Current",
+    "archived": "Archived",
+    "available": "Available",
+    "confirm_delete": "Are you sure you want to delete this year?"
+  },
+  "labels": {
+    "school_years": "School Years",
+    "school_year_name": "Year Name",
+    "start_year": "Start Year",
+    "end_year": "End Year",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "description": "Description",
+    "active_year": "Current Year",
+    "session_year": "Session Year",
+    "actions": "Actions",
+    "create_year": "Create New Year",
+    "edit_year": "Edit Year",
+    "delete_year": "Delete Year",
+    "activate_year": "Activate",
+    "switch_session": "Session",
+    "year_status": "Status",
+    "period": "Period"
   },
   "validation": {
-    "school_year_required": "A school year must be selected."
+    "school_year_required": "A school year must be selected.",
+    "name_required": "The year name is required.",
+    "name_unique": "This year name already exists.",
+    "start_year_required": "The start year is required.",
+    "end_year_required": "The end year is required.",
+    "start_date_required": "The start date is required.",
+    "end_date_required": "The end date is required.",
+    "end_date_after": "The end date must be after the start date."
   },
   "permissions": {
-    "scholarity_modify_past_years": "Modify past school years (Scholarity)"
+    "scholarity_modify_past_years": "Modify past school years (Scholarity)",
+    "school_year_view": "View school years",
+    "school_year_create": "Create school year",
+    "school_year_edit": "Edit school year",
+    "school_year_delete": "Delete school year",
+    "school_year_switch": "Switch school year"
+  },
+  "alerts": {
+    "created": "School year created successfully",
+    "updated": "School year updated successfully",
+    "deleted": "School year deleted successfully",
+    "activated": "School year {name} activated",
+    "session_switched": "Session year changed successfully",
+    "cannot_delete_active": "Cannot delete the active school year",
+    "error_creating": "Error creating school year",
+    "error_updating": "Error updating school year",
+    "error_deleting": "Error deleting school year",
+    "error_activating": "Error activating school year",
+    "error_switching": "Error switching session"
+  },
+  "messages_ui": {
+    "no_years_created": "No school year created yet. Please create one first.",
+    "confirm_delete": "Are you sure you want to delete this year?",
+    "session_description": "(Year used for current operations)"
   }
 }

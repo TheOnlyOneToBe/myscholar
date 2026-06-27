@@ -14,7 +14,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     // School Years Management
     Route::get('/config/school-years', SchoolYearComponent::class)
         ->name('config.school-years')
-        ->middleware('can:config.edit');
+        ->middleware('can:config.school_year.view');
 });
 
 // Footer component is available globally (no auth required)

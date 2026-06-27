@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <div class="card border-primary">
                 <div class="card-header bg-primary text-white">
-                    <h6 class="mb-0">📅 Année Scolaire en Cours</h6>
+                    <h6 class="mb-0">📅 {{ __('config.labels.active_year') }}</h6>
                 </div>
                 <div class="card-body">
                     @if ($activeYear)
@@ -25,7 +25,7 @@
                         </div>
                     @else
                         <p class="text-danger mb-0">
-                            <i class="fas fa-exclamation-circle"></i> Aucune année scolaire active configurée
+                            <i class="fas fa-exclamation-circle"></i> {{ __('config.errors.no_school_year_available') }}
                         </p>
                     @endif
                 </div>
@@ -35,7 +35,7 @@
         <div class="col-md-6">
             <div class="card border-info">
                 <div class="card-header bg-info text-white">
-                    <h6 class="mb-0">🎯 Année Scolaire en Session</h6>
+                    <h6 class="mb-0">🎯 {{ __('config.labels.session_year') }}</h6>
                 </div>
                 <div class="card-body">
                     @if ($sessionYear)
@@ -53,12 +53,12 @@
                         </div>
                         <p class="mb-0 mt-2">
                             <small class="text-muted">
-                                (Année utilisée pour les opérations courantes)
+                                {{ __('config.messages_ui.session_description') }}
                             </small>
                         </p>
                     @else
                         <p class="text-warning mb-0">
-                            <i class="fas fa-exclamation-triangle"></i> Aucune année sélectionnée en session
+                            <i class="fas fa-exclamation-triangle"></i> {{ __('config.errors.no_school_year_available') }}
                         </p>
                     @endif
                 </div>
@@ -67,27 +67,29 @@
     </div>
 
     <!-- Boutons d'action -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <button wire:click="toggleForm" class="btn btn-primary">
-                <i class="fas fa-plus-circle"></i> {{ $showForm ? 'Annuler' : 'Nouvelle Année' }}
-            </button>
+    @if($canCreate)
+        <div class="row mb-4">
+            <div class="col-12">
+                <button wire:click="toggleForm" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> {{ $showForm ? __('config.labels.create_year') : __('config.labels.create_year') }}
+                </button>
+            </div>
         </div>
-    </div>
+    @endif
 
     <!-- Formulaire de création/édition -->
     @if ($showForm)
         <div class="card mb-4 border-warning">
             <div class="card-header bg-warning text-dark">
                 <h5 class="mb-0">
-                    {{ $editingYear ? '✏️ Modifier une Année' : '➕ Créer une Nouvelle Année' }}
+                    {{ $editingYear ? '✏️ ' . __('config.labels.edit_year') : '➕ ' . __('config.labels.create_year') }}
                 </h5>
             </div>
             <div class="card-body">
                 <form wire:submit.prevent="save">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Nom de l'année *</label>
+                            <label class="form-label">{{ __('config.labels.school_year_name') }} *</label>
                             <input
                                 type="text"
                                 wire:model="name"
@@ -100,7 +102,7 @@
                         </div>
 
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">Année de début *</label>
+                            <label class="form-label">{{ __('config.labels.start_year') }} *</label>
                             <input
                                 type="number"
                                 wire:model="start_year"
@@ -115,7 +117,7 @@
                         </div>
 
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">Année de fin *</label>
+                            <label class="form-label">{{ __('config.labels.end_year') }} *</label>
                             <input
                                 type="number"
                                 wire:model="end_year"
@@ -132,7 +134,7 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Date de début *</label>
+                            <label class="form-label">{{ __('config.labels.start_date') }} *</label>
                             <input
                                 type="date"
                                 wire:model="start_date"
@@ -144,7 +146,7 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Date de fin *</label>
+                            <label class="form-label">{{ __('config.labels.end_date') }} *</label>
                             <input
                                 type="date"
                                 wire:model="end_date"
@@ -157,21 +159,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Description</label>
+                        <label class="form-label">{{ __('config.labels.description') }}</label>
                         <textarea
                             wire:model="description"
                             class="form-control"
                             rows="2"
-                            placeholder="Notes ou description..."
+                            placeholder="{{ __('config.labels.description') }}..."
                         ></textarea>
                     </div>
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> {{ $editingYear ? 'Modifier' : 'Créer' }}
+                            <i class="fas fa-save"></i> {{ $editingYear ? __('config.labels.edit_year') : __('config.labels.create_year') }}
                         </button>
                         <button type="button" wire:click="toggleForm" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Annuler
+                            <i class="fas fa-times"></i> {{ __('auth.messages.cancel') ?? 'Annuler' }}
                         </button>
                     </div>
                 </form>
@@ -182,7 +184,7 @@
     <!-- Liste des années scolaires -->
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">📋 Liste des Années Scolaires</h5>
+            <h5 class="mb-0">📋 {{ __('config.labels.school_years') }}</h5>
         </div>
         <div class="card-body">
             @if ($schoolYears->count() > 0)
@@ -190,11 +192,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Année</th>
-                                <th>Période</th>
-                                <th>Années</th>
-                                <th>Statut</th>
-                                <th style="width: 250px;">Actions</th>
+                                <th>{{ __('config.labels.school_years') }}</th>
+                                <th>{{ __('config.labels.period') }}</th>
+                                <th>{{ __('config.labels.year_status') }}</th>
+                                <th style="width: 250px;">{{ __('config.labels.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -215,70 +216,70 @@
                                         </small>
                                     </td>
                                     <td>
-                                        <small>{{ $year->start_year }}-{{ $year->end_year }}</small>
-                                    </td>
-                                    <td>
                                         @if ($year->is_locked)
-                                            <span class="badge bg-secondary">Archivée</span>
+                                            <span class="badge bg-secondary">{{ __('config.messages.archived') ?? 'Archivée' }}</span>
                                         @elseif ($year->is_active)
-                                            <span class="badge bg-success">En cours</span>
+                                            <span class="badge bg-success">{{ __('config.messages.active') ?? 'En cours' }}</span>
                                         @else
-                                            <span class="badge bg-light text-dark">Disponible</span>
+                                            <span class="badge bg-light text-dark">{{ __('config.messages.available') ?? 'Disponible' }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            @if (!$year->is_active)
+                                            @if (!$year->is_active && $canEdit)
                                                 <button
                                                     wire:click="activateYear({{ $year->id }})"
                                                     class="btn btn-outline-success"
-                                                    title="Activer cette année"
+                                                    title="{{ __('config.labels.activate_year') }}"
                                                 >
-                                                    <i class="fas fa-play"></i> Activer
+                                                    <i class="fas fa-play"></i> {{ __('config.labels.activate_year') }}
                                                 </button>
                                             @endif
 
-                                            @if ($sessionYear?->id !== $year->id)
+                                            @if ($sessionYear?->id !== $year->id && $canSwitch)
                                                 <button
                                                     wire:click="switchSession({{ $year->id }})"
                                                     class="btn btn-outline-info"
-                                                    title="Sélectionner pour la session courante"
+                                                    title="{{ __('config.labels.switch_session') }}"
                                                 >
-                                                    <i class="fas fa-exchange"></i> Session
+                                                    <i class="fas fa-exchange"></i> {{ __('config.labels.switch_session') }}
                                                 </button>
-                                            @else
+                                            @elseif ($sessionYear?->id === $year->id)
                                                 <button
                                                     class="btn btn-outline-info disabled"
                                                     disabled
+                                                    title="{{ __('config.labels.switch_session') }}"
                                                 >
-                                                    <i class="fas fa-check"></i> Session
+                                                    <i class="fas fa-check"></i> {{ __('config.labels.switch_session') }}
                                                 </button>
                                             @endif
 
-                                            <button
-                                                wire:click="startEdit({{ $year->id }})"
-                                                class="btn btn-outline-primary"
-                                                title="Modifier cette année"
-                                            >
-                                                <i class="fas fa-edit"></i> Modifier
-                                            </button>
+                                            @if ($canEdit)
+                                                <button
+                                                    wire:click="startEdit({{ $year->id }})"
+                                                    class="btn btn-outline-primary"
+                                                    title="{{ __('config.labels.edit_year') }}"
+                                                >
+                                                    <i class="fas fa-edit"></i> {{ __('config.labels.edit_year') }}
+                                                </button>
+                                            @endif
 
-                                            @if (!$year->is_active)
+                                            @if (!$year->is_active && $canDelete)
                                                 <button
                                                     wire:click="deleteYear({{ $year->id }})"
-                                                    wire:confirm="Êtes-vous sûr de vouloir supprimer cette année?"
+                                                    wire:confirm="{{ __('config.messages.confirm_delete') ?? 'Êtes-vous sûr?' }}"
                                                     class="btn btn-outline-danger"
-                                                    title="Supprimer cette année"
+                                                    title="{{ __('config.labels.delete_year') }}"
                                                 >
-                                                    <i class="fas fa-trash"></i> Supprimer
+                                                    <i class="fas fa-trash"></i> {{ __('config.labels.delete_year') }}
                                                 </button>
-                                            @else
+                                            @elseif ($year->is_active)
                                                 <button
                                                     class="btn btn-outline-danger disabled"
                                                     disabled
-                                                    title="Impossible de supprimer l'année active"
+                                                    title="{{ __('config.alerts.cannot_delete_active') }}"
                                                 >
-                                                    <i class="fas fa-trash"></i> Supprimer
+                                                    <i class="fas fa-trash"></i> {{ __('config.labels.delete_year') }}
                                                 </button>
                                             @endif
                                         </div>
@@ -290,7 +291,7 @@
                 </div>
             @else
                 <div class="alert alert-info mb-0">
-                    <i class="fas fa-info-circle"></i> Aucune année scolaire créée. Commencez par en créer une.
+                    <i class="fas fa-info-circle"></i> {{ __('config.messages_ui.no_years_created') }}
                 </div>
             @endif
         </div>
