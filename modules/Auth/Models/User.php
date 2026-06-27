@@ -4,6 +4,7 @@ namespace Modules\Auth\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Traits\HasPermissions;
 
 class User extends Authenticatable
@@ -11,6 +12,8 @@ class User extends Authenticatable
     use HasPermissions;
 
     protected $fillable = [
+        'first_name',
+        'last_name',
         'username',
         'email',
         'password',
@@ -27,6 +30,7 @@ class User extends Authenticatable
         'password_history',
         'email_verified_at',
         'phone_verified_at',
+        'deleted_at',
     ];
 
     protected $hidden = [
@@ -54,6 +58,16 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function userRoles(): HasMany
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    public function currentRoles()
+    {
+        return $this->userRoles()->whereNull('ended_at')->with('role');
     }
 
     public function hasRole(string $roleName): bool
@@ -202,6 +216,27 @@ class User extends Authenticatable
     public function clearIpWhitelist(): void
     {
         $this->update(['ip_whitelist' => null]);
+    }
+
+    public function canCreateRole(Role $targetRole): bool
+    {
+        $currentRole = $this->currentRoles()->first()?->role;
+        if (!$currentRole) {
+            return false;
+        }
+        return $currentRole->canCreateRole($targetRole);
+    }
+
+    public function assignRole(Role $role, User $assignedBy = null, string $reason = null, ?\Carbon\Carbon $endsAt = null): UserRole
+    {
+        return UserRole::create([
+            'user_id' => $this->id,
+            'role_id' => $role->id,
+            'started_at' => now(),
+            'ended_at' => $endsAt,
+            'assigned_by_user_id' => $assignedBy?->id,
+            'reason' => $reason,
+        ]);
     }
 }
 
