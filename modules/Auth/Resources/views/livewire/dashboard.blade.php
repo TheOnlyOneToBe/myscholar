@@ -2,7 +2,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
         <div class="mb-8">
             <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
-                Welcome, {{ $user->first_name }}!
+                <i class="fas fa-user-circle text-blue-600 mr-3"></i>Welcome, {{ $user->first_name }}!
             </h1>
             <p class="text-gray-600 dark:text-gray-400 mt-2">Here's your dashboard overview</p>
         </div>
@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <!-- Profile Info -->
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Profile Information</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><i class="fas fa-id-card text-blue-600 mr-2"></i>Profile Information</h2>
                 <div class="space-y-3">
                     <div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Full Name</p>
@@ -30,7 +30,7 @@
 
             <!-- Account Status -->
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Account Status</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><i class="fas fa-shield-alt text-green-600 mr-2"></i>Account Status</h2>
                 <div class="space-y-3">
                     <div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
@@ -57,7 +57,7 @@
 
         <!-- User Roles -->
         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-8">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Roles</h2>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><i class="fas fa-user-tag text-purple-600 mr-2"></i>Your Roles</h2>
             @php
                 $roles = $user->currentRoles()->with('role')->get();
             @endphp
@@ -93,13 +93,13 @@
 
         <!-- Quick Actions -->
         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><i class="fas fa-bolt text-yellow-600 mr-2"></i>Quick Actions</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
-                    Change Password
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center">
+                    <i class="fas fa-key mr-2"></i>Change Password
                 </button>
-                <button class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-900 dark:text-white font-medium py-2 px-4 rounded-lg transition">
-                    Update Profile
+                <button class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-900 dark:text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center">
+                    <i class="fas fa-edit mr-2"></i>Update Profile
                 </button>
             </div>
         </div>

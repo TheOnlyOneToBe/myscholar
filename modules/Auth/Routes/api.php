@@ -8,9 +8,12 @@ use Modules\Auth\Controllers\PermissionController;
 
 Route::prefix('api/auth')->group(function () {
     // Public routes (no authentication required)
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+    // Rate limited: 5 attempts per minute per IP for login
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+
+    // Rate limited: 3 attempts per hour per IP for password reset
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->middleware('throttle:3,60');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('throttle:5,1');
     Route::post('/validate-token', [AuthController::class, 'validateResetToken']);
 
     // Protected routes (authentication required)

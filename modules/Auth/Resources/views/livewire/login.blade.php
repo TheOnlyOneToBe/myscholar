@@ -1,5 +1,6 @@
 <div class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
     <div class="text-center mb-8">
+        <i class="fas fa-sign-in-alt text-blue-600 text-4xl mb-4"></i>
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Sign In</h2>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Welcome back to MyScholar</p>
     </div>
@@ -14,7 +15,7 @@
         <!-- Email Field -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email Address
+                <i class="fas fa-envelope text-blue-600 mr-2"></i>Email Address
             </label>
             <input
                 type="email"
@@ -31,7 +32,7 @@
         <!-- Password Field -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Password
+                <i class="fas fa-lock text-blue-600 mr-2"></i>Password
             </label>
             <input
                 type="password"
@@ -61,9 +62,9 @@
         <!-- Submit Button -->
         <button
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
+            class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
         >
-            Sign In
+            <i class="fas fa-arrow-right-to-bracket mr-2"></i>Sign In
         </button>
     </form>
 

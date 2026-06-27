@@ -1,5 +1,6 @@
 <div class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
     <div class="text-center mb-8">
+        <i class="fas fa-user-plus text-blue-600 text-4xl mb-4"></i>
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Join MyScholar today</p>
     </div>
@@ -8,7 +9,7 @@
         <!-- First Name -->
         <div>
             <label for="first_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                First Name
+                <i class="fas fa-user text-blue-600 mr-2"></i>First Name
             </label>
             <input
                 type="text"
@@ -25,7 +26,7 @@
         <!-- Last Name -->
         <div>
             <label for="last_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Last Name
+                <i class="fas fa-user text-blue-600 mr-2"></i>Last Name
             </label>
             <input
                 type="text"
@@ -42,7 +43,7 @@
         <!-- Email -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email Address
+                <i class="fas fa-envelope text-blue-600 mr-2"></i>Email Address
             </label>
             <input
                 type="email"
@@ -59,7 +60,7 @@
         <!-- Username -->
         <div>
             <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Username
+                <i class="fas fa-at text-blue-600 mr-2"></i>Username
             </label>
             <input
                 type="text"
@@ -76,7 +77,7 @@
         <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Password
+                <i class="fas fa-lock text-blue-600 mr-2"></i>Password
             </label>
             <input
                 type="password"
@@ -93,7 +94,7 @@
         <!-- Password Confirmation -->
         <div>
             <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Confirm Password
+                <i class="fas fa-lock text-blue-600 mr-2"></i>Confirm Password
             </label>
             <input
                 type="password"
@@ -126,9 +127,9 @@
         <!-- Submit Button -->
         <button
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
+            class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
         >
-            Create Account
+            <i class="fas fa-check-circle mr-2"></i>Create Account
         </button>
     </form>
 
