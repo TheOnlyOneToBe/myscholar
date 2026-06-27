@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\Models\FamilyContact;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentEnrollment;
 use Modules\Students\Enums\RelationshipType;
 use Modules\Students\ValueObjects\Email;
 use Modules\Students\ValueObjects\Gender;
@@ -348,5 +349,168 @@ class StudentService
     public function findByEnrollmentStatus(EnrollmentStatus $status)
     {
         return Student::where('enrollment_status', $status->value)->get();
+    }
+
+    /**
+     * Suspend a student
+     */
+    public function suspendStudent(int $studentId, ?string $reason = null): Student
+    {
+        try {
+            return DB::transaction(function () use ($studentId, $reason) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::SUSPENDED->value]);
+
+                return $student;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_suspension_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Activate a student
+     */
+    public function activateStudent(int $studentId): Student
+    {
+        try {
+            return DB::transaction(function () use ($studentId) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::ACTIVE->value]);
+
+                return $student;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_activation_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Delete/Archive a student
+     */
+    public function deleteStudent(int $studentId): bool
+    {
+        try {
+            return DB::transaction(function () use ($studentId) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::WITHDRAWN->value]);
+
+                return true;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_deletion_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Add an enrollment for a student
+     */
+    public function addEnrollment(
+        Student $student,
+        ?int $schoolYearId = null,
+        ?int $classId = null,
+        ?string $filiere = null,
+        ?string $level = null,
+        ?\Carbon\Carbon $enrollmentDate = null,
+        ?string $status = null,
+        ?string $notes = null,
+    ): StudentEnrollment {
+        try {
+            return DB::transaction(function () use (
+                $student,
+                $schoolYearId,
+                $classId,
+                $filiere,
+                $level,
+                $enrollmentDate,
+                $status,
+                $notes,
+            ) {
+                $enrollment = $student->enrollments()->create([
+                    'school_year_id' => $schoolYearId,
+                    'class_id' => $classId,
+                    'filiere' => $filiere,
+                    'level' => $level,
+                    'enrollment_date' => $enrollmentDate ?? now(),
+                    'status' => $status ?? 'active',
+                    'notes' => $notes,
+                ]);
+
+                return $enrollment;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.enrollment_creation_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Update an enrollment
+     */
+    public function updateEnrollment(
+        StudentEnrollment $enrollment,
+        ?int $classId = null,
+        ?string $filiere = null,
+        ?string $level = null,
+        ?string $status = null,
+        ?string $notes = null,
+    ): StudentEnrollment {
+        try {
+            return DB::transaction(function () use (
+                $enrollment,
+                $classId,
+                $filiere,
+                $level,
+                $status,
+                $notes,
+            ) {
+                $updateData = [];
+
+                if ($classId !== null) {
+                    $updateData['class_id'] = $classId;
+                }
+
+                if ($filiere !== null) {
+                    $updateData['filiere'] = $filiere;
+                }
+
+                if ($level !== null) {
+                    $updateData['level'] = $level;
+                }
+
+                if ($status !== null) {
+                    $updateData['status'] = $status;
+                }
+
+                if ($notes !== null) {
+                    $updateData['notes'] = $notes;
+                }
+
+                if (!empty($updateData)) {
+                    $enrollment->update($updateData);
+                }
+
+                return $enrollment;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.enrollment_update_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Delete an enrollment
+     */
+    public function deleteEnrollment(StudentEnrollment $enrollment): bool
+    {
+        return $enrollment->delete();
     }
 }

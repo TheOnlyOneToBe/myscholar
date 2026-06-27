@@ -35,6 +35,48 @@
       "name": "Exporter les élèves",
       "description": "Permet d'exporter la liste des élèves",
       "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "students.enroll_other_years",
+      "name": "Inscrire les élèves d'autres années",
+      "description": "Permet d'inscrire les élèves dans des années scolaires autre que l'année en cours",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "enrollments.view",
+      "name": "Voir les inscriptions",
+      "description": "Permet de voir toutes les inscriptions",
+      "default_roles": ["admin", "directeur", "censeur", "prof_principal"]
+    },
+    {
+      "id": "enrollments.create",
+      "name": "Créer une inscription",
+      "description": "Permet de créer une nouvelle inscription",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "enrollments.edit",
+      "name": "Modifier une inscription",
+      "description": "Permet de modifier les détails d'une inscription",
+      "default_roles": ["admin", "directeur", "censeur"]
+    },
+    {
+      "id": "enrollments.delete",
+      "name": "Supprimer une inscription",
+      "description": "Permet d'archiver/supprimer une inscription",
+      "default_roles": ["admin"]
+    },
+    {
+      "id": "enrollments.manage_status",
+      "name": "Gérer le statut des inscriptions",
+      "description": "Permet de suspendre/reprendre les inscriptions",
+      "default_roles": ["admin", "directeur"]
+    },
+    {
+      "id": "enrollments.export",
+      "name": "Exporter les inscriptions",
+      "description": "Permet d'exporter les inscriptions en CSV",
+      "default_roles": ["admin", "directeur", "censeur"]
     }
   ]
 }

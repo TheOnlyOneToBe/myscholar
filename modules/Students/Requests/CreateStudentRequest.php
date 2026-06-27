@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\ValueObjects\Gender;
+use Modules\Config\Models\SchoolYear;
 
 class CreateStudentRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class CreateStudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasPermission('students.create');
+        return auth()->check();
     }
 
     /**
@@ -31,7 +32,7 @@ class CreateStudentRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'email:rfc,dns',
+                'email:rfc',
                 'max:255',
                 Rule::unique('students', 'email'),
             ],
@@ -90,6 +91,119 @@ class CreateStudentRequest extends FormRequest
                 'string',
                 Rule::in(array_map(fn($case) => $case->value, EnrollmentStatus::cases())),
             ],
+
+            // Enrollment Information
+            'enrollment.school_year_id' => [
+                'nullable',
+                'exists:school_years,id',
+                Rule::prohibitedIf(function () {
+                    if (!$this->has('enrollment.school_year_id') || !$this->input('enrollment.school_year_id')) {
+                        return false;
+                    }
+
+                    $activeYear = SchoolYear::active();
+                    $requestedYearId = $this->input('enrollment.school_year_id');
+
+                    if (!$activeYear || $activeYear->id != $requestedYearId) {
+                        return !auth()->user()->hasPermission('students.enroll_other_years');
+                    }
+
+                    return false;
+                }),
+            ],
+            'enrollment.class_id' => [
+                'nullable',
+                'exists:classes,id',
+            ],
+            'enrollment.filiere' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'enrollment.level' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'enrollment.enrollment_date' => [
+                'nullable',
+                'date',
+            ],
+            'enrollment.status' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'enrollment.notes' => [
+                'nullable',
+                'string',
+                'max:500',
+            ],
+
+            // Family Contacts (Parents/Guardians)
+            'parents' => [
+                'nullable',
+                'array',
+                'min:1',
+            ],
+            'parents.*.relationship' => [
+                'required_with:parents',
+                'string',
+                Rule::in(array_map(fn($case) => $case->value, \Modules\Students\Enums\RelationshipType::cases())),
+            ],
+            'parents.*.first_name' => [
+                'required_with:parents',
+                'string',
+                'max:100',
+            ],
+            'parents.*.last_name' => [
+                'required_with:parents',
+                'string',
+                'max:100',
+            ],
+            'parents.*.sex' => [
+                'nullable',
+                'string',
+                Rule::in(['M', 'F']),
+            ],
+            'parents.*.email' => [
+                'nullable',
+                'email:rfc,dns',
+                'max:255',
+            ],
+            'parents.*.phone_number' => [
+                'nullable',
+                'string',
+                'regex:/^(\+?237[-.\s]?)?[6789]\d{7,8}$/',
+            ],
+            'parents.*.occupation' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'parents.*.address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'parents.*.city' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'parents.*.postal_code' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+            'parents.*.is_primary_contact' => [
+                'nullable',
+                'boolean',
+            ],
+            'parents.*.is_emergency_contact' => [
+                'nullable',
+                'boolean',
+            ],
         ];
     }
 
@@ -111,6 +225,7 @@ class CreateStudentRequest extends FormRequest
             'date_of_birth.required' => trans('students.validation.date_of_birth_required'),
             'sex.required' => trans('students.validation.gender_required'),
             'sex.in' => trans('students.errors.invalid_gender', ['value' => $this->sex]),
+            'enrollment.school_year_id.prohibited_if' => trans('students.validation.cannot_enroll_other_years'),
         ];
     }
 
@@ -122,5 +237,17 @@ class CreateStudentRequest extends FormRequest
         $this->merge([
             'sex' => strtoupper($this->sex ?? ''),
         ]);
+
+        // Auto-set active school year for enrollment if not provided
+        if ($this->has('enrollment') && is_array($this->input('enrollment'))) {
+            $enrollment = $this->input('enrollment');
+            if (empty($enrollment['school_year_id'])) {
+                $activeYear = SchoolYear::active();
+                if ($activeYear) {
+                    $enrollment['school_year_id'] = $activeYear->id;
+                    $this->merge(['enrollment' => $enrollment]);
+                }
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Modules\Students\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Config\Models\SchoolYear;
 
 class StudentEnrollment extends Model
 {
@@ -29,4 +30,10 @@ class StudentEnrollment extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function schoolYear(): BelongsTo
+    {
+        return $this->belongsTo(SchoolYear::class);
+    }
+
 }
