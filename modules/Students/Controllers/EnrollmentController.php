@@ -139,7 +139,7 @@ class EnrollmentController extends Controller
 
             return response()->json([
                 'message' => trans('students.messages.enrollment_created'),
-                'data' => $enrollment->load(['student', 'class', 'schoolYear']),
+                'data' => $enrollment->load(['student', 'schoolYear']),
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -170,7 +170,7 @@ class EnrollmentController extends Controller
 
             return response()->json([
                 'message' => trans('students.messages.enrollment_updated'),
-                'data' => $updated->load(['student', 'class', 'schoolYear']),
+                'data' => $updated->load(['student', 'schoolYear']),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -213,7 +213,7 @@ class EnrollmentController extends Controller
 
             return response()->json([
                 'message' => trans('students.messages.enrollment_suspended'),
-                'data' => $enrollment->fresh()->load(['student', 'class', 'schoolYear']),
+                'data' => $enrollment->fresh()->load(['student', 'schoolYear']),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -235,7 +235,7 @@ class EnrollmentController extends Controller
 
             return response()->json([
                 'message' => trans('students.messages.enrollment_resumed'),
-                'data' => $enrollment->fresh()->load(['student', 'class', 'schoolYear']),
+                'data' => $enrollment->fresh()->load(['student', 'schoolYear']),
             ]);
         } catch (\Exception $e) {
             return response()->json([

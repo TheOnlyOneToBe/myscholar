@@ -79,6 +79,15 @@ class StudentEnrollmentApiTest extends TestCase
             'is_active' => true,
         ]);
 
+        $enrollmentsExportPerm = Permission::create([
+            'permission_id' => 'enrollments.export',
+            'name' => 'Export Enrollments',
+            'module' => 'Students',
+            'category' => 'export',
+            'scope' => 'global',
+            'is_active' => true,
+        ]);
+
         $adminRole = Role::create([
             'name' => 'super_administrator',
             'label' => 'Admin',
@@ -102,6 +111,7 @@ class StudentEnrollmentApiTest extends TestCase
             $enrollmentsDeletePerm->id,
             $enrollmentsManageStatusPerm->id,
             $enrollOtherYearsPerm->id,
+            $enrollmentsExportPerm->id,
         ]);
 
         $teacherRole->permissions()->attach([
