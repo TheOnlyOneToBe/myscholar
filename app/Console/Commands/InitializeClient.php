@@ -327,24 +327,27 @@ class InitializeClient extends Command
     {
         $this->info('🔐 Setting up Roles and Permissions...');
 
-        // Define all roles
+        // Define all roles (matching RolesSeeder with hierarchy levels)
         $roles = [
-            ['name' => 'admin', 'label' => 'Administrator'],
-            ['name' => 'directeur', 'label' => 'Director'],
-            ['name' => 'enseignant', 'label' => 'Teacher'],
-            ['name' => 'surveillant', 'label' => 'Monitor'],
-            ['name' => 'parent', 'label' => 'Parent'],
-            ['name' => 'student', 'label' => 'Student'],
+            ['name' => 'admin', 'label' => 'Administrateur Système', 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.', 'hierarchy_level' => 0, 'category' => 'admin', 'is_active' => true],
+            ['name' => 'proviseur', 'label' => 'Proviseur (Directeur Général)', 'description' => 'Chef exécutif du lycée. Direction générale, approbation décisions majeures.', 'hierarchy_level' => 1, 'category' => 'hierarchy', 'is_active' => true],
+            ['name' => 'censeur', 'label' => 'Censeur Pédagogique', 'description' => 'Responsable pédagogique. Supervision quotidienne, gestion des absences et discipline.', 'hierarchy_level' => 2, 'category' => 'hierarchy', 'is_active' => true],
+            ['name' => 'prof_principal', 'label' => 'Professeur Principal', 'description' => 'Responsable administratif d\'une classe. Liaison élèves-parents-enseignants.', 'hierarchy_level' => 3, 'category' => 'hierarchy', 'is_active' => true],
+            ['name' => 'chef_classe', 'label' => 'Chef de Classe', 'description' => 'Leader de la classe. Représentant des élèves auprès de la direction.', 'hierarchy_level' => 3, 'category' => 'staff', 'is_active' => true],
+            ['name' => 'enseignant', 'label' => 'Enseignant (Professeur)', 'description' => 'Formateur. Enseigne ses matières, crée les évaluations et notes.', 'hierarchy_level' => 4, 'category' => 'staff', 'is_active' => true],
+            ['name' => 'surveillant', 'label' => 'Surveillant (Pion)', 'description' => 'Agent de discipline. Surveillance générale, appel en classe, discipline.', 'hierarchy_level' => 5, 'category' => 'staff', 'is_active' => true],
+            ['name' => 'parent', 'label' => 'Parent / Tuteur', 'description' => 'Parent ou tuteur d\'élève. Accès lecture seule aux données de son enfant.', 'hierarchy_level' => 99, 'category' => 'external', 'is_active' => true],
+            ['name' => 'student', 'label' => 'Élève', 'description' => 'Apprenant. Accès lecture seule à ses données personnelles.', 'hierarchy_level' => 100, 'category' => 'external', 'is_active' => true],
         ];
 
         // Create roles
         foreach ($roles as $roleData) {
             Role::firstOrCreate(
                 ['name' => $roleData['name']],
-                ['label' => $roleData['label']]
+                array_diff_key($roleData, ['name' => ''])
             );
         }
-        $this->info('   ✓ Roles created (6 total)');
+        $this->info('   ✓ Roles created (' . count($roles) . ' total)');
 
         // Define all permissions by category
         $permissions = $this->definePermissions();
@@ -566,10 +569,10 @@ class InitializeClient extends Command
     private function createDefaultSchoolYears(): void
     {
         $years = [
-            ['name' => '2022-2023', 'start_date' => '2022-09-01', 'end_date' => '2023-07-31'],
-            ['name' => '2023-2024', 'start_date' => '2023-09-01', 'end_date' => '2024-07-31'],
-            ['name' => '2024-2025', 'start_date' => '2024-09-01', 'end_date' => '2025-07-31', 'is_active' => true],
-            ['name' => '2025-2026', 'start_date' => '2025-09-01', 'end_date' => '2026-07-31'],
+            ['name' => '2022-2023', 'start_year' => 2022, 'end_year' => 2023, 'start_date' => '2022-09-01', 'end_date' => '2023-07-31'],
+            ['name' => '2023-2024', 'start_year' => 2023, 'end_year' => 2024, 'start_date' => '2023-09-01', 'end_date' => '2024-07-31'],
+            ['name' => '2024-2025', 'start_year' => 2024, 'end_year' => 2025, 'start_date' => '2024-09-01', 'end_date' => '2025-07-31', 'is_active' => true],
+            ['name' => '2025-2026', 'start_year' => 2025, 'end_year' => 2026, 'start_date' => '2025-09-01', 'end_date' => '2026-07-31'],
         ];
 
         foreach ($years as $yearData) {
