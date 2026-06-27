@@ -43,8 +43,32 @@ class SystemSetting extends Model
 
     public static function getByGroup(string $group): array
     {
-        return static::where('group', $group)
-            ->pluck('value', 'key')
+        $settings = static::where('group', $group)->get();
+        $result = [];
+
+        foreach ($settings as $setting) {
+            $result[$setting->key] = match ($setting->type) {
+                'integer' => (int) $setting->value,
+                'boolean' => filter_var($setting->value, FILTER_VALIDATE_BOOLEAN),
+                'json' => json_decode($setting->value, true),
+                default => $setting->value,
+            };
+        }
+
+        return $result;
+    }
+
+    public static function getAll(): array
+    {
+        return static::all()
+            ->mapWithKeys(fn($setting) => [
+                $setting->key => match ($setting->type) {
+                    'integer' => (int) $setting->value,
+                    'boolean' => filter_var($setting->value, FILTER_VALIDATE_BOOLEAN),
+                    'json' => json_decode($setting->value, true),
+                    default => $setting->value,
+                }
+            ])
             ->toArray();
     }
 }
