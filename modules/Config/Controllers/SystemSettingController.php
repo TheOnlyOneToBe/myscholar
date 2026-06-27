@@ -11,6 +11,8 @@ class SystemSettingController extends Controller
 {
     public function index(): JsonResponse
     {
+        $this->authorize('config.settings.view');
+
         $settings = SystemSetting::all()
             ->groupBy('group')
             ->map(fn ($group) => $group->map(fn ($s) => [
@@ -28,6 +30,8 @@ class SystemSettingController extends Controller
 
     public function getByGroup(string $group): JsonResponse
     {
+        $this->authorize('config.settings.view');
+
         $settings = SystemSetting::where('group', $group)
             ->get()
             ->map(fn ($s) => [
@@ -51,6 +55,8 @@ class SystemSettingController extends Controller
 
     public function getSetting(string $key): JsonResponse
     {
+        $this->authorize('config.settings.view');
+
         $setting = SystemSetting::where('key', $key)->first();
 
         if (!$setting) {
@@ -67,6 +73,8 @@ class SystemSettingController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $this->authorize('config.settings.edit');
+
         $request->validate([
             'key' => ['required', 'string', 'unique:system_settings'],
             'value' => ['nullable'],
@@ -86,6 +94,8 @@ class SystemSettingController extends Controller
 
     public function update(Request $request, SystemSetting $setting): JsonResponse
     {
+        $this->authorize('config.settings.edit');
+
         $request->validate([
             'value' => ['nullable'],
             'type' => ['required', 'in:string,integer,boolean,json'],
@@ -101,6 +111,8 @@ class SystemSettingController extends Controller
 
     public function destroy(SystemSetting $setting): JsonResponse
     {
+        $this->authorize('config.settings.edit');
+
         $setting->delete();
 
         return response()->json([
@@ -110,6 +122,8 @@ class SystemSettingController extends Controller
 
     public function bulkUpdate(Request $request): JsonResponse
     {
+        $this->authorize('config.settings.edit');
+
         $request->validate([
             'settings' => ['required', 'array'],
             'settings.*.key' => ['required', 'string'],

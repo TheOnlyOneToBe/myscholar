@@ -13,6 +13,8 @@ class SchoolInfoController extends Controller
 {
     public function show(): JsonResponse
     {
+        $this->authorize('config.view');
+
         $school = SchoolInfo::current();
 
         if (!$school) {
@@ -29,6 +31,8 @@ class SchoolInfoController extends Controller
 
     public function update(UpdateSchoolInfoRequest $request): JsonResponse
     {
+        $this->authorize('config.school_info.edit');
+
         $school = SchoolInfo::current();
 
         if (!$school) {
@@ -45,6 +49,8 @@ class SchoolInfoController extends Controller
 
     public function uploadLogo(Request $request): JsonResponse
     {
+        $this->authorize('config.school_info.logo');
+
         $request->validate([
             'logo' => ['required', 'image', 'mimes:jpeg,png', 'max:2048'],
         ], [
@@ -73,6 +79,8 @@ class SchoolInfoController extends Controller
 
     public function settings(): JsonResponse
     {
+        $this->authorize('config.view');
+
         $settings = SystemSetting::all()
             ->groupBy('group')
             ->map(fn ($group) => $group->pluck('value', 'key'));
@@ -84,6 +92,8 @@ class SchoolInfoController extends Controller
 
     public function updateSettings(Request $request): JsonResponse
     {
+        $this->authorize('config.settings.edit');
+
         $request->validate([
             'settings' => ['required', 'array'],
             'settings.*.key' => ['required', 'string'],
