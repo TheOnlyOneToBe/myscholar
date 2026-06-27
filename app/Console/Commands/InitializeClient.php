@@ -329,7 +329,7 @@ class InitializeClient extends Command
 
         // Define all roles (matching RolesSeeder with hierarchy levels)
         $roles = [
-            ['name' => 'admin', 'label' => 'Administrateur Système', 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.', 'hierarchy_level' => 0, 'category' => 'admin', 'is_active' => true],
+            ['name' => 'super_administrator', 'label' => 'Administrateur Système', 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.', 'hierarchy_level' => 0, 'category' => 'admin', 'is_active' => true],
             ['name' => 'proviseur', 'label' => 'Proviseur (Directeur Général)', 'description' => 'Chef exécutif du lycée. Direction générale, approbation décisions majeures.', 'hierarchy_level' => 1, 'category' => 'hierarchy', 'is_active' => true],
             ['name' => 'censeur', 'label' => 'Censeur Pédagogique', 'description' => 'Responsable pédagogique. Supervision quotidienne, gestion des absences et discipline.', 'hierarchy_level' => 2, 'category' => 'hierarchy', 'is_active' => true],
             ['name' => 'prof_principal', 'label' => 'Professeur Principal', 'description' => 'Responsable administratif d\'une classe. Liaison élèves-parents-enseignants.', 'hierarchy_level' => 3, 'category' => 'hierarchy', 'is_active' => true],
@@ -430,33 +430,49 @@ class InitializeClient extends Command
 
     private function assignPermissionsToRoles(): void
     {
-        $admin = Role::where('name', 'admin')->first();
-        $directeur = Role::where('name', 'directeur')->first();
+        $superAdmin = Role::where('name', 'super_administrator')->first();
+        $proviseur = Role::where('name', 'proviseur')->first();
+        $censeur = Role::where('name', 'censeur')->first();
+        $profPrincipal = Role::where('name', 'prof_principal')->first();
+        $chefClasse = Role::where('name', 'chef_classe')->first();
         $enseignant = Role::where('name', 'enseignant')->first();
         $surveillant = Role::where('name', 'surveillant')->first();
         $parent = Role::where('name', 'parent')->first();
         $student = Role::where('name', 'student')->first();
 
-        // Admin gets all available permissions (for selected modules)
+        // Super Administrator gets all available permissions
         $allPermissions = Permission::pluck('id');
-        $admin?->permissions()->sync($allPermissions);
+        $superAdmin?->permissions()->sync($allPermissions);
 
-        // Director permissions (if available)
-        $directeurPermNames = [
+        // Proviseur (Headmaster) permissions
+        $proviseurPermNames = [
             'config.view', 'config.edit', 'config.manage_years',
             'students.view', 'students.create', 'students.edit',
             'classes.view', 'classes.create', 'classes.edit',
             'grades.view', 'attendance.view',
             'scholarity.view', 'scholarity.manage',
-            'users.view', 'users.create', 'users.edit',
+            'users.view', 'users.create', 'users.edit', 'users.manage_roles',
             'audit.view',
         ];
-        $directeurPerms = Permission::whereIn('permission_id', $directeurPermNames)->pluck('id');
-        if ($directeurPerms->isNotEmpty()) {
-            $directeur?->permissions()->sync($directeurPerms);
+        $proviseurPerms = Permission::whereIn('permission_id', $proviseurPermNames)->pluck('id');
+        if ($proviseurPerms->isNotEmpty()) {
+            $proviseur?->permissions()->sync($proviseurPerms);
         }
 
-        // Teacher permissions (if available)
+        // Censeur (Deputy Headmaster) permissions
+        $censeurPermNames = [
+            'config.view',
+            'students.view', 'students.create', 'students.edit',
+            'classes.view', 'classes.edit',
+            'grades.view', 'attendance.view', 'attendance.record', 'attendance.edit',
+            'audit.view',
+        ];
+        $censeurPerms = Permission::whereIn('permission_id', $censeurPermNames)->pluck('id');
+        if ($censeurPerms->isNotEmpty()) {
+            $censeur?->permissions()->sync($censeurPerms);
+        }
+
+        // Teacher permissions
         $enseignantPermNames = [
             'students.view',
             'classes.view',
@@ -468,7 +484,7 @@ class InitializeClient extends Command
             $enseignant?->permissions()->sync($enseignantPerms);
         }
 
-        // Monitor permissions (if available)
+        // Monitor permissions
         $surveillantPermNames = [
             'students.view',
             'classes.view',
@@ -479,7 +495,7 @@ class InitializeClient extends Command
             $surveillant?->permissions()->sync($surveillantPerms);
         }
 
-        // Parent permissions (if available)
+        // Parent permissions
         $parentPermNames = [
             'students.view',
             'grades.view',
@@ -490,7 +506,7 @@ class InitializeClient extends Command
             $parent?->permissions()->sync($parentPerms);
         }
 
-        // Student permissions (if available)
+        // Student permissions
         $studentPermNames = [
             'grades.view',
             'attendance.view',
@@ -505,19 +521,42 @@ class InitializeClient extends Command
     {
         $this->info('👤 Setting up Admin User...');
 
-        // Check if admin already has admin role
-        $admin = User::first();
-        if ($admin) {
-            $adminRole = Role::where('name', 'admin')->first();
-            if ($adminRole && !$admin->hasRole('admin')) {
-                $admin->assignRole($adminRole);
-                $this->info('   ✓ Admin user assigned admin role');
-            } else {
-                $this->info('   ⓘ Admin user already has admin role');
+        // Generate a strong random password
+        $password = bin2hex(random_bytes(16)); // 32-character hex string
+
+        // Create or update admin user
+        $admin = User::firstOrCreate(
+            ['username' => 'administrator'],
+            [
+                'email' => 'admin@' . parse_url(config('app.url'), PHP_URL_HOST) ?? 'myscholar.local',
+                'password' => bcrypt($password),
+                'first_name' => 'System',
+                'last_name' => 'Administrator',
+                'is_active' => true,
+            ]
+        );
+
+        // Assign super_administrator role
+        $superAdminRole = Role::where('name', 'super_administrator')->first();
+        if ($superAdminRole) {
+            if (!$admin->hasRole('super_administrator')) {
+                $admin->assignRole($superAdminRole);
             }
-        } else {
-            $this->warn('   ⚠ No admin user found. Please create one manually.');
+            $this->info('   ✓ Admin user created/updated with super_administrator role');
         }
+
+        // Display credentials
+        $this->line('');
+        $this->warn('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->warn('⚠️  ADMIN USER CREDENTIALS (Save these securely!)');
+        $this->warn('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->line('Username: <info>administrator</info>');
+        $this->line('Password: <info>' . $password . '</info>');
+        $this->warn('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->warn('⚠️  You MUST change this password on first login!');
+        $this->warn('⚠️  Store these credentials in a secure location.');
+        $this->warn('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        $this->line('');
     }
 
     private function initializeSystemSettings(): void

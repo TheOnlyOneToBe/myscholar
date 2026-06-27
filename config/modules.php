@@ -65,14 +65,14 @@ return [
     ],
 
     'roles' => [
-        'admin' => [
-            'name' => 'Administrateur',
-            'description' => 'Accès complet au système',
+        'super_administrator' => [
+            'name' => 'Administrateur Système',
+            'description' => 'Accès technique complet du système',
             'permissions' => '*',
         ],
-        'directeur' => [
-            'name' => 'Directeur',
-            'description' => 'Directeur d\'établissement',
+        'proviseur' => [
+            'name' => 'Proviseur',
+            'description' => 'Directeur Général d\'établissement',
             'permissions' => [
                 'config.*',
                 'students.view',

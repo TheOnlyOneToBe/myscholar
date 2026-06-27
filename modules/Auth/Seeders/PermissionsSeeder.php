@@ -132,7 +132,7 @@ class PermissionsSeeder extends Seeder
         }
 
         // ========== ASSIGN PERMISSIONS TO ROLES ==========
-        $admin = Role::where('name', 'admin')->first();
+        $superAdmin = Role::where('name', 'super_administrator')->first();
         $proviseur = Role::where('name', 'proviseur')->first();
         $censeur = Role::where('name', 'censeur')->first();
         $profPrincipal = Role::where('name', 'prof_principal')->first();
@@ -142,10 +142,10 @@ class PermissionsSeeder extends Seeder
         $parent = Role::where('name', 'parent')->first();
         $student = Role::where('name', 'student')->first();
 
-        // Admin (level 0) → All permissions
-        if ($admin) {
+        // Super Administrator (level 0) → All permissions
+        if ($superAdmin) {
             $allPerms = Permission::where('is_active', true)->pluck('id')->toArray();
-            $admin->permissions()->syncWithoutDetaching($allPerms);
+            $superAdmin->permissions()->syncWithoutDetaching($allPerms);
         }
 
         // Proviseur (level 1) → Most permissions (everything except auth.manage_permissions)

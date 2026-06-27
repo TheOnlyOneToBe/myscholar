@@ -11,9 +11,9 @@ class RolesSeeder extends Seeder
     {
         // 🇨🇲 LES 9 RÔLES DES LYCÉES CAMEROUNAIS
 
-        // NIVEAU 0 : ADMIN SYSTÈME (Technique - au-dessus de tout)
+        // NIVEAU 0 : SUPER_ADMINISTRATOR SYSTÈME (Technique - au-dessus de tout)
         Role::firstOrCreate(
-            ['name' => 'admin'],
+            ['name' => 'super_administrator'],
             [
                 'label' => 'Administrateur Système',
                 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.',

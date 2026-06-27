@@ -48,19 +48,19 @@ class TestAuthModule extends Command
         $this->line("   ✓ Total roles: {$roles->count()}");
 
         // Check hierarchy
-        $admin = Role::where('name', 'admin')->first();
+        $superAdmin = Role::where('name', 'super_administrator')->first();
         $proviseur = Role::where('name', 'proviseur')->first();
         $student = Role::where('name', 'student')->first();
 
-        if (!$admin || !$proviseur || !$student) {
+        if (!$superAdmin || !$proviseur || !$student) {
             throw new \Exception('Missing required roles');
         }
 
-        $this->line("   ✓ Admin level: {$admin->hierarchy_level} (should be 0)");
+        $this->line("   ✓ Super Administrator level: {$superAdmin->hierarchy_level} (should be 0)");
         $this->line("   ✓ Proviseur level: {$proviseur->hierarchy_level} (should be 1)");
         $this->line("   ✓ Student level: {$student->hierarchy_level} (should be 100)");
 
-        if ($admin->hierarchy_level !== 0 || $proviseur->hierarchy_level !== 1 || $student->hierarchy_level !== 100) {
+        if ($superAdmin->hierarchy_level !== 0 || $proviseur->hierarchy_level !== 1 || $student->hierarchy_level !== 100) {
             throw new \Exception('Role hierarchy levels incorrect');
         }
 
