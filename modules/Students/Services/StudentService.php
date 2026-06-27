@@ -349,4 +349,61 @@ class StudentService
     {
         return Student::where('enrollment_status', $status->value)->get();
     }
+
+    /**
+     * Suspend a student
+     */
+    public function suspendStudent(int $studentId, ?string $reason = null): Student
+    {
+        try {
+            return DB::transaction(function () use ($studentId, $reason) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::SUSPENDED->value]);
+
+                return $student;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_suspension_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Activate a student
+     */
+    public function activateStudent(int $studentId): Student
+    {
+        try {
+            return DB::transaction(function () use ($studentId) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::ACTIVE->value]);
+
+                return $student;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_activation_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
+
+    /**
+     * Delete/Archive a student
+     */
+    public function deleteStudent(int $studentId): bool
+    {
+        try {
+            return DB::transaction(function () use ($studentId) {
+                $student = Student::findOrFail($studentId);
+                $student->update(['enrollment_status' => EnrollmentStatus::WITHDRAWN->value]);
+
+                return true;
+            });
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                trans('students.errors.student_deletion_failed', ['error' => $e->getMessage()])
+            );
+        }
+    }
 }
