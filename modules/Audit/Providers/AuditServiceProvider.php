@@ -18,6 +18,7 @@ class AuditServiceProvider extends ServiceProvider
     {
         $this->loadMigrations();
         $this->loadRoutes();
+        $this->loadTranslations();
         $this->registerListeners();
     }
 
@@ -36,6 +37,11 @@ class AuditServiceProvider extends ServiceProvider
     private function loadRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
+    }
+
+    private function loadTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../translations', 'audit');
     }
 
     private function registerListeners(): void

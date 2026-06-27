@@ -19,7 +19,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $query = AuditLog::query();
@@ -82,7 +82,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         return response()->json(['data' => $log]);
@@ -95,7 +95,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view_errors')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $hours = $request->input('hours', 24);
@@ -113,7 +113,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view_errors')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $limit = $request->input('limit', 50);
@@ -130,7 +130,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view_errors')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $hours = $request->input('hours', 24);
@@ -148,7 +148,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view_stats')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $days = $request->input('days', 30);
@@ -166,7 +166,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.view')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $userId = $request->input('user_id', $user->id);
@@ -187,7 +187,7 @@ class AuditLogController extends Controller
     {
         $user = auth('sanctum')->user();
         if (!$user || !$user->hasPermission('audit.export')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return response()->json(['message' => __('audit.errors.permission_denied')], 403);
         }
 
         $query = AuditLog::query();
