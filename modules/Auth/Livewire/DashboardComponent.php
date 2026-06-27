@@ -3,8 +3,10 @@
 namespace Modules\Auth\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Modules\Auth\Models\User;
 
+#[Layout('auth::layouts.app')]
 class DashboardComponent extends Component
 {
     public User $user;
@@ -16,7 +18,6 @@ class DashboardComponent extends Component
 
     public function render()
     {
-        return view('auth.livewire.dashboard')
-            ->layout('auth.layouts.app');
+        return view('auth::livewire.dashboard');
     }
 }

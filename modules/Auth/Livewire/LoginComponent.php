@@ -4,9 +4,11 @@ namespace Modules\Auth\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Layout;
 use Modules\Auth\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+#[Layout('auth::layouts.app')]
 class LoginComponent extends Component
 {
     #[Rule('required|email')]
@@ -31,7 +33,6 @@ class LoginComponent extends Component
 
     public function render()
     {
-        return view('auth.livewire.login')
-            ->layout('auth.layouts.app');
+        return view('auth::livewire.login');
     }
 }

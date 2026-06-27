@@ -4,9 +4,11 @@ namespace Modules\Auth\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Layout;
 use Modules\Auth\Models\User;
 use Modules\Auth\Models\PasswordReset;
 
+#[Layout('auth::layouts.app')]
 class ForgotPasswordComponent extends Component
 {
     #[Rule('required|email|exists:users,email')]
@@ -43,7 +45,6 @@ class ForgotPasswordComponent extends Component
 
     public function render()
     {
-        return view('auth.livewire.forgot-password')
-            ->layout('auth.layouts.app');
+        return view('auth::livewire.forgot-password');
     }
 }

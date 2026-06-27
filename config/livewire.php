@@ -21,4 +21,10 @@ return [
             'Modules\Auth\Models\User' => \Modules\Auth\Models\User::class,
         ],
     ],
+
+    // Component namespaces for modules and packages
+    'component_namespaces' => [
+        'layouts' => resource_path('views/layouts'),
+        'auth' => base_path('modules/Auth/Resources/views'),
+    ],
 ];
