@@ -21,6 +21,7 @@ class NotificationActionController extends Controller
         }
 
         if ($notification->action_status !== 'pending') {
+            alert_warning(__('notifications.errors.action_already_processed'), 'ACTION_ALREADY_PROCESSED');
             return response()->json(['message' => __('notifications.errors.action_already_processed')], 400);
         }
 
@@ -31,6 +32,8 @@ class NotificationActionController extends Controller
         );
 
         $this->executeAction($notification, 'approve');
+
+        alert_success(__('notifications.messages.action_approved'), 'ACTION_APPROVED');
 
         return response()->json(['message' => __('notifications.messages.action_approved')]);
     }
@@ -44,6 +47,7 @@ class NotificationActionController extends Controller
         }
 
         if ($notification->action_status !== 'pending') {
+            alert_warning(__('notifications.errors.action_already_processed'), 'ACTION_ALREADY_PROCESSED');
             return response()->json(['message' => __('notifications.errors.action_already_processed')], 400);
         }
 
@@ -51,6 +55,8 @@ class NotificationActionController extends Controller
             $user->id,
             $request->input('reason', '')
         );
+
+        alert_success(__('notifications.messages.action_rejected'), 'ACTION_REJECTED');
 
         return response()->json(['message' => __('notifications.messages.action_rejected')]);
     }

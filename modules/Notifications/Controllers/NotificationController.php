@@ -49,6 +49,8 @@ class NotificationController extends Controller
 
         $notification->markAsRead();
 
+        alert_success(__('notifications.messages.marked_as_read'), 'NOTIFICATION_READ');
+
         return response()->json(['message' => __('notifications.messages.marked_as_read')]);
     }
 
@@ -61,6 +63,8 @@ class NotificationController extends Controller
         }
 
         $notification->markAsUnread();
+
+        alert_success(__('notifications.messages.marked_as_unread'), 'NOTIFICATION_UNREAD');
 
         return response()->json(['message' => __('notifications.messages.marked_as_unread')]);
     }
@@ -87,6 +91,8 @@ class NotificationController extends Controller
         }
 
         $this->notificationService->deleteNotification($notification->id);
+
+        alert_success(__('notifications.messages.notification_deleted'), 'NOTIFICATION_DELETED');
 
         return response()->json(['message' => __('notifications.messages.notification_deleted')]);
     }
