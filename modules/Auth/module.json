@@ -1,9 +1,37 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "description": "Authentification et gestion des autorisations",
+  "description": "Module d'authentification et gestion des rôles et permissions pour le système éducatif camerounais",
   "type": "core",
+  "status": "active",
+  "author": "MyScholar Team",
+  "license": "Proprietary",
+  "keywords": ["authentication", "authorization", "roles", "permissions", "cameroon"],
   "dependencies": [],
-  "tables": ["users", "roles", "permissions", "role_permissions", "user_roles"],
-  "routes_prefix": "/api/auth"
+  "tables": [
+    "users",
+    "roles",
+    "permissions",
+    "role_permissions",
+    "user_roles",
+    "password_histories",
+    "login_attempts",
+    "password_resets"
+  ],
+  "routes_prefix": "/api/auth",
+  "migrations": [
+    "2024_01_01_100002_add_hierarchy_to_roles_table",
+    "2024_01_01_100003_add_scope_to_permissions_table",
+    "2024_01_01_100006_create_user_roles_table",
+    "2024_01_01_100007_create_password_histories_table",
+    "2024_01_01_100008_create_login_attempts_table",
+    "2024_01_01_100009_create_password_resets_table"
+  ],
+  "seeders": [
+    "RolesSeeder",
+    "PermissionsSeeder"
+  ],
+  "providers": [
+    "ModuleServiceProvider"
+  ]
 }
