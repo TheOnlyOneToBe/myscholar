@@ -63,7 +63,7 @@ class StudentDashboardService
         ];
     }
 
-    public function getRecentGrades(int $limit = 5): array
+    public function getRecentGrades(int $limit = 5, ?int $academicPeriodId = null): array
     {
         $student = $this->getStudent();
 
@@ -71,9 +71,15 @@ class StudentDashboardService
             return [];
         }
 
-        return Grade::where('student_id', $student->id)
-            ->with('subject')
-            ->latest('created_at')
+        $query = Grade::where('student_id', $student->id)
+            ->with('subject');
+
+        // Filtrer par période académique si fournie
+        if ($academicPeriodId) {
+            $query->where('grade_period_id', $academicPeriodId);
+        }
+
+        return $query->latest('created_at')
             ->limit($limit)
             ->get()
             ->map(function ($grade) {
@@ -149,7 +155,7 @@ class StudentDashboardService
             ->toArray();
     }
 
-    public function getGradeTrend(int $months = 6): array
+    public function getGradeTrend(int $months = 6, ?int $academicPeriodId = null): array
     {
         $student = $this->getStudent();
 
@@ -158,9 +164,15 @@ class StudentDashboardService
         }
 
         $startDate = now()->subMonths($months);
-        $grades = Grade::where('student_id', $student->id)
-            ->where('created_at', '>=', $startDate)
-            ->get()
+        $query = Grade::where('student_id', $student->id)
+            ->where('created_at', '>=', $startDate);
+
+        // Filtrer par période académique si fournie
+        if ($academicPeriodId) {
+            $query->where('grade_period_id', $academicPeriodId);
+        }
+
+        $grades = $query->get()
             ->groupBy(function ($grade) {
                 return $grade->created_at->format('Y-m');
             })
@@ -183,7 +195,7 @@ class StudentDashboardService
         ];
     }
 
-    public function getSubjectPerformance(): array
+    public function getSubjectPerformance(?int $academicPeriodId = null): array
     {
         $student = $this->getStudent();
 
@@ -191,10 +203,16 @@ class StudentDashboardService
             return [];
         }
 
-        return DB::table('grades')
+        $query = DB::table('grades')
             ->join('subjects', 'grades.subject_id', '=', 'subjects.id')
-            ->where('grades.student_id', $student->id)
-            ->select('subjects.name', DB::raw('AVG(grades.score) as average'), DB::raw('COUNT(grades.id) as count'))
+            ->where('grades.student_id', $student->id);
+
+        // Filtrer par période académique si fournie
+        if ($academicPeriodId) {
+            $query->where('grades.grade_period_id', $academicPeriodId);
+        }
+
+        return $query->select('subjects.name', DB::raw('AVG(grades.score) as average'), DB::raw('COUNT(grades.id) as count'))
             ->groupBy('subjects.id', 'subjects.name')
             ->orderByRaw('AVG(grades.score) DESC')
             ->get()

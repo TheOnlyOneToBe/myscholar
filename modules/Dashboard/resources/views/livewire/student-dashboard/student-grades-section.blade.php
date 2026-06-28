@@ -1,5 +1,23 @@
 <div class="grades-section bg-white p-6 rounded-lg shadow">
-    <h2 class="text-2xl font-bold mb-6">📚 Mes Notes</h2>
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">📚 Mes Notes</h2>
+
+        @if(!empty($academicPeriods))
+        <div class="flex items-center gap-3">
+            <label for="period-select" class="text-sm font-semibold text-gray-700">Trimestre/Semestre:</label>
+            <select
+                id="period-select"
+                wire:model.live="selectedPeriodId"
+                class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @foreach($academicPeriods as $period)
+                    <option value="{{ $period['id'] }}">
+                        {{ $period['name'] }} ({{ $period['start_date'] }} - {{ $period['end_date'] }})
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+    </div>
 
     @if(!$moduleAvailable)
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
