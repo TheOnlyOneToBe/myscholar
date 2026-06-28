@@ -207,7 +207,7 @@ class GradeServiceTest extends TestCase
         ]);
 
         $average = GradeAverage::where('student_id', $this->student->id)
-            ->where('subject_id' => $this->subject->id)
+            ->where('subject_id', $this->subject->id)
             ->first();
 
         $this->assertFalse($average->is_passed);
