@@ -50,7 +50,7 @@
             </div>
         @else
             <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                <p class="text-green-800">✅ Aucune facture impayée. Excellent!</p>
+                <p class="text-green-800"><i class="fas fa-check-circle"></i> Aucune facture impayée. Excellent!</p>
             </div>
         @endif
     @endif

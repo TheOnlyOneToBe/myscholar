@@ -34,7 +34,7 @@
             <div class="school-name">{{ $school->name ?? 'Établissement Scolaire' }}</div>
         </div>
 
-        <div class="title">📊 RELEVÉ DE NOTES COMPLET</div>
+        <div class="title"><i class="fas fa-chart-bar"></i> RELEVÉ DE NOTES COMPLET</div>
 
         <div class="student-info">
             <div class="info-row">

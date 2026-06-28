@@ -40,12 +40,12 @@
                 </div>
 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-green-500 transition cursor-pointer">
-                    <p class="font-bold text-lg mb-2">✅ Approuver Justifications</p>
+                    <p class="font-bold text-lg mb-2"><i class="fas fa-check-circle"></i> Approuver Justifications</p>
                     <p class="text-sm text-gray-600">Valider les demandes d'absence justifiées</p>
                 </div>
 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-purple-500 transition cursor-pointer">
-                    <p class="font-bold text-lg mb-2">📊 Voir Statistiques</p>
+                    <p class="font-bold text-lg mb-2"><i class="fas fa-chart-bar"></i> Voir Statistiques</p>
                     <p class="text-sm text-gray-600">Notes et performance par sujet</p>
                 </div>
 

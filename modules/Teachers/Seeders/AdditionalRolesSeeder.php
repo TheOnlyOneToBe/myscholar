@@ -69,6 +69,6 @@ class AdditionalRolesSeeder extends Seeder
             ]
         );
 
-        $this->command->info('✅ 5 rôles supplémentaires créés (Secrétaire, Comptable, Infirmier, Bibliothécaire, Gardien)');
+        $this->command->info('[OK] 5 rôles supplémentaires créés (Secrétaire, Comptable, Infirmier, Bibliothécaire, Gardien)');
     }
 }

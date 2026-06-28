@@ -14,7 +14,7 @@ class TeacherRolePermissionsSeeder extends Seeder
         $teacherRole = Role::where('name', 'enseignant')->first();
 
         if (!$teacherRole) {
-            $this->command->error('❌ Rôle enseignant introuvable');
+            $this->command->error('[ERROR] Rôle enseignant introuvable');
             return;
         }
 
@@ -48,6 +48,6 @@ class TeacherRolePermissionsSeeder extends Seeder
             }
         }
 
-        $this->command->info('✅ Permissions Teachers assignées aux rôles (Enseignant et Professeur Principal)');
+        $this->command->info('[OK] Permissions Teachers assignées aux rôles (Enseignant et Professeur Principal)');
     }
 }

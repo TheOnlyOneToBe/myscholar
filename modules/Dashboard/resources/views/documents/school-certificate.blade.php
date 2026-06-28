@@ -119,7 +119,7 @@
     <div class="document">
         <!-- Header -->
         <div class="header">
-            <div class="school-logo">🏫</div>
+            <div class="school-logo"><i class="fas fa-school"></i></div>
             <div class="school-name">{{ $school->name ?? 'Établissement Scolaire' }}</div>
             @if($school->motto)
                 <div class="school-motto">{{ $school->motto }}</div>

@@ -161,7 +161,7 @@
         </div>
 
         <!-- Title -->
-        <div class="title">📋 BULLETIN SCOLAIRE</div>
+        <div class="title"><i class="fas fa-list"></i> BULLETIN SCOLAIRE</div>
 
         <!-- Student Information -->
         <div class="student-info">
@@ -247,7 +247,7 @@
                         @elseif($data['overall_grade'] === 'B') ⭐
                         @elseif($data['overall_grade'] === 'C') ✓
                         @elseif($data['overall_grade'] === 'D') △
-                        @else ⚠️
+                        @else <i class="fas fa-exclamation-triangle"></i>
                         @endif
                     </div>
                 </div>

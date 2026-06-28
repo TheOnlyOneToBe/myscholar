@@ -339,6 +339,6 @@ class PermissionsSeeder extends Seeder
             $student->permissions()->syncWithoutDetaching($studentPerms);
         }
 
-        $this->command->info('✅ ' . count($allPermissions) . ' permissions créées et assignées aux rôles');
+        $this->command->info('[OK] ' . count($allPermissions) . ' permissions créées et assignées aux rôles');
     }
 }

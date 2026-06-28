@@ -41,6 +41,6 @@ class TeachersPermissionsSeeder extends Seeder
             }
         }
 
-        $this->command->info('✅ Permissions Teachers créées et assignées aux rôles');
+        $this->command->info('[OK] Permissions Teachers créées et assignées aux rôles');
     }
 }

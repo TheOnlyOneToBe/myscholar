@@ -82,7 +82,7 @@
                     <div class="flex items-start justify-between mb-2">
                         <div class="flex-1">
                             <h5 class="font-bold text-gray-800 text-lg">{{ $course['subject'] }}</h5>
-                            <p class="text-sm text-gray-600">👨‍🏫 {{ $course['teacher'] }}</p>
+                            <p class="text-sm text-gray-600"><i class="fas fa-chalkboard-user"></i> {{ $course['teacher'] }}</p>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-teal-600 text-lg">{{ $course['start_time'] }}</p>

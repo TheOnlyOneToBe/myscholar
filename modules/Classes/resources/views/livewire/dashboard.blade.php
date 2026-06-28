@@ -23,7 +23,7 @@
                     <p class="text-gray-600 text-sm font-medium">Total de Classes</p>
                     <p class="text-3xl font-bold text-blue-600 mt-2">{{ $stats['total_classes'] }}</p>
                 </div>
-                <div class="text-4xl text-blue-200">📚</div>
+                <div class="text-4xl text-blue-200"><i class="fas fa-book"></i></div>
             </div>
         </div>
 
@@ -56,7 +56,7 @@
                     <p class="text-gray-600 text-sm font-medium">Taux d'Occupation</p>
                     <p class="text-3xl font-bold text-orange-600 mt-2">{{ $stats['occupancy_rate'] }}%</p>
                 </div>
-                <div class="text-4xl text-orange-200">📊</div>
+                <div class="text-4xl text-orange-200"><i class="fas fa-chart-bar"></i></div>
             </div>
         </div>
     </div>

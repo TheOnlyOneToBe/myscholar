@@ -9,7 +9,7 @@ class RolesSeeder extends Seeder
 {
     public function run(): void
     {
-        // 🇨🇲 LES 9 RÔLES DES LYCÉES CAMEROUNAIS
+        // LES 9 RÔLES DES LYCÉES CAMEROUNAIS
 
         // NIVEAU 0 : SUPER_ADMINISTRATOR SYSTÈME (Technique - au-dessus de tout)
         Role::firstOrCreate(
@@ -119,6 +119,6 @@ class RolesSeeder extends Seeder
             ]
         );
 
-        $this->command->info('✅ 9 rôles camerounais créés/mis à jour');
+        $this->command->info('[OK] 9 rôles camerounais créés/mis à jour');
     }
 }

@@ -1,6 +1,6 @@
 <div class="grades-section bg-white p-6 rounded-lg shadow">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold">📚 Mes Notes</h2>
+        <h2 class="text-2xl font-bold"><i class="fas fa-book mr-2"></i>Mes Notes</h2>
 
         @if(!empty($academicPeriods))
         <div class="flex items-center gap-3">

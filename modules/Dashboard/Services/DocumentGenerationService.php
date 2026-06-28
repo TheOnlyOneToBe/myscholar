@@ -272,7 +272,7 @@ class DocumentGenerationService
                 'id' => 'school_certificate',
                 'name' => 'Certificat de Scolarité',
                 'description' => 'Document officiel d\'inscription scolaire',
-                'icon' => '📄',
+                'icon' => 'fa-file-pdf',
                 'available' => true,
             ];
 
@@ -281,7 +281,7 @@ class DocumentGenerationService
                 'id' => 'report_card',
                 'name' => 'Bulletin Scolaire',
                 'description' => 'Résultats académiques et moyennes',
-                'icon' => '📋',
+                'icon' => 'fa-clipboard-list',
                 'available' => Schema::hasTable('grades'),
             ];
 
@@ -290,7 +290,7 @@ class DocumentGenerationService
                 'id' => 'transcript',
                 'name' => 'Relevé de Notes Complet',
                 'description' => 'Historique complet des notes',
-                'icon' => '📊',
+                'icon' => 'fa-chart-bar',
                 'available' => Schema::hasTable('grades'),
             ];
 
@@ -299,7 +299,7 @@ class DocumentGenerationService
                 'id' => 'enrollment_summary',
                 'name' => 'Résumé d\'Inscription',
                 'description' => 'Vue d\'ensemble de la scolarité',
-                'icon' => '📑',
+                'icon' => 'fa-file-alt',
                 'available' => true,
             ];
         }
@@ -316,7 +316,7 @@ class DocumentGenerationService
                     'id' => 'invoice_' . $invoice->id,
                     'name' => 'Facture #' . $invoice->invoice_number,
                     'description' => 'Facture du ' . $invoice->issued_date?->format('d/m/Y'),
-                    'icon' => '💰',
+                    'icon' => 'fa-money-bill',
                     'available' => true,
                     'invoice_id' => $invoice->id,
                 ];
