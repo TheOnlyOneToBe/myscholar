@@ -75,18 +75,47 @@
     <!-- Tab Content -->
     <div class="tab-content">
         @if($activeTab === 'overview')
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <livewire:student-grades-section />
-                <livewire:student-attendance-section />
-                <livewire:student-class-section />
-                <livewire:student-billing-section />
+            <div class="space-y-6">
+                <!-- Alertes Intelligentes en premier -->
+                <livewire:smart-alerts-card />
+
+                <!-- Grid principal -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <livewire:class-comparison-card />
+                    <livewire:subject-analysis-card />
+                </div>
+
+                <!-- Timeline et Horaire -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <livewire:progression-timeline-card />
+                    <livewire:weekly-schedule-card />
+                </div>
+
+                <!-- Calendrier académique -->
+                <livewire:academic-calendar-card />
+
+                <!-- Sections existantes -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <livewire:student-class-section />
+                    <livewire:student-billing-section />
+                </div>
             </div>
         @elseif($activeTab === 'grades')
-            <livewire:student-grades-section />
+            <div class="space-y-6">
+                <livewire:student-grades-section />
+                <livewire:subject-analysis-card />
+                <livewire:progression-timeline-card />
+            </div>
         @elseif($activeTab === 'attendance')
-            <livewire:student-attendance-section />
+            <div class="space-y-6">
+                <livewire:student-attendance-section />
+                <livewire:smart-alerts-card />
+            </div>
         @elseif($activeTab === 'billing')
-            <livewire:student-billing-section />
+            <div class="space-y-6">
+                <livewire:student-billing-section />
+                <livewire:smart-alerts-card />
+            </div>
         @elseif($activeTab === 'chef-classe' && $isChefClasse)
             <livewire:chef-classe-section />
         @endif
