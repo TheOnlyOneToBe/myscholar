@@ -3,11 +3,13 @@
 namespace Modules\Config\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 
 class AcademicPeriod extends Model
 {
+    use HasFactory;
     protected $table = 'academic_periods';
 
     protected $fillable = [
@@ -18,6 +20,7 @@ class AcademicPeriod extends Model
         'academic_year',
         'order',
         'is_active',
+        'status',
         'description',
     ];
 
