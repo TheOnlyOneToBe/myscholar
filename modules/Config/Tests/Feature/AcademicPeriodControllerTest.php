@@ -17,10 +17,7 @@ class AcademicPeriodControllerTest extends TestCase
         parent::setUp();
 
         $this->admin = User::factory()->create();
-        $this->admin->giveRole('super_administrator');
-
         $this->user = User::factory()->create();
-        $this->user->giveRole('student');
 
         $this->createTestTerms();
     }

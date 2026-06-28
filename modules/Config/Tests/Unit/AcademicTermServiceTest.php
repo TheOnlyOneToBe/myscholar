@@ -119,8 +119,11 @@ class AcademicTermServiceTest extends TestCase
     {
         $next = $this->service->getNextTerm();
 
-        if (now()->month < 3) {
+        if (now()->month >= 1 && now()->month <= 3) {
+            $this->assertNotNull($next);
             $this->assertEquals('Trimestre 1', $next->name);
+        } elseif ($next) {
+            $this->assertNotNull($next->id);
         }
     }
 
