@@ -54,6 +54,28 @@ class AttendanceRecordRepository
         return AttendanceRecord::create($data);
     }
 
+    public function markAttendance(int $sessionId, int $studentId, string $status, ?string $notes = null, ?int $classId = null): AttendanceRecord
+    {
+        $existing = $this->findBySessionAndStudent($sessionId, $studentId);
+
+        $data = [
+            'attendance_session_id' => $sessionId,
+            'student_id' => $studentId,
+            'status' => $status,
+            'notes' => $notes,
+        ];
+
+        if ($classId) {
+            $data['class_id'] = $classId;
+        }
+
+        if ($existing) {
+            return $this->update($existing, $data);
+        }
+
+        return $this->create($data);
+    }
+
     public function update(AttendanceRecord $record, array $data): AttendanceRecord
     {
         $record->update($data);

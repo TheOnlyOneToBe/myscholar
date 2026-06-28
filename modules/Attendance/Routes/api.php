@@ -5,6 +5,7 @@ use Modules\Attendance\Controllers\AttendanceSessionController;
 use Modules\Attendance\Controllers\AttendanceController;
 use Modules\Attendance\Controllers\JustificationController;
 use Modules\Attendance\Controllers\AbsenceController;
+use Modules\Attendance\Controllers\BulkAttendanceController;
 
 Route::prefix('api/attendance')->middleware(['api', 'auth'])->group(function () {
     // Attendance Sessions
@@ -34,4 +35,11 @@ Route::prefix('api/attendance')->middleware(['api', 'auth'])->group(function () 
     Route::patch('absences/alerts/{alert}/acknowledge', [AbsenceController::class, 'acknowledge']);
     Route::post('absences/check-thresholds/{studentId}', [AbsenceController::class, 'checkThresholds']);
     Route::get('absences/student/{studentId}/stats', [AbsenceController::class, 'getStats']);
+
+    // Bulk Operations
+    Route::post('bulk/mark', [BulkAttendanceController::class, 'markBulk']);
+    Route::post('bulk/validate', [BulkAttendanceController::class, 'validateBulk']);
+    Route::get('bulk/template', [BulkAttendanceController::class, 'getTemplate']);
+    Route::get('bulk/summary/{sessionId}', [BulkAttendanceController::class, 'getSummary']);
+    Route::post('bulk/import', [BulkAttendanceController::class, 'importBulk']);
 });
