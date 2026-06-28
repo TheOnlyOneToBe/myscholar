@@ -4,43 +4,49 @@ namespace Modules\Grades\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Config\Models\SchoolYear;
 
 class GradePeriod extends Model
 {
+    protected $table = 'grade_periods';
+
     protected $fillable = [
-        'name',
         'school_year_id',
-        'grade_entry_start',
-        'grade_entry_deadline',
-        'publication_date',
+        'name',
+        'start_date',
+        'end_date',
+        'is_active',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'is_active' => 'boolean',
+    ];
+
+    public function schoolYear(): BelongsTo
     {
-        return [
-            'grade_entry_start' => 'date',
-            'grade_entry_deadline' => 'date',
-            'publication_date' => 'date',
-        ];
+        return $this->belongsTo(SchoolYear::class);
     }
 
     public function grades(): HasMany
     {
-        return $this->hasMany(Grade::class, 'period_id');
+        return $this->hasMany(Grade::class);
     }
 
-    public function isGradeEntryOpen(): bool
+    public function gradeAverages(): HasMany
     {
-        $now = now()->toDateString();
-        return $now >= $this->grade_entry_start->toDateString() &&
-               $now <= $this->grade_entry_deadline->toDateString();
+        return $this->hasMany(GradeAverage::class);
     }
 
-    public static function current()
+    public function classAverages(): HasMany
     {
-        $today = now()->toDateString();
-        return static::where('grade_entry_start', '<=', $today)
-            ->where('grade_entry_deadline', '>=', $today)
-            ->first();
+        return $this->hasMany(ClassAverage::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

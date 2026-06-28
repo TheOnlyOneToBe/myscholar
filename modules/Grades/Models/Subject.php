@@ -7,35 +7,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
+    protected $table = 'subjects';
+
     protected $fillable = [
         'code',
         'name',
         'description',
+        'credits',
         'coefficient',
-        'is_mandatory',
-        'filiere',
+        'is_active',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'is_mandatory' => 'boolean',
-            'coefficient' => 'float',
-        ];
-    }
+    protected $casts = [
+        'is_active' => 'boolean',
+        'coefficient' => 'decimal:2',
+    ];
 
     public function grades(): HasMany
     {
         return $this->hasMany(Grade::class);
     }
 
-    public static function findByCode(string $code): ?self
+    public function gradeAverages(): HasMany
     {
-        return static::where('code', $code)->first();
+        return $this->hasMany(GradeAverage::class);
     }
 
-    public static function byFiliere(string $filiere)
+    public function classAverages(): HasMany
     {
-        return static::where('filiere', $filiere)->orWhereNull('filiere');
+        return $this->hasMany(ClassAverage::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

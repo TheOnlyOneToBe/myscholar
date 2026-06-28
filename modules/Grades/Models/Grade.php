@@ -4,34 +4,36 @@ namespace Modules\Grades\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Students\Models\Student;
+use Modules\Config\Models\SchoolYear;
+use App\Models\User;
 
 class Grade extends Model
 {
+    protected $table = 'grades';
+
     protected $fillable = [
         'student_id',
         'subject_id',
+        'grade_period_id',
         'school_year_id',
-        'period_id',
-        'evaluation_type',
+        'teacher_id',
         'score',
+        'grade_type',
         'weight',
-        'entered_by_teacher_id',
-        'entered_at',
-        'notes',
+        'comments',
+        'graded_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'score' => 'float',
-            'weight' => 'float',
-            'entered_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'score' => 'decimal:2',
+        'weight' => 'decimal:2',
+        'graded_at' => 'timestamp',
+    ];
 
     public function student(): BelongsTo
     {
-        return $this->belongsTo(\Modules\Students\Models\Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function subject(): BelongsTo
@@ -39,35 +41,67 @@ class Grade extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function period(): BelongsTo
+    public function gradePeriod(): BelongsTo
     {
         return $this->belongsTo(GradePeriod::class);
     }
 
-    public function enteredBy(): BelongsTo
+    public function schoolYear(): BelongsTo
     {
-        return $this->belongsTo(\Modules\Auth\Models\User::class, 'entered_by_teacher_id');
+        return $this->belongsTo(SchoolYear::class);
     }
 
-    public static function evaluationTypes(): array
+    public function teacher(): BelongsTo
     {
-        return ['CC' => 'Contrôle continu', 'DS' => 'Devoir surveillé', 'EXAM' => 'Examen', 'TP' => 'Travaux pratiques'];
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function canEdit(): bool
+    public function appeal(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->entered_at->diffInHours(now()) <= 48;
+        return $this->hasOne(GradeAppeal::class);
     }
 
-    public function getMention(): string
+    protected static function booted(): void
     {
-        return match (true) {
-            $this->score >= 16 => 'Excellent',
-            $this->score >= 14 => 'Très bien',
-            $this->score >= 12 => 'Bien',
-            $this->score >= 10 => 'Assez bien',
-            $this->score >= 8 => 'Passable',
-            default => 'Faible',
-        };
+        static::created(function ($grade) {
+            $grade->updateStudentAverage();
+        });
+
+        static::updated(function ($grade) {
+            $grade->updateStudentAverage();
+        });
+    }
+
+    public function updateStudentAverage(): void
+    {
+        $average = Grade::where('student_id', $this->student_id)
+            ->where('subject_id', $this->subject_id)
+            ->where('grade_period_id', $this->grade_period_id)
+            ->where('school_year_id', $this->school_year_id)
+            ->get()
+            ->reduce(function ($carry, $grade) {
+                $totalWeight = ($carry['totalWeight'] ?? 0) + $grade->weight;
+                $totalScore = ($carry['totalScore'] ?? 0) + ($grade->score * $grade->weight);
+                return [
+                    'totalWeight' => $totalWeight,
+                    'totalScore' => $totalScore,
+                ];
+            }, []);
+
+        if (!empty($average) && $average['totalWeight'] > 0) {
+            $avg = $average['totalScore'] / $average['totalWeight'];
+            GradeAverage::updateOrCreate(
+                [
+                    'student_id' => $this->student_id,
+                    'subject_id' => $this->subject_id,
+                    'grade_period_id' => $this->grade_period_id,
+                    'school_year_id' => $this->school_year_id,
+                ],
+                [
+                    'average' => round($avg, 2),
+                    'is_passed' => $avg >= 10,
+                ]
+            );
+        }
     }
 }

@@ -1,9 +1,16 @@
 {
   "name": "grades",
   "version": "1.0.0",
-  "description": "Résultats académiques, notes et bulletins",
-  "type": "business",
-  "dependencies": ["auth", "config", "students"],
-  "tables": ["subjects", "grades", "averages_cache", "class_averages", "grade_periods", "appeals"],
+  "description": "Grade management and academic performance tracking",
+  "type": "feature",
+  "dependencies": ["auth", "students", "config"],
+  "tables": [
+    "subjects",
+    "grade_periods",
+    "grades",
+    "grade_averages",
+    "class_averages",
+    "grade_appeals"
+  ],
   "routes_prefix": "/api/grades"
 }
