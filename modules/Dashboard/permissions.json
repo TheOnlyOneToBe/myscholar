@@ -1,0 +1,28 @@
+{
+  "permissions": [
+    {
+      "id": "dashboard.view",
+      "name": "View Dashboard",
+      "module": "Dashboard",
+      "category": "read",
+      "scope": "global",
+      "is_active": true
+    },
+    {
+      "id": "dashboard.view_analytics",
+      "name": "View Analytics",
+      "module": "Dashboard",
+      "category": "read",
+      "scope": "global",
+      "is_active": true
+    },
+    {
+      "id": "dashboard.export_reports",
+      "name": "Export Reports",
+      "module": "Dashboard",
+      "category": "read",
+      "scope": "global",
+      "is_active": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "Admin dashboard with analytics and monitoring",
+  "type": "core",
+  "dependencies": ["auth", "attendance", "grades", "audit"],
+  "tables": [],
+  "routes_prefix": "/dashboard"
+}
