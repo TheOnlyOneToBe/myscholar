@@ -2,7 +2,7 @@
 
 namespace Modules\Dashboard\Services;
 
-use App\Models\User;
+use Modules\Auth\Models\User;
 use Modules\Students\Models\Student;
 use Modules\Attendance\Models\AttendanceRecord;
 use Modules\Attendance\Models\AttendanceSession;
