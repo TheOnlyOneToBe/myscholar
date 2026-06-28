@@ -5,7 +5,9 @@ use Modules\Grades\Controllers\GradeController;
 use Modules\Grades\Controllers\SubjectController;
 use Modules\Grades\Controllers\GradeAppealController;
 
-Route::prefix('api')->middleware(['api', 'auth'])->group(function () {
+Route::prefix('api')
+    ->middleware(['api', 'auth', \Modules\Grades\Http\Middleware\GradesRateLimit::class])
+    ->group(function () {
     // Subject Management
     Route::prefix('subjects')->group(function () {
         Route::get('', [SubjectController::class, 'index'])->name('subjects.index');
