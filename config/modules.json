@@ -10,7 +10,8 @@
         "Classes",
         "Grades",
         "Attendance",
-        "Billing"
+        "Billing",
+        "Teachers"
     ],
     "installedAt": "2026-06-27T15:55:01+00:00"
 }

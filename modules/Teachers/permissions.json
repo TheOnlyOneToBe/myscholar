@@ -1,0 +1,64 @@
+{
+  "permissions": [
+    {
+      "id": "teachers.view_all",
+      "name": "Voir tous les enseignants",
+      "description": "Peut consulter la liste de tous les enseignants",
+      "default_roles": ["super_administrator", "proviseur", "censeur"]
+    },
+    {
+      "id": "teachers.view",
+      "name": "Voir détails enseignant",
+      "description": "Peut consulter les détails d'un enseignant",
+      "default_roles": ["super_administrator", "proviseur", "censeur", "prof_principal", "enseignant"]
+    },
+    {
+      "id": "teachers.create",
+      "name": "Créer enseignant",
+      "description": "Peut créer un nouveau profil d'enseignant",
+      "default_roles": ["super_administrator", "proviseur"]
+    },
+    {
+      "id": "teachers.update",
+      "name": "Modifier enseignant",
+      "description": "Peut modifier les informations d'un enseignant",
+      "default_roles": ["super_administrator", "proviseur", "censeur"]
+    },
+    {
+      "id": "teachers.delete",
+      "name": "Supprimer enseignant",
+      "description": "Peut supprimer un profil d'enseignant",
+      "default_roles": ["super_administrator", "proviseur"]
+    },
+    {
+      "id": "teachers.manage_assignments",
+      "name": "Gérer assignations",
+      "description": "Peut assigner/désassigner des enseignants aux classes",
+      "default_roles": ["super_administrator", "proviseur", "censeur"]
+    },
+    {
+      "id": "teachers.manage_qualifications",
+      "name": "Gérer qualifications",
+      "description": "Peut ajouter/modifier les qualifications d'un enseignant",
+      "default_roles": ["super_administrator", "proviseur"]
+    },
+    {
+      "id": "teachers.manage_subjects",
+      "name": "Gérer matières enseignées",
+      "description": "Peut assigner/retirer des matières à un enseignant",
+      "default_roles": ["super_administrator", "proviseur", "censeur"]
+    },
+    {
+      "id": "teachers.view_classes",
+      "name": "Voir classes assignées",
+      "description": "Peut consulter les classes assignées à un enseignant",
+      "default_roles": ["super_administrator", "proviseur", "censeur", "prof_principal", "enseignant"]
+    },
+    {
+      "id": "teachers.view_history",
+      "name": "Voir historique",
+      "description": "Peut consulter l'historique d'un enseignant",
+      "default_roles": ["super_administrator", "proviseur", "censeur"]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "teachers",
+  "version": "1.0.0",
+  "description": "Gestion complète des enseignants, leurs qualifications, leurs matières et leurs assignations aux classes",
+  "type": "metadata",
+  "enabled": true,
+  "dependencies": [
+    "auth",
+    "grades",
+    "classes",
+    "config"
+  ],
+  "tables": [
+    "teachers",
+    "teacher_qualifications",
+    "teacher_subjects",
+    "teacher_classes",
+    "teacher_history"
+  ],
+  "routes_prefix": "/api/teachers",
+  "namespace": "Modules\\Teachers"
+}
