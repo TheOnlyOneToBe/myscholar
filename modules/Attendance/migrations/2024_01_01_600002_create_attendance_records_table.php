@@ -14,12 +14,15 @@ return new class extends Migration
             $table->foreign('attendance_session_id')->references('id')->on('attendance_sessions')->onDelete('cascade');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->enum('status', ['present', 'absent', 'late', 'justified']);
+            $table->unsignedBigInteger('class_id')->nullable();
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->enum('status', ['present', 'absent', 'late', 'excused', 'justified']);
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->unique(['student_id', 'attendance_session_id']);
             $table->index('student_id');
             $table->index('attendance_session_id');
+            $table->index('class_id');
         });
     }
 

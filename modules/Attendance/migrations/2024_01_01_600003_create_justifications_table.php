@@ -10,17 +10,18 @@ return new class extends Migration
     {
         Schema::create('justifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('attendance_id');
+            $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->unsignedBigInteger('attendance_record_id');
+            $table->foreign('attendance_record_id')->references('id')->on('attendance_records')->onDelete('cascade');
+            $table->text('reason');
+            $table->string('supporting_document')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->enum('type', ['maladie', 'transport', 'medecin', 'conge', 'autre']);
-            $table->string('document_url')->nullable();
-            $table->unsignedBigInteger('submitted_by_parent_id')->nullable();
-            $table->timestamp('submitted_at');
-            $table->unsignedBigInteger('validated_by_user_id')->nullable();
-            $table->timestamp('validated_at')->nullable();
-            $table->text('validation_notes')->nullable();
+            $table->text('rejection_reason')->nullable();
+            $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();
-            $table->index('attendance_id');
+            $table->index('student_id');
+            $table->index('attendance_record_id');
             $table->index('status');
         });
     }

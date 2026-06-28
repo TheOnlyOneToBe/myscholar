@@ -11,13 +11,12 @@ return new class extends Migration
         Schema::create('absence_counters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('period_id')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->integer('total_absences')->default(0);
-            $table->integer('unjustified_count')->default(0);
-            $table->integer('justified_count')->default(0);
-            $table->timestamp('last_updated');
+            $table->integer('unjustified_absences')->default(0);
             $table->timestamps();
-            $table->unique(['student_id', 'period_id']);
+            $table->unique('student_id');
+            $table->index('student_id');
         });
     }
 

@@ -4,9 +4,11 @@ namespace Modules\Attendance\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AttendanceSession extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'class_id',
         'subject_id',

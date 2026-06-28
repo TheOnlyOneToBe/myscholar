@@ -11,11 +11,14 @@ return new class extends Migration
         Schema::create('absence_alerts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->integer('absence_count_reached');
-            $table->timestamp('alert_sent_date');
-            $table->string('alert_sent_to')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->string('reason');
+            $table->integer('absence_threshold')->nullable();
+            $table->boolean('is_acknowledged')->default(false);
+            $table->timestamp('acknowledged_at')->nullable();
             $table->timestamps();
             $table->index('student_id');
+            $table->index('is_acknowledged');
         });
     }
 
