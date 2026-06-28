@@ -1,0 +1,182 @@
+<?php
+
+return [
+    'titles' => [
+        'teacher_applications' => 'Teacher Applications Review',
+        'teacher_application_form' => 'Teacher Registration Form',
+        'teacher_creation' => 'Add a Teacher',
+        'teacher_list' => 'Teacher Management',
+        'teacher_subjects' => 'Teacher Subjects Management',
+    ],
+
+    'buttons' => [
+        'submit_application' => 'Submit My Application',
+        'cancel' => 'Cancel',
+        'add_subject' => 'Add This Subject',
+        'remove_subject' => 'Remove',
+        'approve' => 'Approve',
+        'reject' => 'Reject',
+        'confirm_rejection' => 'Confirm Rejection',
+        'create_teacher' => 'Create Teacher',
+        'change_user' => 'Change',
+        'generate_code' => 'Generate ID',
+        'reset_filters' => 'Reset Filters',
+        'search' => 'Search',
+        'view_subjects' => 'Subjects',
+        'view_details' => 'Details',
+        'all' => 'All',
+        'save' => 'Save',
+    ],
+
+    'labels' => [
+        'name' => 'Name',
+        'full_name' => 'Full Name',
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'email' => 'Email',
+        'username' => 'Username',
+        'password' => 'Password',
+        'password_confirmation' => 'Confirm Password',
+        'phone' => 'Phone',
+        'phone_office' => 'Office Phone',
+        'email_office' => 'Office Email',
+        'specialization' => 'Specialization',
+        'qualification_level' => 'Qualification Level',
+        'hire_date' => 'Hire Date',
+        'years_of_experience' => 'Years of Experience',
+        'filiere' => 'Stream',
+        'biography' => 'Biography',
+        'subjects' => 'Subjects',
+        'proficiency_level' => 'Proficiency Level',
+        'since_year' => 'Since Year',
+        'primary_specialty' => 'Primary Specialty',
+        'office_location' => 'Office / Room',
+        'teacher_code' => 'Teacher ID Code',
+        'status' => 'Status',
+        'rejection_reason' => 'Rejection Reason',
+        'submitted_on' => 'Submitted on',
+        'subject_name' => 'Subject',
+        'proficiency' => 'Level',
+        'since' => 'Since',
+        'experience_years' => 'years of experience',
+    ],
+
+    'placeholders' => [
+        'first_name' => 'E.g. John',
+        'last_name' => 'E.g. Smith',
+        'email' => 'E.g. john.smith@example.com',
+        'username' => 'E.g. john.smith',
+        'phone' => 'E.g. +237 XXX XXX XXX',
+        'specialization' => 'E.g. Mathematics',
+        'office_location' => 'E.g. A-201',
+        'bio' => 'Describe your experience, achievements...',
+        'rejection_reason' => 'Explain why the application is rejected...',
+        'search' => 'Name, email, teacher code, specialization...',
+        'search_user' => 'Search by name, email, or username...',
+    ],
+
+    'sections' => [
+        'basic_info' => 'Basic Information',
+        'contact_info' => 'Professional Contacts',
+        'subjects' => 'Taught Subjects',
+        'user_info' => 'User Information',
+        'select_user' => 'Select a User',
+        'teacher_info' => 'Teacher Information',
+        'application_details' => 'Application Details',
+        'declared_subjects' => 'Declared Subjects',
+        'add_subject_section' => 'Add a Subject',
+    ],
+
+    'tabs' => [
+        'create_new_user' => 'Create New User',
+        'use_existing_user' => 'Use Existing User',
+    ],
+
+    'filters' => [
+        'all' => 'All',
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+        'filiere' => 'Stream',
+        'specialization' => 'Specialization',
+        'status' => 'Status',
+        'per_page' => 'Per Page',
+        'all_fieres' => 'All streams',
+        'all_specializations' => 'All specializations',
+        'all_statuses' => 'All statuses',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+    ],
+
+    'statuses' => [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+    ],
+
+    'fieres' => [
+        'generale' => 'General',
+        'technique' => 'Technical',
+    ],
+
+    'qualification_levels' => [
+        'bac2' => 'Bac+2',
+        'bac3' => 'Bac+3 (License)',
+        'bac5' => 'Bac+5 (Master)',
+        'doctorate' => 'Doctorate',
+    ],
+
+    'proficiency_levels' => [
+        '1' => 'Beginner (1)',
+        '2' => 'Intermediate (2)',
+        '3' => 'Competent (3)',
+        '4' => 'Expert (4)',
+        '5' => 'Master (5)',
+    ],
+
+    'messages' => [
+        'no_applications_found' => 'No applications found.',
+        'select_application' => 'Select an application to view details',
+        'no_teachers_found' => 'No teachers found',
+        'no_users_found' => 'No users found',
+        'application_submitted' => 'Your application has been submitted successfully. An administrator will review it shortly.',
+        'application_updated' => 'Your application has been updated.',
+        'teacher_created' => 'Teacher created successfully.',
+        'application_approved' => 'Application approved.',
+        'application_rejected' => 'Application rejected.',
+        'rejection_reason_header' => 'Rejection reason:',
+        'no_subjects' => 'No subjects assigned',
+        'select_subject_to_add' => 'Select a subject to add',
+        'at_least_one_subject' => 'You must select at least one subject',
+        'subject_already_selected' => 'This subject is already selected',
+        'try_modifying_search' => 'Try modifying your search or filter criteria',
+        'subject_level' => 'Level',
+    ],
+
+    'modals' => [
+        'reject_application_title' => 'Reject Application',
+        'confirm_rejection' => 'Confirm Rejection',
+    ],
+
+    'summary' => [
+        'found_teachers' => 'Teachers found',
+        'current_page' => 'Current page',
+        'per_page_label' => 'Per page',
+        'total_pages' => 'Total pages',
+        'summary' => 'Summary',
+    ],
+
+    'descriptions' => [
+        'manage_teachers' => 'View and manage all teachers profiles',
+        'create_teacher_desc' => 'Create a new teacher using an existing or new user',
+    ],
+
+    'icons_alt' => [
+        'list' => 'List',
+        'clock' => 'Clock',
+        'check' => 'Check',
+        'times' => 'Times',
+    ],
+];

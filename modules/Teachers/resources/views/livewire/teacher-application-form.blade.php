@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-2xl mx-auto px-4">
         <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-8">Formulaire d'Inscription Enseignant</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">{{ __('teachers::views.titles.teacher_application_form') }}</h1>
 
             @if($message)
                 <div class="mb-6 p-4 rounded-lg {{ $messageType === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-blue-50 text-blue-800 border border-blue-200' }}">

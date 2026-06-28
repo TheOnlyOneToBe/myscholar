@@ -1,0 +1,93 @@
+<?php
+
+return [
+    'success' => [
+        'application_submitted' => 'Your application has been submitted successfully.',
+        'application_updated' => 'Your application has been updated successfully.',
+        'teacher_created' => 'Teacher created successfully.',
+        'teacher_updated' => 'Teacher updated successfully.',
+        'teacher_deleted' => 'Teacher deleted successfully.',
+        'subject_added' => 'Subject added successfully.',
+        'subject_removed' => 'Subject removed successfully.',
+        'application_approved' => 'Application approved successfully.',
+        'application_rejected' => 'Application rejected successfully.',
+        'user_created' => 'User created successfully.',
+        'user_selected' => 'User selected.',
+        'code_generated' => 'Teacher code generated successfully.',
+    ],
+
+    'error' => [
+        'application_not_found' => 'Application not found.',
+        'teacher_not_found' => 'Teacher not found.',
+        'user_not_found' => 'User not found.',
+        'subject_not_found' => 'Subject not found.',
+        'unauthorized' => 'You are not authorized to perform this action.',
+        'forbidden' => 'Access denied.',
+        'invalid_status' => 'The provided status is invalid.',
+        'invalid_filiere' => 'The provided stream is invalid.',
+        'invalid_qualification' => 'The provided qualification level is invalid.',
+        'teacher_already_exists' => 'A teacher profile already exists for this user.',
+        'application_already_submitted' => 'You have already submitted an application.',
+        'cannot_update_approved_application' => 'You cannot update an approved application.',
+        'cannot_update_rejected_application' => 'You cannot update a rejected application.',
+        'minimum_one_subject' => 'You must have at least one subject.',
+        'subject_already_assigned' => 'This subject is already assigned.',
+        'invalid_password' => 'The provided password is invalid.',
+        'password_mismatch' => 'Passwords do not match.',
+        'email_already_exists' => 'This email is already in use.',
+        'username_already_exists' => 'This username already exists.',
+        'teacher_code_already_exists' => 'This teacher code already exists.',
+        'failed_to_generate_code' => 'Failed to generate a unique teacher code.',
+        'failed_to_create_user' => 'Failed to create user.',
+        'failed_to_assign_role' => 'Failed to assign role.',
+        'database_error' => 'A database error occurred.',
+        'internal_server_error' => 'An internal server error occurred.',
+    ],
+
+    'warning' => [
+        'no_applications' => 'No applications found.',
+        'no_teachers' => 'No teachers found.',
+        'no_subjects' => 'No subjects found.',
+        'no_users' => 'No users found.',
+        'empty_search' => 'Please enter a search term.',
+    ],
+
+    'info' => [
+        'application_pending' => 'Your application is pending approval.',
+        'application_approved' => 'Your application has been approved.',
+        'application_rejected' => 'Your application has been rejected.',
+        'loading' => 'Loading...',
+        'searching' => 'Searching...',
+        'processing' => 'Processing...',
+    ],
+
+    'actions' => [
+        'view' => 'View',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'approve' => 'Approve',
+        'reject' => 'Reject',
+        'add' => 'Add',
+        'remove' => 'Remove',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'search' => 'Search',
+        'filter' => 'Filter',
+        'reset' => 'Reset',
+        'confirm' => 'Confirm',
+        'back' => 'Back',
+    ],
+
+    'confirmations' => [
+        'delete_teacher' => 'Are you sure you want to delete this teacher?',
+        'delete_subject' => 'Are you sure you want to delete this subject?',
+        'reject_application' => 'Are you sure you want to reject this application?',
+        'approve_application' => 'Are you sure you want to approve this application?',
+    ],
+
+    'time_formats' => [
+        'submitted_at' => 'Submitted on :date at :time',
+        'approved_at' => 'Approved on :date at :time',
+        'rejected_at' => 'Rejected on :date at :time',
+    ],
+];

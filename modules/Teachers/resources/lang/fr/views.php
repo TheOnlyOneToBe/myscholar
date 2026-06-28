@@ -1,0 +1,182 @@
+<?php
+
+return [
+    'titles' => [
+        'teacher_applications' => 'Révision des Candidatures Enseignants',
+        'teacher_application_form' => 'Formulaire d\'Inscription Enseignant',
+        'teacher_creation' => 'Ajouter un Enseignant',
+        'teacher_list' => 'Gestion des Enseignants',
+        'teacher_subjects' => 'Gestion des Matières Enseignant',
+    ],
+
+    'buttons' => [
+        'submit_application' => 'Soumettre ma Candidature',
+        'cancel' => 'Annuler',
+        'add_subject' => 'Ajouter cette Matière',
+        'remove_subject' => 'Supprimer',
+        'approve' => 'Approuver',
+        'reject' => 'Rejeter',
+        'confirm_rejection' => 'Confirmer le Rejet',
+        'create_teacher' => 'Créer l\'Enseignant',
+        'change_user' => 'Changer',
+        'generate_code' => 'Générer un Matricule',
+        'reset_filters' => 'Réinitialiser les filtres',
+        'search' => 'Rechercher',
+        'view_subjects' => 'Matières',
+        'view_details' => 'Détails',
+        'all' => 'Toutes',
+        'save' => 'Enregistrer',
+    ],
+
+    'labels' => [
+        'name' => 'Nom',
+        'full_name' => 'Nom Complet',
+        'first_name' => 'Prénom',
+        'last_name' => 'Nom',
+        'email' => 'Email',
+        'username' => 'Nom d\'Utilisateur',
+        'password' => 'Mot de Passe',
+        'password_confirmation' => 'Confirmer le Mot de Passe',
+        'phone' => 'Téléphone',
+        'phone_office' => 'Téléphone du Bureau',
+        'email_office' => 'Email du Bureau',
+        'specialization' => 'Spécialisation',
+        'qualification_level' => 'Niveau de Qualification',
+        'hire_date' => 'Date d\'Embauche',
+        'years_of_experience' => 'Années d\'Expérience',
+        'filiere' => 'Filière',
+        'biography' => 'Biographie',
+        'subjects' => 'Matières',
+        'proficiency_level' => 'Niveau de Maîtrise',
+        'since_year' => 'Depuis l\'année',
+        'primary_specialty' => 'Spécialité principale',
+        'office_location' => 'Bureau / Salle',
+        'teacher_code' => 'Matricule (Teacher Code)',
+        'status' => 'Statut',
+        'rejection_reason' => 'Raison du Rejet',
+        'submitted_on' => 'Soumise le',
+        'subject_name' => 'Matière',
+        'proficiency' => 'Niveau',
+        'since' => 'Depuis',
+        'experience_years' => 'ans d\'expérience',
+    ],
+
+    'placeholders' => [
+        'first_name' => 'Ex: Jean',
+        'last_name' => 'Ex: Dupont',
+        'email' => 'Ex: jean.dupont@example.com',
+        'username' => 'Ex: john.doe',
+        'phone' => 'Ex: +237 XXX XXX XXX',
+        'specialization' => 'Ex: Mathématiques',
+        'office_location' => 'Ex: A-201',
+        'bio' => 'Décrivez votre expérience, vos réalisations...',
+        'rejection_reason' => 'Expliquez pourquoi la candidature est rejetée...',
+        'search' => 'Nom, email, matricule, spécialisation...',
+        'search_user' => 'Rechercher par nom, email, ou username...',
+    ],
+
+    'sections' => [
+        'basic_info' => 'Informations de Base',
+        'contact_info' => 'Coordonnées Professionnelles',
+        'subjects' => 'Matières Enseignées',
+        'user_info' => 'Informations Utilisateur',
+        'select_user' => 'Sélectionner un Utilisateur',
+        'teacher_info' => 'Informations Enseignant',
+        'application_details' => 'Détails de la Candidature',
+        'declared_subjects' => 'Matières Déclarées',
+        'add_subject_section' => 'Ajouter une Matière',
+    ],
+
+    'tabs' => [
+        'create_new_user' => 'Créer un Nouvel Utilisateur',
+        'use_existing_user' => 'Utiliser un Utilisateur Existant',
+    ],
+
+    'filters' => [
+        'all' => 'Toutes',
+        'pending' => 'En Attente',
+        'approved' => 'Approuvées',
+        'rejected' => 'Rejetées',
+        'filiere' => 'Filière',
+        'specialization' => 'Spécialisation',
+        'status' => 'Statut',
+        'per_page' => 'Par page',
+        'all_fieres' => 'Toutes les filières',
+        'all_specializations' => 'Toutes les spécialisations',
+        'all_statuses' => 'Tous les statuts',
+        'active' => 'Actifs',
+        'inactive' => 'Inactifs',
+    ],
+
+    'statuses' => [
+        'pending' => 'En Attente',
+        'approved' => 'Approuvée',
+        'rejected' => 'Rejetée',
+        'active' => 'Actif',
+        'inactive' => 'Inactif',
+    ],
+
+    'fieres' => [
+        'generale' => 'Générale',
+        'technique' => 'Technique',
+    ],
+
+    'qualification_levels' => [
+        'bac2' => 'Bac+2',
+        'bac3' => 'Bac+3 (Licence)',
+        'bac5' => 'Bac+5 (Master)',
+        'doctorate' => 'Doctorat',
+    ],
+
+    'proficiency_levels' => [
+        '1' => 'Débutant (1)',
+        '2' => 'Intermédiaire (2)',
+        '3' => 'Compétent (3)',
+        '4' => 'Expert (4)',
+        '5' => 'Maître (5)',
+    ],
+
+    'messages' => [
+        'no_applications_found' => 'Aucune candidature trouvée.',
+        'select_application' => 'Sélectionnez une candidature pour voir les détails',
+        'no_teachers_found' => 'Aucun enseignant trouvé',
+        'no_users_found' => 'Aucun utilisateur trouvé',
+        'application_submitted' => 'Votre candidature a été soumise avec succès. Un administrateur l\'examinera bientôt.',
+        'application_updated' => 'Votre candidature a été mise à jour.',
+        'teacher_created' => 'Enseignant créé avec succès.',
+        'application_approved' => 'La candidature a été approuvée.',
+        'application_rejected' => 'La candidature a été rejetée.',
+        'rejection_reason_header' => 'Raison du rejet:',
+        'no_subjects' => 'Aucune matière assignée',
+        'select_subject_to_add' => 'Sélectionner une matière à ajouter',
+        'at_least_one_subject' => 'Vous devez sélectionner au moins une matière',
+        'subject_already_selected' => 'Cette matière est déjà sélectionnée',
+        'try_modifying_search' => 'Essayez de modifier vos critères de recherche ou de filtrage',
+        'subject_level' => 'Niveau',
+    ],
+
+    'modals' => [
+        'reject_application_title' => 'Rejeter la Candidature',
+        'confirm_rejection' => 'Confirmer le Rejet',
+    ],
+
+    'summary' => [
+        'found_teachers' => 'Enseignants trouvés',
+        'current_page' => 'Page actuelle',
+        'per_page_label' => 'Par page',
+        'total_pages' => 'Total des pages',
+        'summary' => 'Résumé',
+    ],
+
+    'descriptions' => [
+        'manage_teachers' => 'Consultez et gérez les profils de tous les enseignants',
+        'create_teacher_desc' => 'Créer un nouvel enseignant en utilisant un utilisateur existant ou nouveau',
+    ],
+
+    'icons_alt' => [
+        'list' => 'Liste',
+        'clock' => 'Horloge',
+        'check' => 'Vérifier',
+        'times' => 'Fois',
+    ],
+];

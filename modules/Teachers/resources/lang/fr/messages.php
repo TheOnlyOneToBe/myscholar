@@ -1,0 +1,93 @@
+<?php
+
+return [
+    'success' => [
+        'application_submitted' => 'Votre candidature a été soumise avec succès.',
+        'application_updated' => 'Votre candidature a été mise à jour avec succès.',
+        'teacher_created' => 'L\'enseignant a été créé avec succès.',
+        'teacher_updated' => 'L\'enseignant a été mis à jour avec succès.',
+        'teacher_deleted' => 'L\'enseignant a été supprimé avec succès.',
+        'subject_added' => 'La matière a été ajoutée avec succès.',
+        'subject_removed' => 'La matière a été supprimée avec succès.',
+        'application_approved' => 'La candidature a été approuvée avec succès.',
+        'application_rejected' => 'La candidature a été rejetée avec succès.',
+        'user_created' => 'L\'utilisateur a été créé avec succès.',
+        'user_selected' => 'L\'utilisateur a été sélectionné.',
+        'code_generated' => 'Le matricule a été généré avec succès.',
+    ],
+
+    'error' => [
+        'application_not_found' => 'La candidature n\'a pas été trouvée.',
+        'teacher_not_found' => 'L\'enseignant n\'a pas été trouvé.',
+        'user_not_found' => 'L\'utilisateur n\'a pas été trouvé.',
+        'subject_not_found' => 'La matière n\'a pas été trouvée.',
+        'unauthorized' => 'Vous n\'êtes pas autorisé à effectuer cette action.',
+        'forbidden' => 'Accès refusé.',
+        'invalid_status' => 'Le statut fourni est invalide.',
+        'invalid_filiere' => 'La filière fournie est invalide.',
+        'invalid_qualification' => 'Le niveau de qualification fourni est invalide.',
+        'teacher_already_exists' => 'Un profil enseignant existe déjà pour cet utilisateur.',
+        'application_already_submitted' => 'Vous avez déjà soumis une candidature.',
+        'cannot_update_approved_application' => 'Vous ne pouvez pas mettre à jour une candidature approuvée.',
+        'cannot_update_rejected_application' => 'Vous ne pouvez pas mettre à jour une candidature rejetée.',
+        'minimum_one_subject' => 'Vous devez avoir au moins une matière.',
+        'subject_already_assigned' => 'Cette matière est déjà assignée.',
+        'invalid_password' => 'Le mot de passe fourni est invalide.',
+        'password_mismatch' => 'Les mots de passe ne correspondent pas.',
+        'email_already_exists' => 'Cet email est déjà utilisé.',
+        'username_already_exists' => 'Ce nom d\'utilisateur existe déjà.',
+        'teacher_code_already_exists' => 'Ce matricule existe déjà.',
+        'failed_to_generate_code' => 'Impossible de générer un matricule unique.',
+        'failed_to_create_user' => 'Impossible de créer l\'utilisateur.',
+        'failed_to_assign_role' => 'Impossible d\'assigner le rôle.',
+        'database_error' => 'Une erreur de base de données s\'est produite.',
+        'internal_server_error' => 'Une erreur interne du serveur s\'est produite.',
+    ],
+
+    'warning' => [
+        'no_applications' => 'Aucune candidature trouvée.',
+        'no_teachers' => 'Aucun enseignant trouvé.',
+        'no_subjects' => 'Aucune matière trouvée.',
+        'no_users' => 'Aucun utilisateur trouvé.',
+        'empty_search' => 'Veuillez entrer un terme de recherche.',
+    ],
+
+    'info' => [
+        'application_pending' => 'Votre candidature est en attente d\'approbation.',
+        'application_approved' => 'Votre candidature a été approuvée.',
+        'application_rejected' => 'Votre candidature a été rejetée.',
+        'loading' => 'Chargement...',
+        'searching' => 'Recherche en cours...',
+        'processing' => 'Traitement en cours...',
+    ],
+
+    'actions' => [
+        'view' => 'Voir',
+        'edit' => 'Modifier',
+        'delete' => 'Supprimer',
+        'approve' => 'Approuver',
+        'reject' => 'Rejeter',
+        'add' => 'Ajouter',
+        'remove' => 'Supprimer',
+        'save' => 'Enregistrer',
+        'cancel' => 'Annuler',
+        'search' => 'Rechercher',
+        'filter' => 'Filtrer',
+        'reset' => 'Réinitialiser',
+        'confirm' => 'Confirmer',
+        'back' => 'Retour',
+    ],
+
+    'confirmations' => [
+        'delete_teacher' => 'Êtes-vous sûr de vouloir supprimer cet enseignant?',
+        'delete_subject' => 'Êtes-vous sûr de vouloir supprimer cette matière?',
+        'reject_application' => 'Êtes-vous sûr de vouloir rejeter cette candidature?',
+        'approve_application' => 'Êtes-vous sûr de vouloir approuver cette candidature?',
+    ],
+
+    'time_formats' => [
+        'submitted_at' => 'Soumis le :date à :time',
+        'approved_at' => 'Approuvé le :date à :time',
+        'rejected_at' => 'Rejeté le :date à :time',
+    ],
+];
