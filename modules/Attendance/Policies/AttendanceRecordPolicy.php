@@ -5,6 +5,7 @@ namespace Modules\Attendance\Policies;
 use Modules\Auth\Models\User;
 use Modules\Attendance\Models\AttendanceRecord;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentParent;
 
 class AttendanceRecordPolicy
 {
@@ -34,8 +35,10 @@ class AttendanceRecordPolicy
 
         // Parent can view their child's record
         if ($user->hasRole('parent')) {
-            // TODO: Implement parent-child relationship check
-            return false;
+            return StudentParent::isParentOfStudent($user->id, $record->student_id)
+                && StudentParent::where('parent_user_id', $user->id)
+                    ->where('student_id', $record->student_id)
+                    ->value('can_access_records') === true;
         }
 
         return false;

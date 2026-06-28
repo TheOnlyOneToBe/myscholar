@@ -5,23 +5,29 @@ namespace Modules\Attendance\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiter;
+use Modules\Attendance\Services\IPBlockingService;
 use Symfony\Component\HttpFoundation\Response;
 
 class AttendanceRateLimit
 {
     protected RateLimiter $limiter;
+    protected IPBlockingService $ipBlockingService;
 
-    public function __construct(RateLimiter $limiter)
+    public function __construct(RateLimiter $limiter, IPBlockingService $ipBlockingService)
     {
         $this->limiter = $limiter;
+        $this->ipBlockingService = $ipBlockingService;
     }
 
     public function handle(Request $request, Closure $next): Response
     {
         $key = $this->resolveRequestSignature($request);
         $limits = $this->getLimits($request);
+        $ipAddress = $request->ip();
 
         if ($this->limiter->tooManyAttempts($key, $limits['max_attempts'])) {
+            $this->ipBlockingService->trackRateLimitViolation($ipAddress, $limits['type']);
+
             return response()->json([
                 'message' => 'Rate limit exceeded for this operation',
                 'retry_after' => $this->limiter->availableIn($key),

@@ -29,4 +29,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function students()
+    {
+        return $this->hasMany(\Modules\Students\Models\Student::class);
+    }
+
+    public function parentRelationships()
+    {
+        return $this->hasMany(\Modules\Students\Models\StudentParent::class, 'parent_user_id');
+    }
 }

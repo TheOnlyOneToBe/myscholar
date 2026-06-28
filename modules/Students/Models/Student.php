@@ -55,6 +55,14 @@ class Student extends Model
     }
 
     /**
+     * Get parents/guardians
+     */
+    public function parents()
+    {
+        return $this->hasMany(StudentParent::class);
+    }
+
+    /**
      * Get enrollments
      */
     public function enrollments(): HasMany

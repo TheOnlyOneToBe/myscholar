@@ -6,8 +6,11 @@ use Modules\Attendance\Controllers\AttendanceController;
 use Modules\Attendance\Controllers\JustificationController;
 use Modules\Attendance\Controllers\AbsenceController;
 use Modules\Attendance\Controllers\BulkAttendanceController;
+use Modules\Attendance\Controllers\IPBlockingController;
 
-Route::prefix('api/attendance')->middleware(['api', 'auth'])->group(function () {
+Route::prefix('api/attendance')
+    ->middleware(['api', 'auth', \Modules\Attendance\Http\Middleware\CheckIPBlocklist::class, \Modules\Attendance\Http\Middleware\AttendanceRateLimit::class])
+    ->group(function () {
     // Attendance Sessions
     Route::resource('sessions', AttendanceSessionController::class);
     Route::get('sessions/class/{classId}', [AttendanceSessionController::class, 'byClass']);
@@ -42,4 +45,14 @@ Route::prefix('api/attendance')->middleware(['api', 'auth'])->group(function () 
     Route::get('bulk/template', [BulkAttendanceController::class, 'getTemplate']);
     Route::get('bulk/summary/{sessionId}', [BulkAttendanceController::class, 'getSummary']);
     Route::post('bulk/import', [BulkAttendanceController::class, 'importBulk']);
+
+    // IP Blocking Management (admin only)
+    Route::prefix('ip-blocking')->group(function () {
+        Route::get('active-blocks', [IPBlockingController::class, 'getActiveBlocks']);
+        Route::post('block', [IPBlockingController::class, 'blockIP']);
+        Route::post('unblock', [IPBlockingController::class, 'unblockIP']);
+        Route::get('info/{ipAddress}', [IPBlockingController::class, 'getBlockInfo']);
+        Route::get('violations/{ipAddress}', [IPBlockingController::class, 'getViolationHistory']);
+        Route::post('cleanup', [IPBlockingController::class, 'cleanupExpiredBlocks']);
+    });
 });

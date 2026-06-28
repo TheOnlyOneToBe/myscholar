@@ -5,6 +5,7 @@ namespace Modules\Attendance\Policies;
 use Modules\Auth\Models\User;
 use Modules\Attendance\Models\AbsenceAlert;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentParent;
 
 class AbsenceAlertPolicy
 {
@@ -34,8 +35,10 @@ class AbsenceAlertPolicy
 
         // Parent can view their child's alerts
         if ($user->hasRole('parent')) {
-            // TODO: Implement parent-child relationship check
-            return false;
+            return StudentParent::isParentOfStudent($user->id, $alert->student_id)
+                && StudentParent::where('parent_user_id', $user->id)
+                    ->where('student_id', $alert->student_id)
+                    ->value('can_receive_alerts') === true;
         }
 
         return false;
@@ -77,8 +80,10 @@ class AbsenceAlertPolicy
 
         // Parent can acknowledge their child's alerts
         if ($user->hasRole('parent')) {
-            // TODO: Implement parent-child relationship check
-            return false;
+            return StudentParent::isParentOfStudent($user->id, $alert->student_id)
+                && StudentParent::where('parent_user_id', $user->id)
+                    ->where('student_id', $alert->student_id)
+                    ->value('can_receive_alerts') === true;
         }
 
         return false;

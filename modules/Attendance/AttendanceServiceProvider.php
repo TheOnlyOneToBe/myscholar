@@ -18,6 +18,9 @@ use Modules\Attendance\Repositories\JustificationRepository;
 use Modules\Attendance\Repositories\AbsenceRepository;
 use Modules\Attendance\Services\AttendanceService;
 use Modules\Attendance\Services\JustificationService;
+use Modules\Attendance\Services\IPBlockingService;
+use Modules\Attendance\Services\AttendanceAuditService;
+use Modules\Audit\Services\AuditService;
 
 class AttendanceServiceProvider extends ServiceProvider
 {
@@ -43,6 +46,15 @@ class AttendanceServiceProvider extends ServiceProvider
                 $app->make(JustificationRepository::class),
                 $app->make(AttendanceRecordRepository::class),
             );
+        });
+
+        // Register IP blocking and audit services
+        $this->app->singleton(IPBlockingService::class, function ($app) {
+            return new IPBlockingService($app->make(AuditService::class));
+        });
+
+        $this->app->singleton(AttendanceAuditService::class, function ($app) {
+            return new AttendanceAuditService($app->make(AuditService::class));
         });
     }
 
