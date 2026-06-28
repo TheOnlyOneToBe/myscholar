@@ -74,14 +74,14 @@ class TeacherApplicationReview extends Component
         $application = TeacherApplication::findOrFail($applicationId);
 
         if (!$application->isPending()) {
-            $this->dispatch('error', 'Cette candidature a déjà été traitée.');
+            $this->dispatch('error', __('teachers::messages.error.invalid_status'));
             return;
         }
 
         $application->approve(auth()->user());
 
         $this->selectedApplication = null;
-        $this->dispatch('success', 'Candidature approuvée! L\'enseignant a été enregistré.');
+        $this->dispatch('success', __('teachers::messages.success.application_approved'));
         $this->reset('filter');
     }
 
@@ -97,13 +97,13 @@ class TeacherApplicationReview extends Component
         $this->validate([
             'rejectionReason' => 'required|string|min:5|max:500',
         ], [
-            'rejectionReason.required' => 'Veuillez fournir une raison pour le rejet.',
+            'rejectionReason.required' => __('teachers::validation.rejectionReason.required'),
         ]);
 
         $application = TeacherApplication::findOrFail($applicationId);
 
         if (!$application->isPending()) {
-            $this->dispatch('error', 'Cette candidature a déjà été traitée.');
+            $this->dispatch('error', __('teachers::messages.error.invalid_status'));
             return;
         }
 
@@ -112,7 +112,7 @@ class TeacherApplicationReview extends Component
         $this->selectedApplication = null;
         $this->showRejectModal = false;
         $this->rejectionReason = '';
-        $this->dispatch('success', 'Candidature rejetée.');
+        $this->dispatch('success', __('teachers::messages.success.application_rejected'));
         $this->reset('filter');
     }
 

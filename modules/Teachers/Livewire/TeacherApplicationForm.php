@@ -32,7 +32,7 @@ class TeacherApplicationForm extends Component
         // Check if user already has a pending application
         $existing = TeacherApplication::where('user_id', auth()->id())->first();
         if ($existing && $existing->isPending()) {
-            $this->message = 'Vous avez déjà une candidature en cours d\'examen.';
+            $this->message = __('teachers::messages.info.application_pending');
             $this->messageType = 'info';
         }
     }
@@ -85,8 +85,8 @@ class TeacherApplicationForm extends Component
             'email_office' => 'nullable|email|max:255',
             'selectedSubjects' => 'required|array|min:1',
         ], [
-            'selectedSubjects.required' => 'Veuillez sélectionner au moins une matière.',
-            'selectedSubjects.min' => 'Veuillez sélectionner au moins une matière.',
+            'selectedSubjects.required' => __('teachers::validation.selectedSubjects.required'),
+            'selectedSubjects.min' => __('teachers::validation.selectedSubjects.min'),
         ]);
 
         // Prepare subjects data
@@ -118,7 +118,7 @@ class TeacherApplicationForm extends Component
             ]
         );
 
-        $this->message = 'Votre candidature a été soumise avec succès! Un administrateur l\'examinera bientôt.';
+        $this->message = __('teachers::messages.success.application_submitted');
         $this->messageType = 'success';
         $this->reset();
     }

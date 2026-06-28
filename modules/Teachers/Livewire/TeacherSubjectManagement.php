@@ -46,7 +46,7 @@ class TeacherSubjectManagement extends Component
 
         // Check if already assigned
         if ($this->teacher->subjects()->where('subject_id', $this->newSubjectId)->exists()) {
-            $this->dispatch('error', 'Cette matière est déjà assignée.');
+            $this->dispatch('error', __('teachers::messages.error.subject_already_assigned'));
             return;
         }
 
@@ -64,7 +64,7 @@ class TeacherSubjectManagement extends Component
         $this->reset(['newSubjectId', 'newProficiency', 'newIsPrimary']);
         $this->newProficiency = 3;
         $this->newSinceYear = now()->year;
-        $this->dispatch('success', 'Matière ajoutée avec succès!');
+        $this->dispatch('success', __('teachers::messages.success.subject_added'));
     }
 
     public function updateSubject($subjectId, $proficiency, $sinceYear, $isPrimary)
@@ -85,13 +85,13 @@ class TeacherSubjectManagement extends Component
             'is_primary' => $isPrimary,
         ]);
 
-        $this->dispatch('success', 'Matière mise à jour!');
+        $this->dispatch('success', __('teachers::messages.success.subject_added'));
     }
 
     public function removeSubject($subjectId)
     {
         $this->teacher->subjects()->detach($subjectId);
-        $this->dispatch('success', 'Matière supprimée.');
+        $this->dispatch('success', __('teachers::messages.success.subject_removed'));
     }
 
     public function render()

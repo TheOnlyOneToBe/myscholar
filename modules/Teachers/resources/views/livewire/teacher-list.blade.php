@@ -2,8 +2,8 @@
     <div class="max-w-7xl mx-auto px-4">
         <!-- Header -->
         <div class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Gestion des Enseignants</h1>
-            <p class="text-gray-600">Consultez et gérez les profils de tous les enseignants</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ __('teachers::views.titles.teacher_list') }}</h1>
+            <p class="text-gray-600">{{ __('teachers::views.descriptions.manage_teachers') }}</p>
         </div>
 
         <!-- Barre de recherche et filtres -->
@@ -11,27 +11,27 @@
             <div class="space-y-4">
                 <!-- Recherche -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fas fa-search mr-2"></i>Rechercher</label>
-                    <input type="text" wire:model.live="search" placeholder="Nom, email, matricule, spécialisation..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fas fa-search mr-2"></i>{{ __('teachers::views.buttons.search') }}</label>
+                    <input type="text" wire:model.live="search" placeholder="{{ __('teachers::views.placeholders.search') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
 
                 <!-- Filtres -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Filière -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Filière</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.filters.filiere') }}</label>
                         <select wire:model.live="filiere" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Toutes les filières</option>
-                            <option value="generale">Générale</option>
-                            <option value="technique">Technique</option>
+                            <option value="">{{ __('teachers::views.filters.all_fieres') }}</option>
+                            <option value="generale">{{ __('teachers::views.fieres.generale') }}</option>
+                            <option value="technique">{{ __('teachers::views.fieres.technique') }}</option>
                         </select>
                     </div>
 
                     <!-- Spécialisation -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Spécialisation</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.filters.specialization') }}</label>
                         <select wire:model.live="specialization" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Toutes les spécialisations</option>
+                            <option value="">{{ __('teachers::views.filters.all_specializations') }}</option>
                             <option value="Mathématiques">Mathématiques</option>
                             <option value="Français">Français</option>
                             <option value="Anglais">Anglais</option>
@@ -45,17 +45,17 @@
 
                     <!-- Statut -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.filters.status') }}</label>
                         <select wire:model.live="isActive" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Tous les statuts</option>
-                            <option value="1">Actifs</option>
-                            <option value="0">Inactifs</option>
+                            <option value="">{{ __('teachers::views.filters.all_statuses') }}</option>
+                            <option value="1">{{ __('teachers::views.filters.active') }}</option>
+                            <option value="0">{{ __('teachers::views.filters.inactive') }}</option>
                         </select>
                     </div>
 
                     <!-- Affichage par page -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Par page</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.filters.per_page') }}</label>
                         <select wire:model.live="perPage" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -68,7 +68,7 @@
                 <!-- Bouton Réinitialiser -->
                 <div class="flex justify-end">
                     <button wire:click="clearFilters" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 font-medium transition">
-                        <i class="fas fa-redo mr-2"></i>Réinitialiser les filtres
+                        <i class="fas fa-redo mr-2"></i>{{ __('teachers::views.buttons.reset_filters') }}
                     </button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                             <tr>
                                 <th class="px-6 py-3 text-left">
                                     <button wire:click="setSortBy('created_at')" class="font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-2">
-                                        Nom
+                                        {{ __('teachers::views.labels.name') }}
                                         @if($sortBy === 'created_at')
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 @if($sortDirection === 'asc')
@@ -95,13 +95,13 @@
                                         @endif
                                     </button>
                                 </th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Matricule</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Spécialisation</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Filière</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Expérience</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Matières</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Statut</th>
-                                <th class="px-6 py-3 text-left font-semibold text-gray-900">Actions</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.teacher_code') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.specialization') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.filiere') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.years_of_experience') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.subjects') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::views.labels.status') }}</th>
+                                <th class="px-6 py-3 text-left font-semibold text-gray-900">{{ __('teachers::messages.actions.view') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -131,7 +131,7 @@
                                                     {{ $subject->code ?? $subject->name }}
                                                 </span>
                                             @empty
-                                                <span class="text-gray-500 text-sm">Aucune</span>
+                                                <span class="text-gray-500 text-sm">{{ __('teachers::views.messages.no_subjects') }}</span>
                                             @endforelse
                                             @if($teacher->subjects()->count() > 3)
                                                 <span class="inline-block px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">
@@ -143,21 +143,21 @@
                                     <td class="px-6 py-4">
                                         @if($teacher->is_active)
                                             <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
-                                                <i class="fas fa-check-circle mr-1"></i>Actif
+                                                <i class="fas fa-check-circle mr-1"></i>{{ __('teachers::views.statuses.active') }}
                                             </span>
                                         @else
                                             <span class="inline-block px-3 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full">
-                                                <i class="fas fa-times-circle mr-1"></i>Inactif
+                                                <i class="fas fa-times-circle mr-1"></i>{{ __('teachers::views.statuses.inactive') }}
                                             </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
                                             <a href="/teacher/{{ $teacher->id }}/subjects" class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-                                                <i class="fas fa-book mr-1"></i>Matières
+                                                <i class="fas fa-book mr-1"></i>{{ __('teachers::views.buttons.view_subjects') }}
                                             </a>
                                             <button class="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
-                                                <i class="fas fa-info-circle mr-1"></i>Détails
+                                                <i class="fas fa-info-circle mr-1"></i>{{ __('teachers::views.buttons.view_details') }}
                                             </button>
                                         </div>
                                     </td>
@@ -174,8 +174,8 @@
             @else
                 <div class="p-12 text-center">
                     <i class="fas fa-search text-gray-400 text-5xl mb-4"></i>
-                    <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun enseignant trouvé</h3>
-                    <p class="mt-1 text-gray-600">Essayez de modifier vos critères de recherche ou de filtrage</p>
+                    <h3 class="mt-2 text-lg font-medium text-gray-900">{{ __('teachers::views.messages.no_teachers_found') }}</h3>
+                    <p class="mt-1 text-gray-600">{{ __('teachers::views.messages.try_modifying_search') }}</p>
                 </div>
             @endif
         </div>
@@ -183,23 +183,23 @@
         <!-- Statistiques -->
         @if($teachers->count())
             <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4">Résumé</h2>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('teachers::views.summary.summary') }}</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="p-4 bg-blue-50 rounded-lg">
                         <p class="text-2xl font-bold text-blue-600">{{ $teachers->total() }}</p>
-                        <p class="text-sm text-gray-600">Enseignants trouvés</p>
+                        <p class="text-sm text-gray-600">{{ __('teachers::views.summary.found_teachers') }}</p>
                     </div>
                     <div class="p-4 bg-green-50 rounded-lg">
                         <p class="text-2xl font-bold text-green-600">{{ $teachers->currentPage() }}</p>
-                        <p class="text-sm text-gray-600">Page actuelle</p>
+                        <p class="text-sm text-gray-600">{{ __('teachers::views.summary.current_page') }}</p>
                     </div>
                     <div class="p-4 bg-purple-50 rounded-lg">
                         <p class="text-2xl font-bold text-purple-600">{{ $teachers->perPage() }}</p>
-                        <p class="text-sm text-gray-600">Par page</p>
+                        <p class="text-sm text-gray-600">{{ __('teachers::views.summary.per_page_label') }}</p>
                     </div>
                     <div class="p-4 bg-orange-50 rounded-lg">
                         <p class="text-2xl font-bold text-orange-600">{{ $teachers->lastPage() }}</p>
-                        <p class="text-sm text-gray-600">Total des pages</p>
+                        <p class="text-sm text-gray-600">{{ __('teachers::views.summary.total_pages') }}</p>
                     </div>
                 </div>
             </div>

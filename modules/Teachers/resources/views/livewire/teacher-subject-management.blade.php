@@ -1,12 +1,12 @@
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-4xl mx-auto px-4">
         <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-8">Gestion de Mes Matières</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">{{ __('teachers::views.titles.teacher_subjects') }}</h1>
 
             <!-- Matières actuelles -->
             @if($subjects->count())
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Mes Matières ({{ $subjects->count() }})</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __('teachers::views.sections.declared_subjects') }} ({{ $subjects->count() }})</h2>
                     <div class="space-y-4">
                         @foreach($subjects as $subject)
                             <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
@@ -15,35 +15,35 @@
                                         <h3 class="font-bold text-gray-900 text-lg">{{ $subject->name }}</h3>
                                         @if($subject->pivot->is_primary)
                                             <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                                                Spécialité Principale
+                                                {{ __('teachers::views.labels.primary_specialty') }}
                                             </span>
                                         @endif
                                     </div>
                                     <div class="mt-3 grid grid-cols-3 gap-4 text-sm">
                                         <div>
-                                            <p class="text-gray-600">Niveau de Maîtrise</p>
+                                            <p class="text-gray-600">{{ __('teachers::views.labels.proficiency_level') }}</p>
                                             <p class="font-medium text-gray-900">
                                                 {{ $subject->pivot->proficiency_level }}/5
                                                 @if($subject->pivot->proficiency_level == 5)
-                                                    (Maître)
+                                                    ({{ __('teachers::views.proficiency_levels.5') }})
                                                 @elseif($subject->pivot->proficiency_level == 4)
-                                                    (Expert)
+                                                    ({{ __('teachers::views.proficiency_levels.4') }})
                                                 @elseif($subject->pivot->proficiency_level == 3)
-                                                    (Compétent)
+                                                    ({{ __('teachers::views.proficiency_levels.3') }})
                                                 @elseif($subject->pivot->proficiency_level == 2)
-                                                    (Intermédiaire)
+                                                    ({{ __('teachers::views.proficiency_levels.2') }})
                                                 @else
-                                                    (Débutant)
+                                                    ({{ __('teachers::views.proficiency_levels.1') }})
                                                 @endif
                                             </p>
                                         </div>
                                         <div>
-                                            <p class="text-gray-600">Enseigne Depuis</p>
+                                            <p class="text-gray-600">{{ __('teachers::views.labels.since') }}</p>
                                             <p class="font-medium text-gray-900">{{ $subject->pivot->since_year }}</p>
                                         </div>
                                         <div>
-                                            <p class="text-gray-600">Années d'Enseignement</p>
-                                            <p class="font-medium text-gray-900">{{ now()->year - $subject->pivot->since_year }} ans</p>
+                                            <p class="text-gray-600">{{ __('teachers::views.labels.experience_years') }}</p>
+                                            <p class="font-medium text-gray-900">{{ now()->year - $subject->pivot->since_year }} {{ __('teachers::views.labels.experience_years') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -56,20 +56,20 @@
                 </div>
             @else
                 <div class="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p class="text-yellow-800">Vous n'avez pas encore déclaré de matières. Veuillez en ajouter.</p>
+                    <p class="text-yellow-800">{{ __('teachers::views.messages.no_subjects') }}</p>
                 </div>
             @endif
 
             <!-- Ajouter une matière -->
             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Ajouter une Nouvelle Matière</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __('teachers::views.sections.add_subject_section') }}</h2>
 
                 <form wire:submit="addSubject" class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Matière</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.labels.subject_name') }}</label>
                             <select wire:model="newSubjectId" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                <option value="">Sélectionner une matière...</option>
+                                <option value="">{{ __('teachers::views.messages.select_subject_to_add') }}</option>
                                 @foreach($availableSubjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
@@ -78,19 +78,19 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Niveau de Maîtrise</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.labels.proficiency_level') }}</label>
                             <select wire:model.number="newProficiency" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                <option value="1">1 - Débutant</option>
-                                <option value="2">2 - Intermédiaire</option>
-                                <option value="3">3 - Compétent</option>
-                                <option value="4">4 - Expert</option>
-                                <option value="5">5 - Maître</option>
+                                <option value="1">{{ __('teachers::views.proficiency_levels.1') }}</option>
+                                <option value="2">{{ __('teachers::views.proficiency_levels.2') }}</option>
+                                <option value="3">{{ __('teachers::views.proficiency_levels.3') }}</option>
+                                <option value="4">{{ __('teachers::views.proficiency_levels.4') }}</option>
+                                <option value="5">{{ __('teachers::views.proficiency_levels.5') }}</option>
                             </select>
                             @error('newProficiency') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Année de Début</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('teachers::views.labels.since_year') }}</label>
                             <input type="number" wire:model.number="newSinceYear" min="1900" max="{{ now()->year }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             @error('newSinceYear') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
@@ -98,13 +98,13 @@
                         <div class="flex items-end">
                             <label class="flex items-center cursor-pointer gap-2">
                                 <input type="checkbox" wire:model.boolean="newIsPrimary" class="rounded">
-                                <span class="text-gray-700 font-medium">Spécialité principale</span>
+                                <span class="text-gray-700 font-medium">{{ __('teachers::views.labels.primary_specialty') }}</span>
                             </label>
                         </div>
                     </div>
 
                     <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition">
-                        + Ajouter cette Matière
+                        <i class="fas fa-plus mr-2"></i>{{ __('teachers::views.buttons.add_subject') }}
                     </button>
                 </form>
             </div>
@@ -113,10 +113,10 @@
             <div class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
                 <h3 class="font-semibold text-blue-900 mb-3">💡 Conseil</h3>
                 <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
-                    <li>Déclarez toutes les matières que vous pouvez enseigner</li>
-                    <li>Indiquez votre niveau de maîtrise honnêtement (1-5)</li>
-                    <li>Marquez votre spécialité principale (celle dans laquelle vous êtes expert)</li>
-                    <li>Une fois validée par l'admin, votre profil apparaîtra aux coordinateurs pour les attributions de classes</li>
+                    <li>{{ __('teachers::views.messages.no_subjects') }}</li>
+                    <li>{{ __('teachers::views.labels.proficiency_level') }}</li>
+                    <li>{{ __('teachers::views.labels.primary_specialty') }}</li>
+                    <li>{{ __('teachers::views.messages.no_applications_found') }}</li>
                 </ul>
             </div>
         </div>

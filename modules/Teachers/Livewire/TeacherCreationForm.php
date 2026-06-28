@@ -125,10 +125,10 @@ class TeacherCreationForm extends Component
         }
 
         $this->validate($rules, [
-            'email.unique' => 'Cet email est déjà utilisé.',
-            'username.unique' => 'Ce nom d\'utilisateur est déjà pris.',
-            'teacherCode.unique' => 'Ce matricule existe déjà.',
-            'password.confirmed' => 'Les mots de passe ne correspondent pas.',
+            'email.unique' => __('teachers::validation.email.unique'),
+            'username.unique' => __('teachers::validation.username.unique'),
+            'teacherCode.unique' => __('teachers::validation.teacher_code.unique'),
+            'password.confirmed' => __('teachers::validation.password.confirmed'),
         ]);
 
         try {
@@ -167,13 +167,13 @@ class TeacherCreationForm extends Component
             ]);
 
             $this->showSuccess = true;
-            $this->message = "L'enseignant {$user->first_name} {$user->last_name} a été créé avec succès!";
+            $this->message = __('teachers::messages.success.teacher_created');
             $this->messageType = 'success';
 
             session()->flash('success', $this->message);
             return redirect()->route('teachers.list');
         } catch (\Exception $e) {
-            $this->message = 'Erreur lors de la création: ' . $e->getMessage();
+            $this->message = __('teachers::messages.error.database_error');
             $this->messageType = 'error';
         }
     }
