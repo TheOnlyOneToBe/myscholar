@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Dashboard\Controllers\StudentDashboardController;
 use Modules\Dashboard\Controllers\DocumentDownloadController;
+use Modules\Dashboard\Controllers\BulletinController;
 
 Route::middleware(['auth:sanctum'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Student Dashboard Routes
@@ -13,6 +14,14 @@ Route::middleware(['auth:sanctum'])->prefix('dashboard')->name('dashboard.')->gr
         Route::get('/billing', [StudentDashboardController::class, 'billing'])->name('billing');
         Route::get('/profile', [StudentDashboardController::class, 'profile'])->name('profile');
         Route::get('/chef-classe', [StudentDashboardController::class, 'chefClasseData'])->name('chef_classe');
+    });
+
+    // Bulletin Routes
+    Route::prefix('bulletins')->name('bulletin.')->group(function () {
+        Route::get('/download/{term?}', [BulletinController::class, 'downloadBulletin'])->name('download');
+        Route::get('/complete', [BulletinController::class, 'downloadCompleteBulletin'])->name('complete');
+        Route::get('/preview/{term?}', [BulletinController::class, 'previewBulletin'])->name('preview');
+        Route::get('/complete/preview', [BulletinController::class, 'previewCompleteBulletin'])->name('complete.preview');
     });
 
     // Document Download Routes
