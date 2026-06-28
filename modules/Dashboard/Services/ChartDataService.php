@@ -31,16 +31,20 @@ class ChartDataService
 
         $startDate = now()->subMonths($months)->startOfDay();
 
-        $monthlyData = DB::table('grades')
+        $grades = DB::table('grades')
             ->where('student_id', $student->id)
             ->where('created_at', '>=', $startDate)
-            ->select(
-                DB::raw("TO_CHAR(created_at, 'Mon') as month"),
-                DB::raw("AVG(score) as average")
-            )
-            ->groupByRaw("TO_CHAR(created_at, 'Mon'), DATE_TRUNC('month', created_at)")
-            ->orderByRaw("DATE_TRUNC('month', created_at)")
             ->get();
+
+        // Group grades by month (database-agnostic approach)
+        $monthlyAverages = [];
+        foreach ($grades as $grade) {
+            $key = Carbon::parse($grade->created_at)->format('Y-m');
+            if (!isset($monthlyAverages[$key])) {
+                $monthlyAverages[$key] = ['scores' => [], 'month' => $key];
+            }
+            $monthlyAverages[$key]['scores'][] = $grade->score;
+        }
 
         $labels = [];
         $data = [];
@@ -48,10 +52,15 @@ class ChartDataService
         for ($i = $months; $i >= 0; $i--) {
             $date = now()->subMonths($i);
             $monthName = $date->format('M y');
+            $key = $date->format('Y-m');
             $labels[] = $monthName;
 
-            $monthData = $monthlyData->firstWhere('month', $date->format('Mon'));
-            $data[] = $monthData ? round($monthData->average, 2) : null;
+            if (isset($monthlyAverages[$key])) {
+                $average = array_sum($monthlyAverages[$key]['scores']) / count($monthlyAverages[$key]['scores']);
+                $data[] = round($average, 2);
+            } else {
+                $data[] = null;
+            }
         }
 
         return [

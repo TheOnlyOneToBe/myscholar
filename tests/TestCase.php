@@ -15,9 +15,13 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            $class = 'Modules\\Auth\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
-            if (class_exists($class)) {
-                return $class;
+            $modules = ['Auth', 'Classes', 'Students', 'Grades', 'Config', 'Attendance', 'Billing'];
+
+            foreach ($modules as $module) {
+                $class = 'Modules\\' . $module . '\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+                if (class_exists($class)) {
+                    return $class;
+                }
             }
 
             return 'Database\\Factories\\' . class_basename($modelName) . 'Factory';

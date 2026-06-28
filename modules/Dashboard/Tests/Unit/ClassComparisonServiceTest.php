@@ -8,13 +8,13 @@ use Modules\Students\Models\Student;
 use Modules\Grades\Models\Grade;
 use Modules\Grades\Models\Subject;
 use Modules\Auth\Models\User;
-use Modules\Classes\Models\ClassModel;
+use Modules\Classes\Models\SchoolClass;
 
 class ClassComparisonServiceTest extends TestCase
 {
     protected ClassComparisonService $service;
     protected Student $student;
-    protected ClassModel $class;
+    protected SchoolClass $class;
     protected array $classmates;
 
     protected function setUp(): void
@@ -24,19 +24,19 @@ class ClassComparisonServiceTest extends TestCase
         $this->service = app(ClassComparisonService::class);
 
         // Créer une classe
-        $this->class = ClassModel::factory()->create();
+        $this->class = SchoolClass::factory()->create();
 
         // Créer l'étudiant principal
         $user = User::factory()->create();
-        $this->student = Student::factory()->create(['user_id' => $user->id]);
-        $this->student->enrollments()->create(['class_id' => $this->class->id]);
+        $this->student = Student::factory()->create(['user_id' => $user->id, 'current_class_id' => $this->class->id]);
+        $this->student->enrollments()->create(['class_id' => $this->class->id, 'enrollment_date' => now()]);
 
         // Créer des camarades de classe
         $this->classmates = [];
         for ($i = 0; $i < 4; $i++) {
             $classmateUser = User::factory()->create();
-            $classmate = Student::factory()->create(['user_id' => $classmateUser->id]);
-            $classmate->enrollments()->create(['class_id' => $this->class->id]);
+            $classmate = Student::factory()->create(['user_id' => $classmateUser->id, 'current_class_id' => $this->class->id]);
+            $classmate->enrollments()->create(['class_id' => $this->class->id, 'enrollment_date' => now()]);
             $this->classmates[] = $classmate;
         }
 

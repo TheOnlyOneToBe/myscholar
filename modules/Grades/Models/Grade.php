@@ -4,12 +4,15 @@ namespace Modules\Grades\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Students\Models\Student;
 use Modules\Config\Models\SchoolYear;
 use App\Models\User;
 
 class Grade extends Model
 {
+    use HasFactory;
+
     protected $table = 'grades';
 
     protected $fillable = [

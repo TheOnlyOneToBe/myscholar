@@ -8,14 +8,14 @@ use Modules\Students\Models\Student;
 use Modules\Grades\Models\Grade;
 use Modules\Grades\Models\Subject;
 use Modules\Auth\Models\User;
-use Modules\Classes\Models\ClassModel;
+use Modules\Classes\Models\SchoolClass;
 use Modules\Config\Models\SchoolInfo;
 
 class BulletinPDFServiceTest extends TestCase
 {
     protected BulletinPDFService $service;
     protected Student $student;
-    protected ClassModel $class;
+    protected SchoolClass $class;
     protected Subject $subject;
 
     protected function setUp(): void
@@ -35,13 +35,13 @@ class BulletinPDFServiceTest extends TestCase
 
         // Créer les données de test
         $user = User::factory()->create();
-        $this->class = ClassModel::factory()->create();
+        $this->class = SchoolClass::factory()->create();
         $this->student = Student::factory()->create([
             'user_id' => $user->id,
             'first_name' => 'Jean',
             'last_name' => 'Dupont',
         ]);
-        $this->student->enrollments()->create(['class_id' => $this->class->id]);
+        $this->student->enrollments()->create(['class_id' => $this->class->id, 'enrollment_date' => now()]);
 
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
 

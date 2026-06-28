@@ -6,13 +6,13 @@ use Tests\TestCase;
 use Modules\Dashboard\Services\WeeklyScheduleService;
 use Modules\Students\Models\Student;
 use Modules\Auth\Models\User;
-use Modules\Classes\Models\ClassModel;
+use Modules\Classes\Models\SchoolClass;
 
 class WeeklyScheduleServiceTest extends TestCase
 {
     protected WeeklyScheduleService $service;
     protected Student $student;
-    protected ClassModel $class;
+    protected SchoolClass $class;
 
     protected function setUp(): void
     {
@@ -21,9 +21,9 @@ class WeeklyScheduleServiceTest extends TestCase
         $this->service = app(WeeklyScheduleService::class);
 
         $user = User::factory()->create();
-        $this->class = ClassModel::factory()->create();
+        $this->class = SchoolClass::factory()->create();
         $this->student = Student::factory()->create(['user_id' => $user->id]);
-        $this->student->enrollments()->create(['class_id' => $this->class->id]);
+        $this->student->enrollments()->create(['class_id' => $this->class->id, 'enrollment_date' => now()]);
 
         // Note: L'horaire dépend d'une table 'timetables' qui n'existe peut-être pas en test
         // Les tests vérifieront principalement la structure

@@ -36,4 +36,9 @@ class StudentEnrollment extends Model
         return $this->belongsTo(SchoolYear::class);
     }
 
+    public function class(): BelongsTo
+    {
+        return $this->belongsTo(\Modules\Classes\Models\SchoolClass::class, 'class_id');
+    }
+
 }

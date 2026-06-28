@@ -5,6 +5,8 @@ namespace Modules\Students\Models;
 use App\Traits\BelongsToSchoolYear;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\ValueObjects\Email;
 use Modules\Students\ValueObjects\Gender;
@@ -12,9 +14,10 @@ use Modules\Students\ValueObjects\PhoneNumber;
 
 class Student extends Model
 {
-    use BelongsToSchoolYear;
+    use BelongsToSchoolYear, HasFactory;
 
     protected $fillable = [
+        'user_id',
         'student_id_number',
         'email',
         'phone_number',
@@ -36,6 +39,14 @@ class Student extends Model
             'date_of_birth' => 'date',
             'enrollment_status' => EnrollmentStatus::class,
         ];
+    }
+
+    /**
+     * Get the user associated with this student
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(\Modules\Auth\Models\User::class);
     }
 
     /**
@@ -272,5 +283,13 @@ class Student extends Model
         return $this->familyContacts()
             ->emergency()
             ->get();
+    }
+
+    /**
+     * Get the current class
+     */
+    public function getCurrentClass()
+    {
+        return \Modules\Classes\Models\SchoolClass::find($this->current_class_id);
     }
 }

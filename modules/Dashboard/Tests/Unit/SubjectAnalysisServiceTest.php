@@ -8,13 +8,13 @@ use Modules\Students\Models\Student;
 use Modules\Grades\Models\Grade;
 use Modules\Grades\Models\Subject;
 use Modules\Auth\Models\User;
-use Modules\Classes\Models\ClassModel;
+use Modules\Classes\Models\SchoolClass;
 
 class SubjectAnalysisServiceTest extends TestCase
 {
     protected SubjectAnalysisService $service;
     protected Student $student;
-    protected ClassModel $class;
+    protected SchoolClass $class;
     protected array $subjects;
 
     protected function setUp(): void
@@ -24,9 +24,9 @@ class SubjectAnalysisServiceTest extends TestCase
         $this->service = app(SubjectAnalysisService::class);
 
         $user = User::factory()->create();
-        $this->class = ClassModel::factory()->create();
+        $this->class = SchoolClass::factory()->create();
         $this->student = Student::factory()->create(['user_id' => $user->id]);
-        $this->student->enrollments()->create(['class_id' => $this->class->id]);
+        $this->student->enrollments()->create(['class_id' => $this->class->id, 'enrollment_date' => now()]);
 
         // Créer des sujets
         $this->subjects = [];
