@@ -1,6 +1,6 @@
 <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
     <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-800">🔔 Alertes Intelligentes</h3>
+        <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-bell mr-2"></i> Alertes Intelligentes</h3>
         @if ($alerts['total_alerts'] > 0)
         <span class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full font-bold text-sm">
             {{ $alerts['critical_count'] }} critique{{ $alerts['critical_count'] > 1 ? 's' : '' }}
@@ -16,7 +16,7 @@
     @else
         @if ($alerts['total_alerts'] == 0)
         <div class="text-center py-8">
-            <p class="text-5xl mb-3">✅</p>
+            <p class="text-5xl mb-3"><i class="fas fa-check-circle"></i></p>
             <p class="text-gray-700 font-semibold">Aucune alerte!</p>
             <p class="text-gray-500 text-sm">Tu es en bon chemin. Reste vigilant!</p>
         </div>
@@ -30,7 +30,7 @@
             }">
                 <div class="flex items-start justify-between mb-2">
                     <div class="flex items-start gap-3 flex-1">
-                        <span class="text-2xl">{{ $alert['emoji'] }}</span>
+                        <i class="fas {{ $alert['icon'] }} text-2xl"></i>
                         <div>
                             <h4 class="font-bold {{ $alert['priority'] >= 4 ? 'text-red-800' : ($alert['priority'] == 3 ? 'text-orange-800' : 'text-yellow-800') }}">
                                 {{ $alert['title'] }}
@@ -43,7 +43,7 @@
                         class="text-gray-400 hover:text-gray-600 transition-colors"
                         title="Ignorer"
                     >
-                        ✕
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="ml-11">

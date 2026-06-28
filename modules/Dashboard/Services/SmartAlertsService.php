@@ -81,11 +81,11 @@ class SmartAlertsService
                 'id' => 'overdue_invoice',
                 'type' => 'billing',
                 'priority' => $daysOverdue > 30 ? 4 : 3,
-                'title' => "Facture(s) impayée(s) en retard 💰",
+                'title' => "Facture(s) impayée(s) en retard",
                 'message' => "Vous avez {$overdueCount} facture(s) en retard depuis {$daysOverdue} jours",
                 'action_url' => '/dashboard/billing',
                 'action_label' => 'Payer maintenant',
-                'emoji' => '⚠️',
+                'icon' => 'fa-money-bill-alt',
             ];
         }
 
@@ -111,11 +111,11 @@ class SmartAlertsService
                 'id' => 'high_absence',
                 'type' => 'attendance',
                 'priority' => 3,
-                'title' => "Nombreuses absences cette semaine 📚",
+                'title' => "Nombreuses absences cette semaine",
                 'message' => "Vous avez {$thisWeekAbsences} absence(s) cette semaine",
                 'action_url' => '/dashboard/attendance',
                 'action_label' => 'Voir les détails',
-                'emoji' => '📌',
+                'icon' => 'fa-book',
             ];
         }
 
@@ -131,11 +131,11 @@ class SmartAlertsService
                 'id' => 'danger_zone_absence',
                 'type' => 'attendance',
                 'priority' => 4,
-                'title' => "Zone de danger: Limite d'absences approche 🔴",
+                'title' => "Zone de danger: Limite d'absences approche",
                 'message' => "Vous approchez de la limite d'absences tolérées ({$monthAbsences}/10)",
                 'action_url' => '/dashboard/attendance',
                 'action_label' => 'Justifier une absence',
-                'emoji' => '🚨',
+                'icon' => 'fa-exclamation-circle',
             ];
         }
 
@@ -165,11 +165,11 @@ class SmartAlertsService
                 'id' => 'low_grades',
                 'type' => 'academic',
                 'priority' => 3,
-                'title' => "Mauvaises notes détectées 📉",
+                'title' => "Mauvaises notes détectées",
                 'message' => "Plusieurs mauvaises notes récentes, notamment en {$worstSubject->name}",
                 'action_url' => '/dashboard/grades',
                 'action_label' => 'Voir mes notes',
-                'emoji' => '⚠️',
+                'icon' => 'fa-chart-line',
             ];
         }
 
@@ -194,11 +194,11 @@ class SmartAlertsService
                 'id' => 'pending_appeals',
                 'type' => 'academic',
                 'priority' => 2,
-                'title' => "Appel(s) en attente de réponse 📋",
+                'title' => "Appel(s) en attente de réponse",
                 'message' => "Vous avez {$pendingAppeals} appel(s) en attente",
                 'action_url' => '/dashboard/appeals',
                 'action_label' => 'Voir les appels',
-                'emoji' => '⏳',
+                'icon' => 'fa-clipboard-list',
             ];
         }
 
@@ -229,11 +229,11 @@ class SmartAlertsService
                 'id' => 'unjustified_absences',
                 'type' => 'attendance',
                 'priority' => 2,
-                'title' => "Absences non justifiées 📝",
+                'title' => "Absences non justifiées",
                 'message' => "Vous avez {$unjustifiedAbsences} absence(s) à justifier",
                 'action_url' => '/dashboard/attendance',
                 'action_label' => 'Justifier une absence',
-                'emoji' => '📌',
+                'icon' => 'fa-file-alt',
             ];
         }
 
@@ -259,11 +259,11 @@ class SmartAlertsService
                 'id' => 'upcoming_exams',
                 'type' => 'academic',
                 'priority' => 3,
-                'title' => "Examen(s) très bientôt 📝",
+                'title' => "Examen(s) très bientôt",
                 'message' => "Vous avez {$soonExams} examen(s) dans les 3 prochains jours",
                 'action_url' => '/dashboard/calendar',
                 'action_label' => 'Voir l\'horaire',
-                'emoji' => '⏰',
+                'icon' => 'fa-clock',
             ];
         }
 

@@ -1,6 +1,6 @@
 <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
     <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-800">📚 Analyse par Matière</h3>
+        <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-book mr-2"></i> Analyse par Matière</h3>
         <span class="text-sm font-semibold text-purple-600">{{ $analysis['total_subjects'] ?? 0 }} matières</span>
     </div>
 
@@ -15,7 +15,7 @@
             @if ($analysis['best_subject'])
             <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                 <div class="flex items-center justify-between mb-2">
-                    <h4 class="font-semibold text-green-800">🏆 Meilleure Matière</h4>
+                    <h4 class="font-semibold text-green-800"><i class="fas fa-trophy mr-1"></i> Meilleure Matière</h4>
                     <span class="text-2xl font-bold text-green-600">{{ $analysis['best_subject']['average'] }}/20</span>
                 </div>
                 <p class="text-gray-700"><strong>{{ $analysis['best_subject']['name'] }}</strong></p>
@@ -26,7 +26,7 @@
             @if ($analysis['worst_subject'])
             <div class="bg-red-50 p-4 rounded-lg border border-red-200">
                 <div class="flex items-center justify-between mb-2">
-                    <h4 class="font-semibold text-red-800">⚠️ À Améliorer</h4>
+                    <h4 class="font-semibold text-red-800"><i class="fas fa-exclamation-triangle mr-1"></i> À Améliorer</h4>
                     <span class="text-2xl font-bold text-red-600">{{ $analysis['worst_subject']['average'] }}/20</span>
                 </div>
                 <p class="text-gray-700"><strong>{{ $analysis['worst_subject']['name'] }}</strong></p>
@@ -38,7 +38,7 @@
         <!-- Matières à Améliorer -->
         @if (count($analysis['improvement_needed']) > 0)
         <div class="mb-6 p-4 bg-orange-50 border-l-4 border-orange-500 rounded">
-            <h4 class="font-semibold text-orange-800 mb-3">📌 Priorités d'Amélioration</h4>
+            <h4 class="font-semibold text-orange-800 mb-3"><i class="fas fa-thumbtack mr-1"></i> Priorités d'Amélioration</h4>
             <div class="space-y-2">
                 @foreach ($analysis['improvement_needed'] as $subject)
                 <div class="flex items-center justify-between">

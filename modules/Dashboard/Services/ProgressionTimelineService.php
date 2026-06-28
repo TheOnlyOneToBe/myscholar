@@ -109,11 +109,11 @@ class ProgressionTimelineService
     private function getProgressStatus(array $trend): string
     {
         if ($trend['direction'] === 'up') {
-            return 'excellent'; // 📈 En hausse
+            return 'excellent'; // Trend up
         } elseif ($trend['direction'] === 'down') {
-            return 'concerning'; // 📉 En baisse
+            return 'concerning'; // Trend down
         }
-        return 'stable'; // ➡️ Stable
+        return 'stable'; // Trend stable
     }
 
     private function getTimelineEvents(int $studentId, Carbon $startDate): array
@@ -134,16 +134,16 @@ class ProgressionTimelineService
                 $score = $grade->score;
                 if ($score >= 18) {
                     $type = 'excellent';
-                    $emoji = '🌟';
+                    $icon = 'fa-star';
                 } elseif ($score >= 16) {
                     $type = 'good';
-                    $emoji = '✅';
+                    $icon = 'fa-check-circle';
                 } elseif ($score >= 12) {
                     $type = 'average';
-                    $emoji = '➖';
+                    $icon = 'fa-minus-circle';
                 } else {
                     $type = 'poor';
-                    $emoji = '⚠️';
+                    $icon = 'fa-exclamation-triangle';
                 }
 
                 return [
@@ -151,7 +151,7 @@ class ProgressionTimelineService
                     'subject' => $grade->subject,
                     'score' => $grade->score,
                     'type' => $type,
-                    'emoji' => $emoji,
+                    'icon' => $icon,
                     'date' => Carbon::parse($grade->created_at)->format('d/m/Y'),
                 ];
             })

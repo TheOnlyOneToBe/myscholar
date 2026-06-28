@@ -1,17 +1,17 @@
 <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
     <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-800">📈 Timeline de Progression (6 mois)</h3>
+        <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-chart-line mr-2"></i> Timeline de Progression (6 mois)</h3>
         <span class="text-sm font-semibold" :class="{
             'text-green-600': '{{ $timeline['trend']['direction'] }}' === 'up',
             'text-red-600': '{{ $timeline['trend']['direction'] }}' === 'down',
             'text-gray-600': '{{ $timeline['trend']['direction'] }}' === 'stable'
         }">
             @if ($timeline['trend']['direction'] === 'up')
-                📈 +{{ $timeline['trend']['percentage'] }}%
+                <i class="fas fa-arrow-up mr-1"></i> +{{ $timeline['trend']['percentage'] }}%
             @elseif ($timeline['trend']['direction'] === 'down')
-                📉 {{ $timeline['trend']['percentage'] }}%
+                <i class="fas fa-arrow-down mr-1"></i> {{ $timeline['trend']['percentage'] }}%
             @else
-                ➡️ Stable
+                <i class="fas fa-arrow-right mr-1"></i> Stable
             @endif
         </span>
     </div>
@@ -33,11 +33,11 @@
                 'text-orange-800': '{{ $timeline['progress_status'] }}' === 'concerning'
             }">
                 @if ($timeline['progress_status'] === 'excellent')
-                    ✅ Progression Excellente - Continue comme ça!
+                    <i class="fas fa-check-circle mr-1"></i> Progression Excellente - Continue comme ça!
                 @elseif ($timeline['progress_status'] === 'stable')
-                    ➡️ Progression Stable - Reste vigilant
+                    <i class="fas fa-arrow-right mr-1"></i> Progression Stable - Reste vigilant
                 @else
-                    ⚠️ Progression en Baisse - Intensifie tes efforts
+                    <i class="fas fa-exclamation-triangle mr-1"></i> Progression en Baisse - Intensifie tes efforts
                 @endif
             </p>
         </div>
@@ -64,11 +64,11 @@
 
         <!-- Timeline Events -->
         <div class="mb-4">
-            <h4 class="font-semibold text-gray-800 mb-3">📌 Dernières Notes</h4>
+            <h4 class="font-semibold text-gray-800 mb-3"><i class="fas fa-thumbtack mr-1"></i> Dernières Notes</h4>
             <div class="space-y-2 max-h-48 overflow-y-auto">
                 @forelse ($timeline['timeline_events'] as $event)
                 <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
-                    <span class="text-xl">{{ $event['emoji'] }}</span>
+                    <i class="fas {{ $event['icon'] }} text-lg"></i>
                     <div class="flex-1">
                         <p class="text-sm font-semibold text-gray-800">{{ $event['subject'] }}</p>
                         <p class="text-xs text-gray-600">{{ $event['date'] }}</p>

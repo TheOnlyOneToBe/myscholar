@@ -1,6 +1,6 @@
 <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-teal-500">
     <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-800">⏰ Horaire de la Semaine</h3>
+        <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-clock mr-2"></i> Horaire de la Semaine</h3>
         <span class="text-xs bg-teal-100 text-teal-800 px-3 py-1 rounded-full">{{ $schedule['week_start'] }} au {{ $schedule['week_end'] }}</span>
     </div>
 
@@ -11,10 +11,10 @@
     @else
         <!-- Horaire d'Aujourd'hui -->
         <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-500">
-            <h4 class="font-bold text-gray-800 mb-3">📍 Aujourd'hui</h4>
+            <h4 class="font-bold text-gray-800 mb-3"><i class="fas fa-map-marker-alt mr-1"></i> Aujourd'hui</h4>
             @if ($schedule['today_schedule']['is_weekend'])
             <div class="text-center py-4">
-                <p class="text-2xl mb-2">🎉</p>
+                <p class="text-2xl mb-2"><i class="fas fa-party-horn"></i></p>
                 <p class="text-gray-700 font-semibold">{{ $schedule['today_schedule']['message'] }}</p>
             </div>
             @else
@@ -30,9 +30,9 @@
                         <div>
                             <p class="font-bold text-gray-800">{{ $course['subject'] }}</p>
                             <p class="text-sm text-gray-600">{{ $course['start_time'] }} - {{ $course['end_time'] }}</p>
-                            <p class="text-sm text-gray-700">📍 Salle {{ $course['room'] }} • 👨‍🏫 {{ $course['teacher'] }}</p>
+                            <p class="text-sm text-gray-700"><i class="fas fa-map-marker-alt mr-1"></i> Salle {{ $course['room'] }} • <i class="fas fa-chalkboard-user mr-1"></i> {{ $course['teacher'] }}</p>
                         </div>
-                        <span class="text-2xl">{{ $course['emoji'] }}</span>
+                        <i class="fas {{ $course['icon'] }} text-2xl"></i>
                     </div>
                 </div>
                 @endforeach
@@ -90,8 +90,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-4 text-sm text-gray-700">
-                        <span>📍 Salle {{ $course['room'] }}</span>
-                        <span>⏱️ {{ $course['duration'] }}</span>
+                        <span><i class="fas fa-map-marker-alt mr-1"></i> Salle {{ $course['room'] }}</span>
+                        <span><i class="fas fa-stopwatch mr-1"></i> {{ $course['duration'] }}</span>
                     </div>
                 </div>
                 @endforeach

@@ -102,7 +102,7 @@ class WeeklyScheduleService
             return [
                 'date' => $today->format('d/m/Y'),
                 'is_weekend' => true,
-                'message' => 'C\'est le week-end! Repose-toi bien 🎉',
+                'message' => 'C\'est le week-end! Repose-toi bien',
                 'courses' => [],
             ];
         }
@@ -139,7 +139,7 @@ class WeeklyScheduleService
                     'end_time' => substr($course->end_time, 0, 5),
                     'room' => $course->room,
                     'status' => $status,
-                    'emoji' => $status === 'in_progress' ? '🔴' : '⚪',
+                    'icon' => $status === 'in_progress' ? 'fa-circle' : 'fa-circle-outline',
                 ];
             })
             ->toArray();

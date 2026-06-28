@@ -57,7 +57,7 @@ class AcademicCalendarService
                     'type' => $event->type, // 'exam', 'control', 'project', 'holiday'
                     'description' => $event->description,
                     'days_until' => $daysUntil,
-                    'emoji' => $this->getEventEmoji($event->type),
+                    'icon' => $this->getEventIcon($event->type),
                 ];
             })
             ->toArray();
@@ -81,13 +81,13 @@ class AcademicCalendarService
 
                 if ($now->between($start, $end)) {
                     $status = 'in_progress';
-                    $icon = '⏳';
+                    $iconClass = 'fa-hourglass-half';
                 } elseif ($now > $end) {
                     $status = 'completed';
-                    $icon = '✅';
+                    $iconClass = 'fa-check-circle';
                 } else {
                     $status = 'upcoming';
-                    $icon = '📅';
+                    $iconClass = 'fa-calendar-alt';
                 }
 
                 return [
@@ -96,7 +96,7 @@ class AcademicCalendarService
                     'end_date' => $end->format('d/m/Y'),
                     'type' => $period->type,
                     'status' => $status,
-                    'icon' => $icon,
+                    'icon_class' => $iconClass,
                 ];
             })
             ->toArray();
@@ -154,15 +154,15 @@ class AcademicCalendarService
             ->toArray();
     }
 
-    private function getEventEmoji(string $type): string
+    private function getEventIcon(string $type): string
     {
         return match ($type) {
-            'exam' => '📝',
-            'control' => '✏️',
-            'project' => '📊',
-            'holiday' => '🎉',
-            'deadline' => '⏰',
-            default => '📌',
+            'exam' => 'fa-file-alt',
+            'control' => 'fa-pen-square',
+            'project' => 'fa-chart-bar',
+            'holiday' => 'fa-party-horn',
+            'deadline' => 'fa-clock',
+            default => 'fa-thumbtack',
         };
     }
 
