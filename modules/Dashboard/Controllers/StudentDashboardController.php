@@ -188,4 +188,28 @@ class StudentDashboardController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Settings page for student
+     */
+    public function settings()
+    {
+        $user = auth()->user();
+
+        if (!$user->hasRole('student')) {
+            abort(403, 'Only students can access settings');
+        }
+
+        return view('dashboard::student.settings', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Help page for student
+     */
+    public function help()
+    {
+        return view('dashboard::student.help');
+    }
 }
