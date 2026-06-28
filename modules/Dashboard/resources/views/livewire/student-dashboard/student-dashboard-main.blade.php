@@ -66,7 +66,7 @@
                 wire:click="switchTab('chef-classe')"
                 class="py-4 px-1 border-b-2 @if($activeTab === 'chef-classe') border-blue-500 text-blue-600 @else border-transparent text-gray-600 hover:text-gray-800 @endif"
             >
-                Chef de Classe 👨‍💼
+                <i class="fas fa-user-tie mr-2"></i>Chef de Classe
             </button>
             @endif
         </div>

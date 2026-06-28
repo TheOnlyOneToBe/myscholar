@@ -1,5 +1,5 @@
 <div class="class-section bg-white p-6 rounded-lg shadow">
-    <h2 class="text-2xl font-bold mb-6">🏫 Ma Classe</h2>
+    <h2 class="text-2xl font-bold mb-6"><i class="fas fa-school mr-2"></i>Ma Classe</h2>
 
     @if(!$moduleAvailable)
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
