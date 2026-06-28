@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Layout;
 use Modules\Auth\Models\User;
+use Modules\Auth\Services\RedirectService;
 use Illuminate\Support\Facades\Auth;
 
 #[Layout('auth::layouts.app')]
@@ -18,6 +19,12 @@ class LoginComponent extends Component
     public string $password = '';
 
     public bool $remember = false;
+
+    public function __construct(
+        private RedirectService $redirectService,
+    ) {
+        parent::__construct();
+    }
 
     public function login()
     {
@@ -37,7 +44,11 @@ class LoginComponent extends Component
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
-            return $this->redirect('/dashboard', navigate: true);
+
+            $user = auth()->user();
+            $redirectPath = $this->redirectService->getRedirectPath($user);
+
+            return $this->redirect($redirectPath, navigate: true);
         }
 
         $this->addError('email', 'These credentials do not match our records.');

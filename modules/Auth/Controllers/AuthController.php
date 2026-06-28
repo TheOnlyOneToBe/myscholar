@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Modules\Auth\Services\AuthService;
 use Modules\Auth\Services\PasswordResetService;
+use Modules\Auth\Services\RedirectService;
 use Modules\Auth\Requests\LoginRequest;
 use Modules\Auth\Requests\ForgotPasswordRequest;
 use Modules\Auth\Requests\ResetPasswordRequest;
@@ -18,6 +19,7 @@ class AuthController extends Controller
     public function __construct(
         private AuthService $authService,
         private PasswordResetService $passwordResetService,
+        private RedirectService $redirectService,
     ) {}
 
     /**
@@ -42,12 +44,16 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $user = $result['user'];
+        $redirectPath = $this->redirectService->getRedirectPath($user);
+
         return response()->json([
             'success' => true,
             'message' => 'Connexion réussie',
-            'user' => $result['user'],
+            'user' => $user,
             'token' => $result['token'],
             'expires_at' => $result['expires_at'],
+            'redirect' => $redirectPath,
         ]);
     }
 
