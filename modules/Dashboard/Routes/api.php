@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Dashboard\Controllers\StudentDashboardController;
+use Modules\Dashboard\Controllers\DocumentDownloadController;
 
 Route::middleware(['auth:sanctum'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Student Dashboard Routes
@@ -12,5 +13,14 @@ Route::middleware(['auth:sanctum'])->prefix('dashboard')->name('dashboard.')->gr
         Route::get('/billing', [StudentDashboardController::class, 'billing'])->name('billing');
         Route::get('/profile', [StudentDashboardController::class, 'profile'])->name('profile');
         Route::get('/chef-classe', [StudentDashboardController::class, 'chefClasseData'])->name('chef_classe');
+    });
+
+    // Document Download Routes
+    Route::prefix('documents')->name('documents.')->group(function () {
+        Route::get('/certificate/{academicYearId}', [DocumentDownloadController::class, 'schoolCertificate'])->name('certificate');
+        Route::get('/report-card/{academicYearId}', [DocumentDownloadController::class, 'reportCard'])->name('report-card');
+        Route::get('/transcript', [DocumentDownloadController::class, 'transcript'])->name('transcript');
+        Route::get('/enrollment-summary', [DocumentDownloadController::class, 'enrollmentSummary'])->name('enrollment-summary');
+        Route::get('/invoice/{invoiceId}', [DocumentDownloadController::class, 'invoice'])->name('invoice');
     });
 });
