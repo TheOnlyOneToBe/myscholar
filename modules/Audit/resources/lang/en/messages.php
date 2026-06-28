@@ -1,0 +1,56 @@
+<?php
+
+return [
+    'audit_logs' => [
+        'list' => 'Audit Logs',
+        'view' => 'View Log',
+        'export' => 'Export Logs',
+        'clear' => 'Clear Logs',
+        'filter' => 'Filter Logs',
+        'search' => 'Search Logs',
+    ],
+    'activity_types' => [
+        'create' => 'Create',
+        'update' => 'Update',
+        'delete' => 'Delete',
+        'login' => 'Login',
+        'logout' => 'Logout',
+        'export' => 'Export',
+        'import' => 'Import',
+        'download' => 'Download',
+        'upload' => 'Upload',
+        'view' => 'View',
+        'approve' => 'Approve',
+        'reject' => 'Reject',
+    ],
+    'deleted_records' => [
+        'list' => 'Deleted Records',
+        'view' => 'View Record',
+        'restore' => 'Restore Record',
+        'permanently_delete' => 'Permanently Delete',
+        'restored' => 'Record restored',
+    ],
+    'change_log' => [
+        'field_changed' => 'Field Changed',
+        'old_value' => 'Old Value',
+        'new_value' => 'New Value',
+        'changed_at' => 'Changed At',
+        'changed_by' => 'Changed By',
+    ],
+    'user_activity' => [
+        'user' => 'User',
+        'action' => 'Action',
+        'timestamp' => 'Timestamp',
+        'ip_address' => 'IP Address',
+        'user_agent' => 'User Agent',
+        'status' => 'Status',
+        'success' => 'Success',
+        'failure' => 'Failure',
+    ],
+    'actions' => [
+        'logs_exported' => 'Logs exported successfully',
+        'logs_cleared' => 'Logs cleared successfully',
+        'record_restored' => 'Record restored successfully',
+        'record_permanently_deleted' => 'Record permanently deleted',
+    ],
+];

@@ -1,0 +1,56 @@
+<?php
+
+return [
+    'audit_logs' => [
+        'list' => 'Journaux d\'Audit',
+        'view' => 'Voir le Journal',
+        'export' => 'Exporter les Journaux',
+        'clear' => 'Effacer les Journaux',
+        'filter' => 'Filtrer les Journaux',
+        'search' => 'Rechercher dans les Journaux',
+    ],
+    'activity_types' => [
+        'create' => 'Création',
+        'update' => 'Modification',
+        'delete' => 'Suppression',
+        'login' => 'Connexion',
+        'logout' => 'Déconnexion',
+        'export' => 'Export',
+        'import' => 'Import',
+        'download' => 'Téléchargement',
+        'upload' => 'Upload',
+        'view' => 'Consultation',
+        'approve' => 'Approbation',
+        'reject' => 'Rejet',
+    ],
+    'deleted_records' => [
+        'list' => 'Enregistrements Supprimés',
+        'view' => 'Voir l\'Enregistrement',
+        'restore' => 'Restaurer l\'Enregistrement',
+        'permanently_delete' => 'Supprimer Définitivement',
+        'restored' => 'Enregistrement restauré',
+    ],
+    'change_log' => [
+        'field_changed' => 'Champ modifié',
+        'old_value' => 'Ancienne Valeur',
+        'new_value' => 'Nouvelle Valeur',
+        'changed_at' => 'Modifié le',
+        'changed_by' => 'Modifié par',
+    ],
+    'user_activity' => [
+        'user' => 'Utilisateur',
+        'action' => 'Action',
+        'timestamp' => 'Horodatage',
+        'ip_address' => 'Adresse IP',
+        'user_agent' => 'Agent Utilisateur',
+        'status' => 'Statut',
+        'success' => 'Succès',
+        'failure' => 'Échec',
+    ],
+    'actions' => [
+        'logs_exported' => 'Journaux exportés avec succès',
+        'logs_cleared' => 'Journaux effacés avec succès',
+        'record_restored' => 'Enregistrement restauré avec succès',
+        'record_permanently_deleted' => 'Enregistrement supprimé définitivement',
+    ],
+];
