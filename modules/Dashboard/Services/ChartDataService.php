@@ -5,15 +5,20 @@ namespace Modules\Dashboard\Services;
 use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 
 class ChartDataService
 {
     public function getProgressionChartData(int $months = 6): array
     {
+        if (!Schema::hasTable('grades')) {
+            return $this->getEmptyChartData();
+        }
+
         $student = $this->getStudent();
         if (!$student) {
-            return [];
+            return $this->getEmptyChartData();
         }
 
         $startDate = now()->subMonths($months)->startOfDay();
@@ -63,9 +68,13 @@ class ChartDataService
 
     public function getSubjectDistributionChartData(): array
     {
+        if (!Schema::hasTable('grades') || !Schema::hasTable('subjects')) {
+            return $this->getEmptyChartData();
+        }
+
         $student = $this->getStudent();
         if (!$student) {
-            return [];
+            return $this->getEmptyChartData();
         }
 
         $subjects = DB::table('grades')
@@ -112,9 +121,13 @@ class ChartDataService
 
     public function getClassComparisonRadarData(): array
     {
+        if (!Schema::hasTable('grades') || !Schema::hasTable('subjects') || !Schema::hasTable('students')) {
+            return $this->getEmptyChartData();
+        }
+
         $student = $this->getStudent();
         if (!$student) {
-            return [];
+            return $this->getEmptyChartData();
         }
 
         $classId = $student->getCurrentClass()?->id;
@@ -171,6 +184,24 @@ class ChartDataService
 
     private function getStudent(): ?Student
     {
-        return Student::where('user_id', Auth::id())->first();
+        try {
+            return Student::where('user_id', Auth::id())->first();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    private function getEmptyChartData(): array
+    {
+        return [
+            'labels' => [],
+            'datasets' => [
+                [
+                    'label' => 'Pas de données',
+                    'data' => [],
+                    'backgroundColor' => '#e5e7eb',
+                ]
+            ]
+        ];
     }
 }

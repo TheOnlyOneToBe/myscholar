@@ -5,6 +5,8 @@ namespace Modules\Dashboard\Services;
 use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class BulletinPDFService
@@ -13,7 +15,23 @@ class BulletinPDFService
     {
         $student = Student::with('enrollments.class')->find($studentId);
         if (!$student) {
-            return [];
+            throw new \Exception("Élève non trouvé");
+        }
+
+        // Vérifier que l'élève a au moins une classe
+        $class = $student->getCurrentClass();
+        if (!$class) {
+            throw new \Exception("L'élève n'est assigné à aucune classe");
+        }
+
+        // Vérifier que la table school_info existe
+        if (!Schema::hasTable('school_info')) {
+            throw new \Exception("Configuration école manquante");
+        }
+
+        // Vérifier que la table grades existe et contient des données
+        if (!Schema::hasTable('grades')) {
+            throw new \Exception("Table des notes manquante");
         }
 
         $year = now()->year;
@@ -40,6 +58,11 @@ class BulletinPDFService
             ->groupBy('subjects.id', 'subjects.name')
             ->orderBy('subjects.name')
             ->get();
+
+        // Vérifier qu'il y a des notes pour le trimestre
+        if ($grades->isEmpty()) {
+            throw new \Exception("Aucune note disponible pour ce trimestre ({$termData['name']})");
+        }
 
         $classRanking = $this->getStudentRanking($studentId, $class?->id, $startDate, $endDate);
         $termAverage = DB::table('grades')
@@ -93,14 +116,37 @@ class BulletinPDFService
 
     public function getCompleteBulletinData(int $studentId): array
     {
+        $student = Student::find($studentId);
+        if (!$student) {
+            throw new \Exception("Élève non trouvé");
+        }
+
         $year = now()->year;
 
+        // Essayer de charger les données de chaque trimestre
+        $termsData = [];
+        foreach (['term_1', 'term_2', 'term_3'] as $term) {
+            try {
+                $termsData[$term] = $this->getBulletinData($studentId, $term);
+            } catch (\Exception $e) {
+                // Si un trimestre n'a pas de notes, continuer avec les autres
+                \Log::warning("Bulletin $term vide pour l'élève $studentId: " . $e->getMessage());
+                $termsData[$term] = [];
+            }
+        }
+
+        // Vérifier qu'au moins un trimestre a des données
+        $hasData = collect($termsData)->filter(fn($t) => !empty($t))->isNotEmpty();
+        if (!$hasData) {
+            throw new \Exception("Aucune donnée de bulletin disponible pour l'année académique $year");
+        }
+
         return [
-            'student' => Student::find($studentId),
+            'student' => $student,
             'year' => $year,
-            'term_1' => $this->getBulletinData($studentId, 'term_1'),
-            'term_2' => $this->getBulletinData($studentId, 'term_2'),
-            'term_3' => $this->getBulletinData($studentId, 'term_3'),
+            'term_1' => $termsData['term_1'],
+            'term_2' => $termsData['term_2'],
+            'term_3' => $termsData['term_3'],
             'annual_summary' => $this->getAnnualSummary($studentId, $year),
             'payments' => $this->getPaymentData($studentId, $year),
         ];

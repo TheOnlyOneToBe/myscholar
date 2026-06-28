@@ -6,6 +6,7 @@ use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 
 class MultiTermComparisonService
@@ -14,9 +15,14 @@ class MultiTermComparisonService
 
     public function getTermComparison(): array
     {
+        // Vérifier que les tables requises existent
+        if (!Schema::hasTable('grades') || !Schema::hasTable('subjects')) {
+            return $this->getEmptyComparison();
+        }
+
         $student = $this->getStudent();
         if (!$student) {
-            return [];
+            return $this->getEmptyComparison();
         }
 
         $cacheKey = "term_comparison_{$student->id}";
@@ -177,6 +183,24 @@ class MultiTermComparisonService
 
     private function getStudent(): ?Student
     {
-        return Student::where('user_id', Auth::id())->first();
+        try {
+            return Student::where('user_id', Auth::id())->first();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    private function getEmptyComparison(): array
+    {
+        return [
+            'current_year' => now()->year,
+            'terms' => [],
+            'year_summary' => [],
+            'term_evolution' => [
+                'labels' => ['T1', 'T2', 'T3'],
+                'data' => [0, 0, 0],
+                'trend' => 'stable',
+            ],
+        ];
     }
 }

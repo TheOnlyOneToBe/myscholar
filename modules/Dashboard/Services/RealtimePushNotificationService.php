@@ -14,10 +14,12 @@ class RealtimePushNotificationService
 
     public function sendGradeNotification(int $studentId, string $subject, float $score, string $gradeValue): void
     {
-        $student = Student::find($studentId);
-        if (!$student) {
-            return;
-        }
+        try {
+            $student = Student::find($studentId);
+            if (!$student) {
+                \Log::warning("Élève non trouvé pour notification de note: $studentId");
+                return;
+            }
 
         $notification = [
             'id' => uniqid('notif_'),
@@ -40,10 +42,12 @@ class RealtimePushNotificationService
 
     public function sendAttendanceNotification(int $studentId, string $message, string $type = 'warning'): void
     {
-        $student = Student::find($studentId);
-        if (!$student) {
-            return;
-        }
+        try {
+            $student = Student::find($studentId);
+            if (!$student) {
+                \Log::warning("Élève non trouvé pour notification de présence: $studentId");
+                return;
+            }
 
         $notification = [
             'id' => uniqid('notif_'),
@@ -66,10 +70,12 @@ class RealtimePushNotificationService
 
     public function sendInvoiceNotification(int $studentId, float $amount, string $dueDate): void
     {
-        $student = Student::find($studentId);
-        if (!$student) {
-            return;
-        }
+        try {
+            $student = Student::find($studentId);
+            if (!$student) {
+                \Log::warning("Élève non trouvé pour notification de facturation: $studentId");
+                return;
+            }
 
         $notification = [
             'id' => uniqid('notif_'),
@@ -92,10 +98,12 @@ class RealtimePushNotificationService
 
     public function sendExamNotification(int $studentId, string $subject, string $examDate, string $examTime): void
     {
-        $student = Student::find($studentId);
-        if (!$student) {
-            return;
-        }
+        try {
+            $student = Student::find($studentId);
+            if (!$student) {
+                \Log::warning("Élève non trouvé pour notification d'examen: $studentId");
+                return;
+            }
 
         $notification = [
             'id' => uniqid('notif_'),
@@ -118,8 +126,15 @@ class RealtimePushNotificationService
 
     public function getNotifications(int $studentId, bool $unreadOnly = false): array
     {
-        $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
-        $notifications = Cache::get($cacheKey, []);
+        try {
+            // Vérifier que l'élève existe
+            if (!Student::find($studentId)) {
+                \Log::warning("Élève non trouvé pour récupération de notifications: $studentId");
+                return [];
+            }
+
+            $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
+            $notifications = Cache::get($cacheKey, []);
 
         if ($unreadOnly) {
             $notifications = array_filter($notifications, fn($n) => !$n['read']);
@@ -130,24 +145,43 @@ class RealtimePushNotificationService
 
     public function markAsRead(int $studentId, string $notificationId): bool
     {
-        $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
-        $notifications = Cache::get($cacheKey, []);
-
-        foreach ($notifications as &$notification) {
-            if ($notification['id'] === $notificationId) {
-                $notification['read'] = true;
-                Cache::put($cacheKey, $notifications, now()->addDays(7));
-                return true;
+        try {
+            if (!Student::find($studentId)) {
+                \Log::warning("Élève non trouvé pour marquer notification comme lue: $studentId");
+                return false;
             }
-        }
 
-        return false;
+            $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
+            $notifications = Cache::get($cacheKey, []);
+
+            foreach ($notifications as &$notification) {
+                if ($notification['id'] === $notificationId) {
+                    $notification['read'] = true;
+                    Cache::put($cacheKey, $notifications, now()->addDays(7));
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors du marquage de notification comme lue: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function clearNotifications(int $studentId): void
     {
-        $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
-        Cache::forget($cacheKey);
+        try {
+            if (!Student::find($studentId)) {
+                \Log::warning("Élève non trouvé pour effacer notifications: $studentId");
+                return;
+            }
+
+            $cacheKey = self::NOTIFICATION_CACHE_PREFIX . $studentId;
+            Cache::forget($cacheKey);
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors de l'effacement des notifications: " . $e->getMessage());
+        }
     }
 
     private function storeNotification(int $studentId, array $notification): void
