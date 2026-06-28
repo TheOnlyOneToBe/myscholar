@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Livewire\Livewire;
 use Modules\Dashboard\Services\DashboardService;
 use Modules\Dashboard\Services\StudentDashboardService;
+use Modules\Dashboard\Services\ParentDashboardService;
 use Modules\Dashboard\Services\ModuleAvailabilityService;
 use Modules\Dashboard\Services\TermDocumentService;
 use Modules\Dashboard\Services\BulletinPDFService;
@@ -23,6 +24,10 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->app->singleton(StudentDashboardService::class, function ($app) {
             return new StudentDashboardService();
+        });
+
+        $this->app->singleton(ParentDashboardService::class, function ($app) {
+            return new ParentDashboardService();
         });
 
         $this->app->singleton(ModuleAvailabilityService::class, function ($app) {
@@ -81,5 +86,16 @@ class DashboardServiceProvider extends ServiceProvider
         Livewire::component('student-class-section', \Modules\Dashboard\Livewire\StudentDashboard\StudentClassSection::class);
         Livewire::component('chef-classe-section', \Modules\Dashboard\Livewire\StudentDashboard\ChefClasseSection::class);
         Livewire::component('student-profile-section', \Modules\Dashboard\Livewire\StudentDashboard\StudentProfileSection::class);
+
+        // Parent Dashboard Components
+        Livewire::component('parent-dashboard-main', \Modules\Dashboard\Livewire\ParentDashboard\ParentDashboardMain::class);
+        Livewire::component('parent-navbar', \Modules\Dashboard\Livewire\ParentDashboard\ParentNavbar::class);
+        Livewire::component('parent-sidebar', \Modules\Dashboard\Livewire\ParentDashboard\ParentSidebar::class);
+        Livewire::component('parent-children-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentChildrenSection::class);
+        Livewire::component('parent-grades-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentGradesSection::class);
+        Livewire::component('parent-attendance-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentAttendanceSection::class);
+        Livewire::component('parent-billing-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentBillingSection::class);
+        Livewire::component('parent-bulletin-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentBulletinSection::class);
+        Livewire::component('parent-alerts-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentAlertsSection::class);
     }
 }

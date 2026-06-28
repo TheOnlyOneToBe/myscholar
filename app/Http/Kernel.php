@@ -56,5 +56,6 @@ class Kernel extends HttpKernel
         'rate-limit' => \App\Http\Middleware\RateLimitMiddleware::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'student' => \App\Http\Middleware\StudentMiddleware::class,
+        'parent' => \App\Http\Middleware\ParentMiddleware::class,
     ];
 }
