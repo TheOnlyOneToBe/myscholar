@@ -18,3 +18,4 @@ Route::prefix('system')->name('system.')->group(function () {
 
 // Load module routes
 require_once base_path('modules/Auth/Routes/api.php');
+require_once base_path('modules/Dashboard/Routes/api.php');
