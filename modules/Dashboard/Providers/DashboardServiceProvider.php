@@ -8,6 +8,8 @@ use Livewire\Livewire;
 use Modules\Dashboard\Services\DashboardService;
 use Modules\Dashboard\Services\StudentDashboardService;
 use Modules\Dashboard\Services\ModuleAvailabilityService;
+use Modules\Dashboard\Services\TermDocumentService;
+use Modules\Dashboard\Services\BulletinPDFService;
 use Modules\Dashboard\Policies\DocumentPolicy;
 use App\Services\ModuleManager;
 
@@ -25,6 +27,17 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->app->singleton(ModuleAvailabilityService::class, function ($app) {
             return new ModuleAvailabilityService($app->make(ModuleManager::class));
+        });
+
+        $this->app->singleton(BulletinPDFService::class, function ($app) {
+            return new BulletinPDFService();
+        });
+
+        $this->app->singleton(TermDocumentService::class, function ($app) {
+            return new TermDocumentService(
+                $app->make(\Modules\Grades\Services\TermGradeService::class),
+                $app->make(BulletinPDFService::class)
+            );
         });
     }
 

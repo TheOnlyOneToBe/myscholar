@@ -41,4 +41,14 @@ class StudentEnrollment extends Model
         return $this->belongsTo(\Modules\Classes\Models\SchoolClass::class, 'class_id');
     }
 
+    public function academicPeriods()
+    {
+        return $this->belongsToMany(
+            \Modules\Config\Models\AcademicPeriod::class,
+            'enrollment_academic_periods',
+            'enrollment_id',
+            'academic_period_id'
+        )->withTimestamps();
+    }
+
 }

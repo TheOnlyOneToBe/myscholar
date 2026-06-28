@@ -24,6 +24,9 @@ class GradesServiceProvider extends ServiceProvider
             );
         });
 
+        // Register term grade service
+        $this->app->singleton(\Modules\Grades\Services\TermGradeService::class);
+
         // Register audit service
         $this->app->singleton(GradesAuditService::class, function ($app) {
             return new GradesAuditService($app->make(AuditService::class));
