@@ -33,7 +33,8 @@ class TeacherPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('teachers.create');
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'censeur'])
+            || $user->hasPermission('teachers.create');
     }
 
     /**

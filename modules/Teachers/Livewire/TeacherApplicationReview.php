@@ -4,16 +4,38 @@ namespace Modules\Teachers\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 use Modules\Teachers\Models\TeacherApplication;
-use Illuminate\Pagination\Paginator;
 
 #[Layout('layouts.app')]
 class TeacherApplicationReview extends Component
 {
+    use WithPagination;
+
     public $filter = 'pending';
+    public $search = '';
+    public $filiere = '';
     public $selectedApplication = null;
     public $rejectionReason = '';
     public $showRejectModal = false;
+    public $perPage = 10;
+
+    protected $queryString = ['filter', 'search', 'filiere'];
+
+    public function updatedFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFiliere()
+    {
+        $this->resetPage();
+    }
 
     public function getApplicationsProperty()
     {
@@ -23,7 +45,23 @@ class TeacherApplicationReview extends Component
             $query->where('status', $this->filter);
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate(10);
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->whereHas('user', function ($subQuery) {
+                    $subQuery->where('first_name', 'like', "%{$this->search}%")
+                        ->orWhere('last_name', 'like', "%{$this->search}%")
+                        ->orWhere('email', 'like', "%{$this->search}%");
+                })
+                ->orWhere('specialization', 'like', "%{$this->search}%")
+                ->orWhere('teacher_code', 'like', "%{$this->search}%");
+            });
+        }
+
+        if ($this->filiere) {
+            $query->where('filiere', $this->filiere);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate($this->perPage);
     }
 
     public function selectApplication($applicationId)
