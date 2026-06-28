@@ -7,16 +7,16 @@
         <!-- Filtres -->
         <div class="mb-6 flex gap-2">
             <button wire:click="$set('filter', 'all')" @class(['px-4 py-2 rounded-lg font-medium', 'bg-blue-600 text-white' => $filter === 'all', 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' => $filter !== 'all'])>
-                Toutes
+                <i class="fas fa-list mr-2"></i>Toutes
             </button>
             <button wire:click="$set('filter', 'pending')" @class(['px-4 py-2 rounded-lg font-medium', 'bg-yellow-600 text-white' => $filter === 'pending', 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' => $filter !== 'pending'])>
-                En Attente
+                <i class="fas fa-clock mr-2"></i>En Attente
             </button>
             <button wire:click="$set('filter', 'approved')" @class(['px-4 py-2 rounded-lg font-medium', 'bg-green-600 text-white' => $filter === 'approved', 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' => $filter !== 'approved'])>
-                Approuvées
+                <i class="fas fa-check-circle mr-2"></i>Approuvées
             </button>
             <button wire:click="$set('filter', 'rejected')" @class(['px-4 py-2 rounded-lg font-medium', 'bg-red-600 text-white' => $filter === 'rejected', 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' => $filter !== 'rejected'])>
-                Rejetées
+                <i class="fas fa-times-circle mr-2"></i>Rejetées
             </button>
         </div>
 
@@ -116,10 +116,10 @@
                     @if($selectedApplication->isPending())
                         <div class="mt-6 space-y-2 border-t pt-4">
                             <button wire:click="approveApplication({{ $selectedApplication->id }})" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
-                                ✓ Approuver
+                                <i class="fas fa-check mr-2"></i>Approuver
                             </button>
                             <button wire:click="openRejectModal({{ $selectedApplication->id }})" class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
-                                ✕ Rejeter
+                                <i class="fas fa-times mr-2"></i>Rejeter
                             </button>
                         </div>
                     @elseif($selectedApplication->isRejected() && $selectedApplication->rejection_reason)
@@ -151,10 +151,10 @@
 
                         <div class="flex gap-3">
                             <button type="button" wire:click="$set('showRejectModal', false)" class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium">
-                                Annuler
+                                <i class="fas fa-times mr-2"></i>Annuler
                             </button>
                             <button type="submit" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
-                                Confirmer le Rejet
+                                <i class="fas fa-ban mr-2"></i>Confirmer le Rejet
                             </button>
                         </div>
                     </form>

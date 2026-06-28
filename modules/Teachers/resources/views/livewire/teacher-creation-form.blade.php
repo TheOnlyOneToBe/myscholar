@@ -18,7 +18,7 @@
                         'border-blue-600 text-blue-600' => $mode === 'new',
                         'border-transparent text-gray-600 hover:text-gray-900' => $mode !== 'new'
                     ])>
-                    ➕ Créer un Nouvel Utilisateur
+                    <i class="fas fa-user-plus mr-2"></i>Créer un Nouvel Utilisateur
                 </button>
                 <button
                     wire:click="$set('mode', 'existing')"
@@ -26,7 +26,7 @@
                         'border-blue-600 text-blue-600' => $mode === 'existing',
                         'border-transparent text-gray-600 hover:text-gray-900' => $mode !== 'existing'
                     ])>
-                    👤 Utiliser un Utilisateur Existant
+                    <i class="fas fa-user-check mr-2"></i>Utiliser un Utilisateur Existant
                 </button>
             </div>
 
@@ -94,7 +94,7 @@
                                             <p class="text-sm text-gray-600">@{{ $username }}</p>
                                         </div>
                                         <button type="button" wire:click="clearUserSelection" class="text-red-600 hover:text-red-800">
-                                            ✕ Changer
+                                            <i class="fas fa-times mr-1"></i>Changer
                                         </button>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-semibold text-gray-800">Informations Enseignant</h2>
                         <button type="button" wire:click="generateTeacherCode" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                            🔄 Générer un Matricule
+                            <i class="fas fa-sync-alt mr-1"></i>Générer un Matricule
                         </button>
                     </div>
 
@@ -219,10 +219,10 @@
                 <!-- Actions -->
                 <div class="flex gap-4 pt-6">
                     <button type="submit" class="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
-                        ✓ Créer l'Enseignant
+                        <i class="fas fa-check mr-2"></i>Créer l'Enseignant
                     </button>
                     <a href="/teachers" class="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 font-medium transition text-center">
-                        Annuler
+                        <i class="fas fa-times mr-2"></i>Annuler
                     </a>
                 </div>
             </form>

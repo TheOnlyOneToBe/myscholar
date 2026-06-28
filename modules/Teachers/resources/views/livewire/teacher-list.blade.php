@@ -11,7 +11,7 @@
             <div class="space-y-4">
                 <!-- Recherche -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">🔍 Rechercher</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"><i class="fas fa-search mr-2"></i>Rechercher</label>
                     <input type="text" wire:model.live="search" placeholder="Nom, email, matricule, spécialisation..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
 
@@ -68,7 +68,7 @@
                 <!-- Bouton Réinitialiser -->
                 <div class="flex justify-end">
                     <button wire:click="clearFilters" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 font-medium transition">
-                        🔄 Réinitialiser les filtres
+                        <i class="fas fa-redo mr-2"></i>Réinitialiser les filtres
                     </button>
                 </div>
             </div>
@@ -143,21 +143,21 @@
                                     <td class="px-6 py-4">
                                         @if($teacher->is_active)
                                             <span class="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
-                                                ✓ Actif
+                                                <i class="fas fa-check-circle mr-1"></i>Actif
                                             </span>
                                         @else
                                             <span class="inline-block px-3 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full">
-                                                ✕ Inactif
+                                                <i class="fas fa-times-circle mr-1"></i>Inactif
                                             </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex gap-2">
                                             <a href="/teacher/{{ $teacher->id }}/subjects" class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-                                                Matières
+                                                <i class="fas fa-book mr-1"></i>Matières
                                             </a>
                                             <button class="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">
-                                                Détails
+                                                <i class="fas fa-info-circle mr-1"></i>Détails
                                             </button>
                                         </div>
                                     </td>
@@ -173,9 +173,7 @@
                 </div>
             @else
                 <div class="p-12 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21l-4.35-4.35m0 0A7.5 7.5 0 103.305 3.305a7.5 7.5 0 0010.345 10.345z" />
-                    </svg>
+                    <i class="fas fa-search text-gray-400 text-5xl mb-4"></i>
                     <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun enseignant trouvé</h3>
                     <p class="mt-1 text-gray-600">Essayez de modifier vos critères de recherche ou de filtrage</p>
                 </div>
