@@ -329,7 +329,7 @@ class InitializeClient extends Command
 
         // Define all roles (matching RolesSeeder with hierarchy levels)
         $roles = [
-            ['name' => 'super_administrator', 'label' => 'Administrateur Système', 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.', 'hierarchy_level' => 0, 'category' => 'admin', 'is_active' => true],
+            ['name' => 'super_administrator', 'label' => 'Administrateur Système', 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.', 'hierarchy_level' => 0, 'category' => 'super_administrator', 'is_active' => true],
             ['name' => 'proviseur', 'label' => 'Proviseur (Directeur Général)', 'description' => 'Chef exécutif du lycée. Direction générale, approbation décisions majeures.', 'hierarchy_level' => 1, 'category' => 'hierarchy', 'is_active' => true],
             ['name' => 'censeur', 'label' => 'Censeur Pédagogique', 'description' => 'Responsable pédagogique. Supervision quotidienne, gestion des absences et discipline.', 'hierarchy_level' => 2, 'category' => 'hierarchy', 'is_active' => true],
             ['name' => 'prof_principal', 'label' => 'Professeur Principal', 'description' => 'Responsable administratif d\'une classe. Liaison élèves-parents-enseignants.', 'hierarchy_level' => 3, 'category' => 'hierarchy', 'is_active' => true],

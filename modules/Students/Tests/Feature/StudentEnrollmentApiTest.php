@@ -90,7 +90,7 @@ class StudentEnrollmentApiTest extends TestCase
 
         $adminRole = Role::create([
             'name' => 'super_administrator',
-            'label' => 'Admin',
+            'label' => 'Administrateur Système',
             'hierarchy_level' => 0,
             'category' => 'super_administrator',
             'is_active' => true,

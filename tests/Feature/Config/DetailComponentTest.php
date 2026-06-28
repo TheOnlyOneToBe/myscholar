@@ -65,10 +65,10 @@ class DetailComponentTest extends TestCase
     public function test_can_update_school_info()
     {
         $admin = User::factory()->create();
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'super_administrator']);
         $admin->assignRole($adminRole);
 
-        $this->grantPermission('config.school_info.edit', 'admin');
+        $this->grantPermission('config.school_info.edit', 'super_administrator');
 
         $this->actingAs($admin);
 

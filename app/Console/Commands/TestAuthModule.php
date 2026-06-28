@@ -143,7 +143,7 @@ class TestAuthModule extends Command
     {
         $this->info('5️⃣  Testing Permission Checks');
 
-        $admin = User::whereHas('userRoles.role', fn($q) => $q->where('name', 'admin'))->first();
+        $admin = User::whereHas('userRoles.role', fn($q) => $q->where('name', 'super_administrator'))->first();
         if (!$admin) {
             $admin = User::first();
         }

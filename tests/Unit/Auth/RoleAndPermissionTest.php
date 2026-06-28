@@ -12,12 +12,12 @@ class RoleAndPermissionTest extends TestCase
     public function test_role_can_be_created()
     {
         $role = Role::factory()->create([
-            'name' => 'admin',
+            'name' => 'super_administrator',
             'description' => 'Administrator role',
         ]);
 
         $this->assertDatabaseHas('roles', [
-            'name' => 'admin',
+            'name' => 'super_administrator',
             'description' => 'Administrator role',
         ]);
     }
@@ -64,13 +64,13 @@ class RoleAndPermissionTest extends TestCase
     public function test_user_can_have_multiple_roles()
     {
         $user = User::factory()->create();
-        $role1 = Role::factory()->create(['name' => 'admin']);
+        $role1 = Role::factory()->create(['name' => 'super_administrator']);
         $role2 = Role::factory()->create(['name' => 'editor']);
 
         $user->assignRole($role1);
         $user->assignRole($role2);
 
-        $this->assertTrue($user->hasRole('admin'));
+        $this->assertTrue($user->hasRole('super_administrator'));
         $this->assertTrue($user->hasRole('editor'));
     }
 
@@ -81,13 +81,13 @@ class RoleAndPermissionTest extends TestCase
             'hierarchy_level' => 0,
         ]);
 
-        $admin = Role::factory()->create([
-            'name' => 'admin',
+        $proviseur = Role::factory()->create([
+            'name' => 'proviseur',
             'hierarchy_level' => 1,
         ]);
 
         $this->assertEquals(0, $superAdmin->hierarchy_level);
-        $this->assertEquals(1, $admin->hierarchy_level);
+        $this->assertEquals(1, $proviseur->hierarchy_level);
     }
 
     public function test_permission_belongs_to_module()
@@ -102,10 +102,10 @@ class RoleAndPermissionTest extends TestCase
 
     public function test_role_has_unique_name_constraint()
     {
-        Role::factory()->create(['name' => 'admin']);
+        Role::factory()->create(['name' => 'super_administrator']);
 
         $this->expectException(\Illuminate\Database\QueryException::class);
-        Role::factory()->create(['name' => 'admin']);
+        Role::factory()->create(['name' => 'super_administrator']);
     }
 
     public function test_permission_has_unique_name_constraint()

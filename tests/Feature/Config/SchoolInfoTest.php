@@ -30,7 +30,7 @@ class SchoolInfoTest extends TestCase
         $user = User::factory()->create();
         $admin = User::factory()->create();
         $admin->assignRole(
-            \Modules\Auth\Models\Role::firstOrCreate(['name' => 'admin'])
+            \Modules\Auth\Models\Role::firstOrCreate(['name' => 'super_administrator'])
         );
 
         $this->actingAs($admin);

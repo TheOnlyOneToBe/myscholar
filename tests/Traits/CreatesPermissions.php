@@ -10,7 +10,7 @@ trait CreatesPermissions
     /**
      * Create a permission and assign it to a role
      */
-    protected function grantPermission(string $permissionId, string $roleName = 'admin'): Permission
+    protected function grantPermission(string $permissionId, string $roleName = 'super_administrator'): Permission
     {
         $permission = Permission::create([
             'permission_id' => $permissionId,
@@ -31,7 +31,7 @@ trait CreatesPermissions
     /**
      * Grant multiple permissions to a role
      */
-    protected function grantPermissions(array $permissionIds, string $roleName = 'admin'): void
+    protected function grantPermissions(array $permissionIds, string $roleName = 'super_administrator'): void
     {
         foreach ($permissionIds as $permissionId) {
             $this->grantPermission($permissionId, $roleName);

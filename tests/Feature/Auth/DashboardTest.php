@@ -73,7 +73,7 @@ class DashboardTest extends TestCase
     public function test_dashboard_displays_user_roles()
     {
         $user = User::factory()->create();
-        $role = Role::factory()->create(['name' => 'admin']);
+        $role = Role::factory()->create(['name' => 'super_administrator']);
         $user->assignRole($role);
 
         $this->actingAs($user);
