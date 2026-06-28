@@ -32,11 +32,19 @@ class ParentDashboardServiceTest extends TestCase
         $this->service = app(ParentDashboardService::class);
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create([
-            'start_year' => now()->year,
-            'end_year' => now()->year + 1,
-            'name' => now()->year . '-' . (now()->year + 1),
-        ]);
+        $this->schoolYear = SchoolYear::firstOrCreate(
+            [
+                'start_year' => now()->year,
+                'end_year' => now()->year + 1,
+            ],
+            [
+                'name' => now()->year . '-' . (now()->year + 1),
+                'start_date' => now()->startOfYear(),
+                'end_date' => now()->endOfYear(),
+                'is_active' => true,
+                'is_locked' => false,
+            ]
+        );
         $this->class = SchoolClass::factory()->create();
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
 
@@ -102,7 +110,7 @@ class ParentDashboardServiceTest extends TestCase
         $this->assertEquals($this->student->id, $children[0]['id']);
         $this->assertEquals('Jean', $children[0]['first_name']);
         $this->assertEquals('Dupont', $children[0]['last_name']);
-        $this->assertEquals('active', $children[0]['enrollment_status']->value);
+        $this->assertEquals('active', $children[0]['enrollment_status']);
     }
 
     /**

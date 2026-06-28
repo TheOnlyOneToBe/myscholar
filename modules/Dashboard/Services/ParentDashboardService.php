@@ -41,7 +41,7 @@ class ParentDashboardService
                 'full_name' => $student->full_name,
                 'student_id' => $student->student_id_number,
                 'current_class' => $student->getCurrentClass()?->name,
-                'enrollment_status' => $student->enrollment_status,
+                'enrollment_status' => $student->enrollment_status?->value ?? 'unknown',
             ];
         })->toArray();
     }

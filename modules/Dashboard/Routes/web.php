@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Dashboard\Controllers\StudentDashboardController;
 use Modules\Dashboard\Controllers\ParentDashboardController;
+use App\Http\Middleware\StudentMiddleware;
+use App\Http\Middleware\ParentMiddleware;
 
 Route::middleware(['web', 'auth'])->group(function () {
     // Admin Dashboard
@@ -22,9 +24,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     });
 
     // Parent Dashboard
-    Route::middleware(['parent'])->group(function () {
-        Route::get('/parent-dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
-        Route::get('/parent/profile', [ParentDashboardController::class, 'profile'])->name('parent.profile');
-        Route::get('/parent/settings', [ParentDashboardController::class, 'settings'])->name('parent.settings');
-    });
+    Route::get('/parent-dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
+    Route::get('/parent/profile', [ParentDashboardController::class, 'profile'])->name('parent.profile');
+    Route::get('/parent/settings', [ParentDashboardController::class, 'settings'])->name('parent.settings');
 });

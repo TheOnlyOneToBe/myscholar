@@ -11,12 +11,13 @@ class SchoolYearFactory extends Factory
 
     public function definition(): array
     {
-        static $yearCounter = 2020;
-        $startYear = $yearCounter++;
+        $baseYear = 2020;
+        $offset = fake()->numberBetween(0, 80);
+        $startYear = $baseYear + $offset;
         $endYear = $startYear + 1;
 
         return [
-            'name' => fake()->unique()->text(50),
+            'name' => fake()->unique()->bothify('AY-####-????'),
             'start_year' => $startYear,
             'end_year' => $endYear,
             'start_date' => "2025-09-15",

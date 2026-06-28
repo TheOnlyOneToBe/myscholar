@@ -8,12 +8,19 @@ use Modules\Config\Models\SchoolInfo;
 class PDFGenerationService
 {
     private DocumentGenerationService $documentService;
-    private SchoolInfo $schoolInfo;
+    private ?SchoolInfo $schoolInfo = null;
 
     public function __construct()
     {
         $this->documentService = app(DocumentGenerationService::class);
-        $this->schoolInfo = SchoolInfo::first();
+    }
+
+    private function getSchoolInfo(): ?SchoolInfo
+    {
+        if ($this->schoolInfo === null) {
+            $this->schoolInfo = SchoolInfo::first() ?? new SchoolInfo();
+        }
+        return $this->schoolInfo;
     }
 
     /**
@@ -24,7 +31,7 @@ class PDFGenerationService
         $data = $this->documentService->generateSchoolCertificateData($student, $academicYearId);
 
         return view('dashboard::documents.school-certificate', [
-            'school' => $this->schoolInfo,
+            'school' => $this->getSchoolInfo(),
             'data' => $data,
         ])->render();
     }
@@ -37,7 +44,7 @@ class PDFGenerationService
         $data = $this->documentService->generateReportCardData($student, $academicYearId);
 
         return view('dashboard::documents.report-card', [
-            'school' => $this->schoolInfo,
+            'school' => $this->getSchoolInfo(),
             'data' => $data,
         ])->render();
     }
@@ -50,7 +57,7 @@ class PDFGenerationService
         $data = $this->documentService->generateTranscriptData($student);
 
         return view('dashboard::documents.transcript', [
-            'school' => $this->schoolInfo,
+            'school' => $this->getSchoolInfo(),
             'data' => $data,
         ])->render();
     }
@@ -63,7 +70,7 @@ class PDFGenerationService
         $data = $this->documentService->generateEnrollmentSummary($student);
 
         return view('dashboard::documents.enrollment-summary', [
-            'school' => $this->schoolInfo,
+            'school' => $this->getSchoolInfo(),
             'data' => $data,
         ])->render();
     }
@@ -76,7 +83,7 @@ class PDFGenerationService
         $data = $this->documentService->generateInvoiceData($student, $invoiceId);
 
         return view('dashboard::documents.invoice', [
-            'school' => $this->schoolInfo,
+            'school' => $this->getSchoolInfo(),
             'data' => $data,
         ])->render();
     }

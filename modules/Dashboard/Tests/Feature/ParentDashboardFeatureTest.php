@@ -28,11 +28,19 @@ class ParentDashboardFeatureTest extends TestCase
         parent::setUp();
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create([
-            'start_year' => now()->year,
-            'end_year' => now()->year + 1,
-            'name' => now()->year . '-' . (now()->year + 1),
-        ]);
+        $this->schoolYear = SchoolYear::firstOrCreate(
+            [
+                'start_year' => now()->year,
+                'end_year' => now()->year + 1,
+            ],
+            [
+                'name' => now()->year . '-' . (now()->year + 1),
+                'start_date' => now()->startOfYear(),
+                'end_date' => now()->endOfYear(),
+                'is_active' => true,
+                'is_locked' => false,
+            ]
+        );
         $this->class = SchoolClass::factory()->create();
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
 
@@ -171,7 +179,7 @@ class ParentDashboardFeatureTest extends TestCase
         Livewire::test('parent-children-section')
             ->assertSuccessful()
             ->assertSee('Jean Dupont')
-            ->assertSee('active');
+            ->assertSee('Active');
     }
 
     /**
@@ -226,7 +234,7 @@ class ParentDashboardFeatureTest extends TestCase
         Livewire::test('parent-billing-section', ['childId' => $this->student->id])
             ->assertSuccessful()
             ->assertSee('Facturation')
-            ->assertSee('100000');
+            ->assertSee('100,000 FCFA');
     }
 
     /**
@@ -329,7 +337,6 @@ class ParentDashboardFeatureTest extends TestCase
     {
         $invoice = Invoice::factory()->create([
             'student_id' => $this->student->id,
-            'id' => 'test-invoice-id',
             'status' => 'pending',
         ]);
 

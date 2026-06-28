@@ -29,6 +29,12 @@ class ParentGradesSection extends Component
         $this->loadGradesData();
     }
 
+    public function selectChild(int $childId): void
+    {
+        $this->selectedChildId = $childId;
+        $this->loadGradesData();
+    }
+
     private function loadGradesData(): void
     {
         if (!$this->selectedChildId) {

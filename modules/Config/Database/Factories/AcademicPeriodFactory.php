@@ -16,11 +16,13 @@ class AcademicPeriodFactory extends Factory
 
         return [
             'academic_year' => now()->year,
-            'type' => $this->faker->randomElement(['term', 'trimestre', 'semester']),
+            'type' => $this->faker->randomElement(['term', 'semester', 'quarter', 'year']),
             'name' => $this->faker->word() . ' ' . $this->faker->randomElement(['1', '2', '3']),
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'status' => $this->faker->randomElement(['upcoming', 'ongoing', 'completed']),
+            'order' => $this->faker->randomElement([1, 2, 3, 4]),
+            'is_active' => $this->faker->boolean(80),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Modules\Students\Enums\EnrollmentStatus;
 use Modules\Students\ValueObjects\Email;
 use Modules\Students\ValueObjects\Gender;
@@ -39,6 +40,13 @@ class Student extends Model
             'date_of_birth' => 'date',
             'enrollment_status' => EnrollmentStatus::class,
         ];
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->first_name} {$this->last_name}",
+        );
     }
 
     /**

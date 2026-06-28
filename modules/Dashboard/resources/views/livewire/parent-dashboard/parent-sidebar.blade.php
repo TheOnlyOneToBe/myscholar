@@ -1,3 +1,4 @@
+<div>
 <aside class="bg-gray-900 text-white w-64 min-h-screen fixed left-0 top-0 pt-20 shadow-lg" :class="{ 'hidden': !sidebarOpen }">
     <div class="p-6 overflow-y-auto h-screen pb-20">
         <!-- Main Navigation -->
@@ -155,3 +156,4 @@
 
 <!-- Overlay for mobile -->
 <div class="hidden lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" x-show="sidebarOpen"></div>
+</div>
