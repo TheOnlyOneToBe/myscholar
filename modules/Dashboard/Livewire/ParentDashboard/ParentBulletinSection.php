@@ -4,6 +4,7 @@ namespace Modules\Dashboard\Livewire\ParentDashboard;
 
 use Livewire\Component;
 use Modules\Dashboard\Services\ParentDashboardService;
+use Modules\Config\Models\AcademicPeriod;
 
 class ParentBulletinSection extends Component
 {
@@ -55,12 +56,48 @@ class ParentBulletinSection extends Component
 
     public function downloadBulletin(int $bulletinId): void
     {
-        try {
-            $service = app(\Modules\Dashboard\Services\DocumentGenerationService::class);
-            \Log::info("Download bulletin {$bulletinId} for child {$this->selectedChildId}");
+        if (!$this->selectedChildId) {
+            $this->dispatch('error', 'No child selected');
+            return;
+        }
 
+        try {
+            $period = AcademicPeriod::find($bulletinId);
+
+            if (!$period) {
+                $this->dispatch('error', 'Bulletin not found');
+                return;
+            }
+
+            $redirectUrl = route('dashboard.term-documents.bulletin.download', [
+                'studentId' => $this->selectedChildId,
+                'academicPeriodId' => $bulletinId,
+            ]);
+
+            $this->redirect($redirectUrl);
         } catch (\Exception $e) {
             \Log::error('Error downloading bulletin: ' . $e->getMessage());
+            $this->dispatch('error', 'Error downloading bulletin');
+        }
+    }
+
+    public function previewBulletin(int $bulletinId): void
+    {
+        if (!$this->selectedChildId) {
+            $this->dispatch('error', 'No child selected');
+            return;
+        }
+
+        try {
+            $redirectUrl = route('dashboard.term-documents.bulletin.preview', [
+                'studentId' => $this->selectedChildId,
+                'academicPeriodId' => $bulletinId,
+            ]);
+
+            $this->redirect($redirectUrl, navigate: true);
+        } catch (\Exception $e) {
+            \Log::error('Error previewing bulletin: ' . $e->getMessage());
+            $this->dispatch('error', 'Error previewing bulletin');
         }
     }
 

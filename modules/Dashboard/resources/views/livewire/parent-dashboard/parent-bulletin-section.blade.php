@@ -32,12 +32,20 @@
                     </div>
 
                     @if($bulletin['status'] === 'completed')
-                        <button
-                            wire:click="downloadBulletin({{ $bulletin['id'] }})"
-                            class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
-                        >
-                            <i class="fas fa-download mr-2"></i>Télécharger
-                        </button>
+                        <div class="flex gap-2">
+                            <button
+                                wire:click="downloadBulletin({{ $bulletin['id'] }})"
+                                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+                            >
+                                <i class="fas fa-download mr-2"></i>Télécharger
+                            </button>
+                            <button
+                                wire:click="previewBulletin({{ $bulletin['id'] }})"
+                                class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+                            >
+                                <i class="fas fa-eye mr-2"></i>Aperçu
+                            </button>
+                        </div>
                     @else
                         <button disabled class="w-full px-4 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed font-semibold">
                             <i class="fas fa-lock mr-2"></i>Non disponible

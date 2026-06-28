@@ -97,5 +97,6 @@ class DashboardServiceProvider extends ServiceProvider
         Livewire::component('parent-billing-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentBillingSection::class);
         Livewire::component('parent-bulletin-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentBulletinSection::class);
         Livewire::component('parent-alerts-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentAlertsSection::class);
+        Livewire::component('parent-documents-section', \Modules\Dashboard\Livewire\ParentDashboard\ParentDocumentsSection::class);
     }
 }

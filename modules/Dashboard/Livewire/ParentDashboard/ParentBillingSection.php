@@ -57,6 +57,25 @@ class ParentBillingSection extends Component
         }
     }
 
+    public function downloadInvoice(string $invoiceId): void
+    {
+        if (!$this->selectedChildId) {
+            $this->dispatch('error', 'No child selected');
+            return;
+        }
+
+        try {
+            $redirectUrl = route('dashboard.documents.invoice', [
+                'invoiceId' => $invoiceId,
+            ]) . '?student_id=' . $this->selectedChildId;
+
+            $this->redirect($redirectUrl);
+        } catch (\Exception $e) {
+            \Log::error('Error downloading invoice: ' . $e->getMessage());
+            $this->dispatch('error', 'Error downloading invoice');
+        }
+    }
+
     public function render()
     {
         return view('dashboard::livewire.parent-dashboard.parent-billing-section');

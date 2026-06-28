@@ -76,6 +76,15 @@
                     <i class="fas fa-file-pdf w-5 h-5"></i>
                     <span>Bulletins</span>
                 </a>
+
+                <a
+                    href="#"
+                    wire:click="selectTab('documents')"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg mt-2 @if($activeTab === 'documents') bg-blue-600 @else hover:bg-gray-800 @endif transition"
+                >
+                    <i class="fas fa-folder-open w-5 h-5"></i>
+                    <span>Documents</span>
+                </a>
             </div>
 
             <!-- Financial Section -->

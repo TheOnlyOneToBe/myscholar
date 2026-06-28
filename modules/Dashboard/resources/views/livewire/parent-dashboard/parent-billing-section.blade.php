@@ -41,8 +41,11 @@
                                         @endif
                                     </td>
                                     <td class="border border-gray-300 px-4 py-2 text-center">
-                                        <button class="text-blue-600 hover:text-blue-800 font-semibold">
-                                            <i class="fas fa-file-pdf mr-1"></i>Voir
+                                        <button
+                                            wire:click="downloadInvoice('{{ $invoice['id'] }}')"
+                                            class="text-blue-600 hover:text-blue-800 font-semibold transition"
+                                        >
+                                            <i class="fas fa-file-pdf mr-1"></i>Télécharger
                                         </button>
                                     </td>
                                 </tr>
