@@ -86,4 +86,23 @@ return [
         'no_notifications' => 'No notifications',
         'no_results' => 'No results found',
     ],
+
+    'chef_classe' => [
+        'title' => 'Class Chef Dashboard',
+        'attendance_to_record' => 'Attendance to Record',
+        'pending_justifications' => 'Pending Justifications',
+        'class_average' => 'Class Average',
+        'attendance_rate' => 'Attendance Rate',
+        'record_attendance' => 'Record Attendance',
+        'record_attendance_desc' => 'Mark students present, absent or late',
+        'approve_justifications' => 'Approve Justifications',
+        'approve_justifications_desc' => 'Validate justified absence requests',
+        'view_statistics' => 'View Statistics',
+        'view_statistics_desc' => 'Grades and performance by subject',
+        'communicate' => 'Communicate',
+        'communicate_desc' => 'Send messages to the class',
+        'info_message' => 'As a class chef, you can access additional features to manage your class, record attendance, approve justifications and view academic statistics.',
+        'modules_missing' => 'Missing modules:',
+        'no_data' => 'Unable to load class chef data.',
+    ],
 ];

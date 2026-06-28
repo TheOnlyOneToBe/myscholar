@@ -1,8 +1,8 @@
 <div class="container mx-auto p-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Affectations - {{ $class->name }}</h1>
+        <h1 class="text-2xl font-bold">{{ __('classes::views.assignments.title') }} - {{ $class->name }}</h1>
         <button wire:click="openForm()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            + Ajouter Enseignant
+            {{ __('classes::views.assignments.add_teacher') }}
         </button>
     </div>
 
@@ -17,23 +17,23 @@
                 </div>
                 
                 @if($assignment->subject)
-                    <p class="text-sm text-gray-600 mb-2"><strong>Matière:</strong> {{ $assignment->subject }}</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>{{ __('classes::views.labels.subject') }}:</strong> {{ $assignment->subject }}</p>
                 @endif
-                
-                <p class="text-xs text-gray-500 mb-3">Année: {{ $assignment->schoolYear->name }}</p>
+
+                <p class="text-xs text-gray-500 mb-3">{{ __('classes::views.labels.academic_year') }}: {{ $assignment->schoolYear->name }}</p>
                 
                 <div class="flex gap-2">
                     <button wire:click="openForm({{ $assignment->id }})" class="flex-1 bg-blue-500 hover:bg-blue-700 text-white text-sm py-2 rounded">
-                        Éditer
+                        {{ __('classes::views.assignments.edit_button') }}
                     </button>
                     <button wire:click="confirmDelete({{ $assignment->id }})" class="flex-1 bg-red-500 hover:bg-red-700 text-white text-sm py-2 rounded">
-                        Retirer
+                        {{ __('classes::views.assignments.remove_button') }}
                     </button>
                 </div>
             </div>
         @empty
             <div class="col-span-3 text-center py-8 text-gray-500">
-                Aucun enseignant affecté
+                {{ __('classes::views.assignments.no_teachers_assigned') }}
             </div>
         @endforelse
     </div>
@@ -42,15 +42,15 @@
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center">
             <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">
-                    {{ $editingId ? 'Modifier Affectation' : 'Nouvelle Affectation' }}
+                    {{ $editingId ? __('classes::views.assignments.edit_assignment') : __('classes::views.assignments.new_assignment') }}
                 </h3>
 
                 <form wire:submit="saveAssignment">
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Enseignant</label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('classes::views.assignments.teacher_label') }}</label>
                             <select wire:model="form.user_id" class="w-full border border-gray-300 rounded px-3 py-2">
-                                <option value="">Sélectionner</option>
+                                <option value="">{{ __('classes::views.assignments.select_option') }}</option>
                                 @foreach($teachers as $teacher)
                                     <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                 @endforeach
@@ -59,7 +59,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Rôle</label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('classes::views.assignments.role_label') }}</label>
                             <select wire:model="form.role" class="w-full border border-gray-300 rounded px-3 py-2">
                                 @foreach($roles as $r)
                                     <option value="{{ $r }}">{{ $r }}</option>
@@ -68,16 +68,16 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Matière</label>
-                            <input type="text" wire:model="form.subject" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Ex: Mathématiques">
+                            <label class="block text-sm font-medium text-gray-700">{{ __('classes::views.assignments.subject_label') }}</label>
+                            <input type="text" wire:model="form.subject" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="{{ __('classes::views.assignments.subject_placeholder') }}">
                         </div>
 
                         <div class="flex gap-2 pt-4">
                             <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Enregistrer
+                                {{ __('classes::views.assignments.save_button') }}
                             </button>
                             <button type="button" wire:click="closeForm" class="flex-1 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                                Annuler
+                                {{ __('classes::views.assignments.cancel_button') }}
                             </button>
                         </div>
                     </div>
@@ -89,14 +89,14 @@
     @if($deleteConfirm)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center">
             <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Confirmer</h3>
-                <p class="text-gray-600 mb-4">Retirer cet enseignant?</p>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('classes::views.assignments.confirm_remove') }}</h3>
+                <p class="text-gray-600 mb-4">{{ __('classes::views.assignments.confirm_remove_message') }}</p>
                 <div class="flex gap-2">
                     <button wire:click="deleteAssignment" class="flex-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Oui
+                        {{ __('classes::views.assignments.yes_button') }}
                     </button>
                     <button wire:click="cancelDelete" class="flex-1 bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                        Non
+                        {{ __('classes::views.assignments.no_button') }}
                     </button>
                 </div>
             </div>

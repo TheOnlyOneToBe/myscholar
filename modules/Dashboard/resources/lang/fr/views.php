@@ -86,4 +86,23 @@ return [
         'no_notifications' => 'Aucune notification',
         'no_results' => 'Aucun résultat trouvé',
     ],
+
+    'chef_classe' => [
+        'title' => 'Tableau de Bord Chef de Classe',
+        'attendance_to_record' => 'Présences à Enregistrer',
+        'pending_justifications' => 'Justifications en Attente',
+        'class_average' => 'Moyenne de Classe',
+        'attendance_rate' => 'Taux Présence',
+        'record_attendance' => 'Enregistrer les Présences',
+        'record_attendance_desc' => 'Marquer les élèves présents, absents ou en retard',
+        'approve_justifications' => 'Approuver Justifications',
+        'approve_justifications_desc' => 'Valider les demandes d\'absence justifiées',
+        'view_statistics' => 'Voir Statistiques',
+        'view_statistics_desc' => 'Notes et performance par sujet',
+        'communicate' => 'Communiquer',
+        'communicate_desc' => 'Envoyer des messages à la classe',
+        'info_message' => 'En tant que chef de classe, vous pouvez accéder à des fonctionnalités supplémentaires pour gérer votre classe, enregistrer les présences, approuver les justifications et consulter les statistiques académiques.',
+        'modules_missing' => 'Modules manquants:',
+        'no_data' => 'Impossible de charger les données de chef de classe.',
+    ],
 ];
