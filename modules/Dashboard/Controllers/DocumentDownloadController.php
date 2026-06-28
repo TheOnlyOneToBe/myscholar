@@ -4,11 +4,13 @@ namespace Modules\Dashboard\Controllers;
 
 use Modules\Dashboard\Services\DocumentGenerationService;
 use Modules\Dashboard\Services\PDFGenerationService;
+use Modules\Dashboard\Policies\DocumentPolicy;
 use Modules\Students\Models\Student;
 use App\Traits\VerifiesModuleAccess;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DocumentDownloadController extends Controller
 {
@@ -20,7 +22,7 @@ class DocumentDownloadController extends Controller
     ) {}
 
     /**
-     * Download school certificate
+     * Download school certificate (only for own documents)
      */
     public function schoolCertificate(int $academicYearId): Response
     {
@@ -35,9 +37,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify authorization
-        if (!$user->can('view', $student)) {
-            abort(403, 'Unauthorized');
+        // Verify ownership - students can only download their own certificates
+        if (!Gate::allows('downloadSchoolCertificate', [$academicYearId, $student])) {
+            abort(403, 'Unauthorized - You can only download your own certificates');
         }
 
         try {
@@ -54,7 +56,7 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download report card
+     * Download report card (only for own documents)
      */
     public function reportCard(int $academicYearId): Response
     {
@@ -69,8 +71,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        if (!$user->can('view', $student)) {
-            abort(403, 'Unauthorized');
+        // Verify ownership - students can only download their own report cards
+        if (!Gate::allows('downloadReportCard', [$academicYearId, $student])) {
+            abort(403, 'Unauthorized - You can only download your own report cards');
         }
 
         try {
@@ -87,7 +90,7 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download transcript
+     * Download transcript (only for own documents)
      */
     public function transcript(): Response
     {
@@ -102,8 +105,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        if (!$user->can('view', $student)) {
-            abort(403, 'Unauthorized');
+        // Verify ownership - students can only download their own transcripts
+        if (!Gate::allows('downloadTranscript', $student)) {
+            abort(403, 'Unauthorized - You can only download your own transcripts');
         }
 
         try {
@@ -120,7 +124,7 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download enrollment summary
+     * Download enrollment summary (only for own documents)
      */
     public function enrollmentSummary(): Response
     {
@@ -135,8 +139,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        if (!$user->can('view', $student)) {
-            abort(403, 'Unauthorized');
+        // Verify ownership - students can only download their own enrollment summaries
+        if (!Gate::allows('downloadEnrollmentSummary', $student)) {
+            abort(403, 'Unauthorized - You can only download your own enrollment summaries');
         }
 
         try {
@@ -153,7 +158,7 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download invoice
+     * Download invoice (only for own documents)
      */
     public function invoice(string $invoiceId): Response
     {
@@ -168,8 +173,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        if (!$user->can('view', $student)) {
-            abort(403, 'Unauthorized');
+        // Verify ownership - students can only download their own invoices
+        if (!Gate::allows('downloadInvoice', [$invoiceId, $student])) {
+            abort(403, 'Unauthorized - You can only download your own invoices');
         }
 
         try {

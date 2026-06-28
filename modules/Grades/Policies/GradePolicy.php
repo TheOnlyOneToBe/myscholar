@@ -33,12 +33,37 @@ class GradePolicy
             return $student && $grade->student_id === $student->id;
         }
 
+        // Chef de classe can view classmates' grades (read-only)
+        if ($user->hasRole('chef_classe')) {
+            return $this->viewByClass($user, $grade);
+        }
+
         // Parent can view their child's grades
         if ($user->hasRole('parent')) {
             return StudentParent::isParentOfStudent($user->id, $grade->student_id);
         }
 
         return false;
+    }
+
+    /**
+     * Chef de classe can view classmates' grades (read-only access).
+     */
+    public function viewByClass(User $user, Grade $grade): bool
+    {
+        if (!$user->hasRole('chef_classe')) {
+            return false;
+        }
+
+        $userStudent = Student::where('user_id', $user->id)->first();
+        $gradeStudent = $grade->student;
+
+        if (!$userStudent || !$gradeStudent) {
+            return false;
+        }
+
+        // Chef de classe must be in the same class as the student
+        return $userStudent->current_class_id === $gradeStudent->current_class_id;
     }
 
     public function create(User $user): bool
@@ -110,5 +135,34 @@ class GradePolicy
     {
         return $user->hasPermissionTo('grades.export')
             && $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
+    }
+
+    /**
+     * Chef de classe cannot modify any grades (read-only enforcement).
+     */
+    public function modifyByClass(User $user, Grade $grade): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot appeal classmates' grades (read-only enforcement).
+     */
+    public function appealByClass(User $user, Grade $grade): bool
+    {
+        return false;
+    }
+
+    /**
+     * Student can appeal their own grade only.
+     */
+    public function appeal(User $user, Grade $grade): bool
+    {
+        if (!$user->hasRole('student')) {
+            return false;
+        }
+
+        $student = Student::where('user_id', $user->id)->first();
+        return $student && $grade->student_id === $student->id;
     }
 }

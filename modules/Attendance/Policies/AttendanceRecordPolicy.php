@@ -33,6 +33,11 @@ class AttendanceRecordPolicy
             return $student && $record->student_id === $student->id;
         }
 
+        // Chef de classe can view classmates' attendance records (read-only)
+        if ($user->hasRole('chef_classe')) {
+            return $this->viewByClass($user, $record);
+        }
+
         // Parent can view their child's record
         if ($user->hasRole('parent')) {
             return StudentParent::isParentOfStudent($user->id, $record->student_id)
@@ -42,6 +47,26 @@ class AttendanceRecordPolicy
         }
 
         return false;
+    }
+
+    /**
+     * Chef de classe can view classmates' attendance records (read-only).
+     */
+    public function viewByClass(User $user, AttendanceRecord $record): bool
+    {
+        if (!$user->hasRole('chef_classe')) {
+            return false;
+        }
+
+        $userStudent = Student::where('user_id', $user->id)->first();
+        $recordStudent = $record->student;
+
+        if (!$userStudent || !$recordStudent) {
+            return false;
+        }
+
+        // Chef de classe must be in the same class
+        return $userStudent->current_class_id === $recordStudent->current_class_id;
     }
 
     public function create(User $user): bool
@@ -99,5 +124,29 @@ class AttendanceRecordPolicy
     public function forceDelete(User $user, AttendanceRecord $record): bool
     {
         return $user->hasRole('super_administrator');
+    }
+
+    /**
+     * Chef de classe cannot modify classmates' attendance records (read-only enforcement).
+     */
+    public function modifyByClass(User $user, AttendanceRecord $record): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot mark attendance for classmates.
+     */
+    public function markByClass(User $user, AttendanceRecord $record): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot record justifications for classmates.
+     */
+    public function recordJustificationByClass(User $user, AttendanceRecord $record): bool
+    {
+        return false;
     }
 }

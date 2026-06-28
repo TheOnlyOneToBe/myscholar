@@ -32,7 +32,32 @@ class JustificationPolicy
             return $student && $justification->student_id === $student->id;
         }
 
+        // Chef de classe can view classmates' justifications (read-only)
+        if ($user->hasRole('chef_classe')) {
+            return $this->viewByClass($user, $justification);
+        }
+
         return false;
+    }
+
+    /**
+     * Chef de classe can view classmates' justifications (read-only).
+     */
+    public function viewByClass(User $user, Justification $justification): bool
+    {
+        if (!$user->hasRole('chef_classe')) {
+            return false;
+        }
+
+        $userStudent = Student::where('user_id', $user->id)->first();
+        $justificationStudent = $justification->student;
+
+        if (!$userStudent || !$justificationStudent) {
+            return false;
+        }
+
+        // Chef de classe must be in the same class
+        return $userStudent->current_class_id === $justificationStudent->current_class_id;
     }
 
     public function create(User $user): bool
@@ -111,5 +136,37 @@ class JustificationPolicy
     public function forceDelete(User $user, Justification $justification): bool
     {
         return $user->hasRole('super_administrator');
+    }
+
+    /**
+     * Chef de classe cannot modify classmates' justifications (read-only enforcement).
+     */
+    public function modifyByClass(User $user, Justification $justification): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot submit justifications for classmates.
+     */
+    public function submitForClassmate(User $user, Justification $justification): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot approve or reject classmates' justifications.
+     */
+    public function approveByClass(User $user, Justification $justification): bool
+    {
+        return false;
+    }
+
+    /**
+     * Chef de classe cannot manage classmates' justifications.
+     */
+    public function manageByClass(User $user, Justification $justification): bool
+    {
+        return false;
     }
 }
