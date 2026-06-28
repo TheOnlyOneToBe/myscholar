@@ -22,7 +22,11 @@ class ParentDocumentDownloadTest extends TestCase
         parent::setUp();
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create(['year' => now()->year]);
+        $this->schoolYear = SchoolYear::factory()->create([
+            'start_year' => now()->year,
+            'end_year' => now()->year + 1,
+            'name' => now()->year . '-' . (now()->year + 1),
+        ]);
         $this->class = SchoolClass::factory()->create();
 
         // Créer un parent et son enfant
@@ -42,9 +46,11 @@ class ParentDocumentDownloadTest extends TestCase
 
         // Lier l'étudiant au parent
         $this->student->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
 
         // Créer un enregistrement d'inscription
@@ -220,8 +226,16 @@ class ParentDocumentDownloadTest extends TestCase
      */
     public function test_document_download_for_multiple_years(): void
     {
-        $year2023 = SchoolYear::factory()->create(['year' => 2023]);
-        $year2024 = SchoolYear::factory()->create(['year' => 2024]);
+        $year2023 = SchoolYear::factory()->create([
+            'start_year' => 2023,
+            'end_year' => 2024,
+            'name' => '2023-2024',
+        ]);
+        $year2024 = SchoolYear::factory()->create([
+            'start_year' => 2024,
+            'end_year' => 2025,
+            'name' => '2024-2025',
+        ]);
 
         $this->student->enrollments()->create([
             'class_id' => $this->class->id,
@@ -272,9 +286,11 @@ class ParentDocumentDownloadTest extends TestCase
     {
         $student2 = Student::factory()->create();
         $student2->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
         $student2->enrollments()->create([
             'class_id' => $this->class->id,

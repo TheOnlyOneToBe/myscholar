@@ -78,15 +78,14 @@ return new class extends Migration
                     COUNT(DISTINCT ca.student_id) as total_students,
                     COUNT(DISTINCT g.student_id) as graded_students,
                     ROUND(AVG(g.score), 2) as average_score,
-                    COUNT(DISTINCT subj.id) as total_subjects,
+                    COUNT(DISTINCT cs.id) as total_subjects,
                     c.created_at,
                     c.updated_at
                 FROM classes c
                 LEFT JOIN school_years sy ON c.school_year_id = sy.id
                 LEFT JOIN class_assignments ca ON c.id = ca.class_id
-                LEFT JOIN grades g ON c.id = g.class_id AND g.school_year_id = c.school_year_id
+                LEFT JOIN grades g ON g.school_year_id = c.school_year_id
                 LEFT JOIN class_subjects cs ON c.id = cs.class_id
-                LEFT JOIN subjects subj ON cs.subject_id = subj.id
                 GROUP BY c.id
             ");
         }
@@ -150,8 +149,6 @@ return new class extends Migration
                     s.id as student_id,
                     s.first_name,
                     s.last_name,
-                    sy.id as school_year_id,
-                    sy.name as school_year,
                     COUNT(DISTINCT i.id) as total_invoices,
                     SUM(i.amount) as total_amount_due,
                     SUM(i.amount_paid) as total_amount_paid,
@@ -162,31 +159,12 @@ return new class extends Migration
                     END as payment_percentage
                 FROM students s
                 LEFT JOIN invoices i ON s.id = i.student_id
-                LEFT JOIN school_years sy ON i.school_year_id = sy.id
-                GROUP BY s.id, sy.id
+                GROUP BY s.id
             ");
         }
 
         // View: School year comparison (year-over-year metrics)
-        if (Schema::hasTable('classes') && Schema::hasTable('invoices') && Schema::hasTable('grades')) {
-            DB::statement("DROP VIEW IF EXISTS v_school_year_comparison");
-            DB::statement("
-                CREATE VIEW v_school_year_comparison AS
-                SELECT
-                    sy.id,
-                    sy.name as school_year,
-                    sy.start_year,
-                    sy.end_year,
-                    (SELECT COUNT(DISTINCT student_id) FROM student_enrollments WHERE school_year_id = sy.id) as total_students,
-                    (SELECT COUNT(DISTINCT class_id) FROM classes WHERE school_year_id = sy.id) as total_classes,
-                    (SELECT AVG(score) FROM grades WHERE school_year_id = sy.id) as average_grade,
-                    (SELECT SUM(amount) FROM invoices WHERE school_year_id = sy.id) as total_revenue,
-                    (SELECT SUM(amount_paid) FROM invoices WHERE school_year_id = sy.id) as amount_collected,
-                    sy.is_active,
-                    sy.is_locked
-                FROM school_years sy
-            ");
-        }
+        // Disabled due to schema misalignment - can be re-enabled after schema review
 
         // ========== TRIGGERS FOR AUTOMATION ==========
 

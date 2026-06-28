@@ -32,16 +32,26 @@ class ParentDashboardServiceTest extends TestCase
         $this->service = app(ParentDashboardService::class);
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create(['year' => now()->year]);
+        $this->schoolYear = SchoolYear::factory()->create([
+            'start_year' => now()->year,
+            'end_year' => now()->year + 1,
+            'name' => now()->year . '-' . (now()->year + 1),
+        ]);
         $this->class = SchoolClass::factory()->create();
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
+
+        // Créer les rôles s'ils n'existent pas
+        $this->ensureRolesExist(['parent', 'student']);
 
         // Créer un parent et son enfant
         $this->parentUser = User::factory()->create([
             'email' => 'parent@test.com',
             'phone' => '+237123456789'
         ]);
-        $this->parentUser->assignRole('parent');
+        $parentRole = \Modules\Auth\Models\Role::where('name', 'parent')->first();
+        if ($parentRole) {
+            $this->parentUser->assignRole($parentRole);
+        }
 
         $this->studentUser = User::factory()->create();
         $this->student = Student::factory()->create([
@@ -52,9 +62,11 @@ class ParentDashboardServiceTest extends TestCase
 
         // Lier l'étudiant au parent via family_contacts
         $this->student->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
 
         // Créer un enregistrement d'inscription
@@ -66,6 +78,16 @@ class ParentDashboardServiceTest extends TestCase
         ]);
 
         $this->actingAs($this->parentUser);
+    }
+
+    private function ensureRolesExist(array $roleNames): void
+    {
+        foreach ($roleNames as $roleName) {
+            \Modules\Auth\Models\Role::firstOrCreate(
+                ['name' => $roleName],
+                ['name' => $roleName, 'guard_name' => 'web']
+            );
+        }
     }
 
     /**
@@ -80,7 +102,7 @@ class ParentDashboardServiceTest extends TestCase
         $this->assertEquals($this->student->id, $children[0]['id']);
         $this->assertEquals('Jean', $children[0]['first_name']);
         $this->assertEquals('Dupont', $children[0]['last_name']);
-        $this->assertEquals('active', $children[0]['enrollment_status']);
+        $this->assertEquals('active', $children[0]['enrollment_status']->value);
     }
 
     /**
@@ -360,7 +382,10 @@ class ParentDashboardServiceTest extends TestCase
     public function test_service_with_non_parent_user(): void
     {
         $studentUser = User::factory()->create();
-        $studentUser->assignRole('student');
+        $studentRole = \Modules\Auth\Models\Role::where('name', 'student')->first();
+        if ($studentRole) {
+            $studentUser->assignRole($studentRole);
+        }
         $this->actingAs($studentUser);
 
         $children = $this->service->getChildren();

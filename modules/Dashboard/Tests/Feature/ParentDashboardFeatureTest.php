@@ -28,16 +28,26 @@ class ParentDashboardFeatureTest extends TestCase
         parent::setUp();
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create(['year' => now()->year]);
+        $this->schoolYear = SchoolYear::factory()->create([
+            'start_year' => now()->year,
+            'end_year' => now()->year + 1,
+            'name' => now()->year . '-' . (now()->year + 1),
+        ]);
         $this->class = SchoolClass::factory()->create();
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
+
+        // Créer les rôles s'ils n'existent pas
+        $this->ensureRolesExist(['parent', 'student']);
 
         // Créer un parent et son enfant
         $this->parentUser = User::factory()->create([
             'email' => 'parent@test.com',
             'phone' => '+237123456789'
         ]);
-        $this->parentUser->assignRole('parent');
+        $parentRole = \Modules\Auth\Models\Role::where('name', 'parent')->first();
+        if ($parentRole) {
+            $this->parentUser->assignRole($parentRole);
+        }
 
         $this->studentUser = User::factory()->create();
         $this->student = Student::factory()->create([
@@ -48,9 +58,11 @@ class ParentDashboardFeatureTest extends TestCase
 
         // Lier l'étudiant au parent
         $this->student->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
 
         // Créer un enregistrement d'inscription
@@ -60,6 +72,16 @@ class ParentDashboardFeatureTest extends TestCase
             'enrollment_date' => now(),
             'status' => 'active'
         ]);
+    }
+
+    private function ensureRolesExist(array $roleNames): void
+    {
+        foreach ($roleNames as $roleName) {
+            \Modules\Auth\Models\Role::firstOrCreate(
+                ['name' => $roleName],
+                ['name' => $roleName, 'guard_name' => 'web']
+            );
+        }
     }
 
     /**
@@ -79,7 +101,10 @@ class ParentDashboardFeatureTest extends TestCase
     public function test_non_parent_user_cannot_access_parent_dashboard(): void
     {
         $studentUser = User::factory()->create();
-        $studentUser->assignRole('student');
+        $studentRole = \Modules\Auth\Models\Role::where('name', 'student')->first();
+        if ($studentRole) {
+            $studentUser->assignRole($studentRole);
+        }
 
         $this->actingAs($studentUser)
             ->get('/parent-dashboard')

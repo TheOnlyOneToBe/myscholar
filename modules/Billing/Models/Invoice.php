@@ -3,16 +3,19 @@
 namespace Modules\Billing\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Invoice extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'invoice_number',
         'student_id',
         'fee_structure_id',
         'amount',
+        'total_amount',
         'amount_paid',
         'currency',
         'issue_date',
@@ -29,6 +32,16 @@ class Invoice extends Model
             'issue_date' => 'date',
             'due_date' => 'date',
         ];
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->amount;
+    }
+
+    public function setTotalAmountAttribute($value)
+    {
+        $this->attributes['amount'] = $value;
     }
 
     public function student(): BelongsTo

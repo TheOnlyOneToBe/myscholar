@@ -26,7 +26,11 @@ class ParentBulletinDownloadTest extends TestCase
         parent::setUp();
 
         // Créer les données de test
-        $this->schoolYear = SchoolYear::factory()->create(['year' => now()->year]);
+        $this->schoolYear = SchoolYear::factory()->create([
+            'start_year' => now()->year,
+            'end_year' => now()->year + 1,
+            'name' => now()->year . '-' . (now()->year + 1),
+        ]);
         $this->class = SchoolClass::factory()->create();
         $this->subject = Subject::factory()->create(['name' => 'Mathématiques']);
 
@@ -57,9 +61,11 @@ class ParentBulletinDownloadTest extends TestCase
 
         // Lier l'étudiant au parent
         $this->student->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
 
         // Créer un enregistrement d'inscription
@@ -193,7 +199,11 @@ class ParentBulletinDownloadTest extends TestCase
      */
     public function test_bulletins_for_multiple_academic_years(): void
     {
-        $year2023 = SchoolYear::factory()->create(['year' => 2023]);
+        $year2023 = SchoolYear::factory()->create([
+            'start_year' => 2023,
+            'end_year' => 2024,
+            'name' => '2023-2024',
+        ]);
         $period2023 = AcademicPeriod::factory()->create([
             'academic_year' => 2023,
             'type' => 'term',
@@ -324,9 +334,11 @@ class ParentBulletinDownloadTest extends TestCase
     {
         $student2 = Student::factory()->create();
         $student2->familyContacts()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Dupont',
             'email' => $this->parentUser->email,
             'phone_number' => $this->parentUser->phone,
-            'relationship' => 'parent',
+            'relationship' => 'mother',
         ]);
 
         $enrollment2 = $student2->enrollments()->create([

@@ -62,8 +62,6 @@ return new class extends Migration
                 s.id as student_id,
                 s.first_name,
                 s.last_name,
-                sy.id as school_year_id,
-                sy.name as school_year,
                 COUNT(DISTINCT i.id) as total_invoices,
                 SUM(i.amount) as total_amount_due,
                 SUM(i.amount_paid) as total_amount_paid,
@@ -74,8 +72,7 @@ return new class extends Migration
                 END as payment_percentage
             FROM students s
             LEFT JOIN invoices i ON s.id = i.student_id
-            LEFT JOIN school_years sy ON i.school_year_id = sy.id
-            GROUP BY s.id, sy.id
+            GROUP BY s.id
         ");
     }
 

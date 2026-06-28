@@ -186,7 +186,7 @@ class ParentDashboardService
         return round(Invoice::where('student_id', $studentId)
             ->where('status', '!=', 'paid')
             ->where('status', '!=', 'cancelled')
-            ->sum('total_amount') ?? 0, 2);
+            ->sum('amount') ?? 0, 2);
     }
 
     /**
@@ -239,7 +239,7 @@ class ParentDashboardService
         $outstandingBalance = Invoice::whereIn('student_id', $childIds)
             ->where('status', '!=', 'paid')
             ->where('status', '!=', 'cancelled')
-            ->sum('total_amount') ?? 0;
+            ->sum('amount') ?? 0;
 
         return [
             'total_children' => $totalChildren,

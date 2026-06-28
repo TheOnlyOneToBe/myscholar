@@ -3,27 +3,40 @@
 namespace Modules\Billing\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'invoice_id',
+        'student_id',
         'amount',
-        'currency',
+        'amount_paid',
         'payment_method',
         'payment_date',
         'reference_number',
         'notes',
-        'processed_by_user_id',
+        'validated_by_user_id',
     ];
 
     protected function casts(): array
     {
         return [
-            'amount' => 'float',
+            'amount_paid' => 'float',
             'payment_date' => 'datetime',
         ];
+    }
+
+    public function getAmountAttribute()
+    {
+        return $this->amount_paid;
+    }
+
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount_paid'] = $value;
     }
 
     public function invoice(): BelongsTo
