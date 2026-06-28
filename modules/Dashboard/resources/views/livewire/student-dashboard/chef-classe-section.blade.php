@@ -50,21 +50,20 @@
                 </div>
 
                 <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-orange-500 transition cursor-pointer">
-                    <p class="font-bold text-lg mb-2">📧 Communiquer</p>
-                    <p class="text-sm text-gray-600">Envoyer des messages à la classe</p>
+                    <p class="font-bold text-lg mb-2">📧 {{ __('dashboard::views.chef_classe.communicate') }}</p>
+                    <p class="text-sm text-gray-600">{{ __('dashboard::views.chef_classe.communicate_desc') }}</p>
                 </div>
             </div>
 
             <!-- Information Box -->
             <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
                 <p class="text-sm text-blue-800">
-                    <strong>ℹ️ En tant que chef de classe,</strong> vous pouvez accéder à des fonctionnalités supplémentaires
-                    pour gérer votre classe, enregistrer les présences, approuver les justifications et consulter les statistiques académiques.
+                    <strong>ℹ️ {{ __('dashboard::views.chef_classe.info_message') }}</strong>
                 </p>
             </div>
         @else
             <div class="bg-gray-50 p-4 rounded-lg">
-                <p class="text-gray-600">Impossible de charger les données de chef de classe.</p>
+                <p class="text-gray-600">{{ __('dashboard::views.chef_classe.no_data') }}</p>
             </div>
         @endif
     @endif
