@@ -15,7 +15,7 @@ class BillingRateLimitTest extends TestCase
         parent::setUp();
 
         $this->user = User::factory()->create();
-        $this->user->giveRole('admin');
+        $this->user->giveRole('super_administrator');
         Cache::flush();
     }
 

@@ -19,7 +19,7 @@ class AttendancePoliciesTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function test_admin_can_view_any_session()
     {
-        $admin = $this->createUserWithRole('admin');
+        $admin = $this->createUserWithRole('super_administrator');
         $session = AttendanceSession::factory()->create();
 
         $this->assertTrue($admin->can('view', $session));
@@ -118,7 +118,7 @@ class AttendancePoliciesTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function test_admin_can_approve_justification()
     {
-        $admin = $this->createUserWithRole('admin');
+        $admin = $this->createUserWithRole('super_administrator');
         $justification = Justification::factory()->create();
 
         $this->assertTrue($admin->can('approve', $justification));
@@ -182,7 +182,7 @@ class AttendancePoliciesTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function test_admin_can_delete_session()
     {
-        $admin = $this->createUserWithRole('admin');
+        $admin = $this->createUserWithRole('super_administrator');
         $session = AttendanceSession::factory()->create();
 
         $this->assertTrue($admin->can('delete', $session));

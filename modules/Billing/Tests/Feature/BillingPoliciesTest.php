@@ -23,7 +23,7 @@ class BillingPoliciesTest extends TestCase
         parent::setUp();
 
         $this->admin = User::factory()->create();
-        $this->admin->giveRole('admin');
+        $this->admin->giveRole('super_administrator');
 
         $this->accountant = User::factory()->create();
         $this->accountant->giveRole('accountant');

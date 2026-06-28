@@ -56,7 +56,7 @@ class GradesRateLimitingTest extends TestCase
     public function test_subject_management_rate_limit()
     {
         $admin = User::factory()->create();
-        $admin->assignRole('admin');
+        $admin->assignRole('super_administrator');
         $admin->givePermissionTo('subjects.create');
 
         $this->actingAs($admin);

@@ -12,13 +12,13 @@ class AttendanceRecordPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('attendance.view_records')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student']);
     }
 
     public function view(User $user, AttendanceRecord $record): bool
     {
         // Admin and proviseur can view all
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -47,13 +47,13 @@ class AttendanceRecordPolicy
     public function create(User $user): bool
     {
         return $user->hasPermissionTo('attendance.mark_attendance')
-            && $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant']);
+            && $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
     }
 
     public function update(User $user, AttendanceRecord $record): bool
     {
         // Admin and proviseur can update
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -76,7 +76,7 @@ class AttendanceRecordPolicy
 
     public function delete(User $user, AttendanceRecord $record): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
@@ -93,11 +93,11 @@ class AttendanceRecordPolicy
 
     public function restore(User $user, AttendanceRecord $record): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, AttendanceRecord $record): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }

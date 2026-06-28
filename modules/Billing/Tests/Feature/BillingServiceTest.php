@@ -22,7 +22,7 @@ class BillingServiceTest extends TestCase
         $this->billingService = app(BillingService::class);
 
         $this->admin = User::factory()->create();
-        $this->admin->giveRole('admin');
+        $this->admin->giveRole('super_administrator');
     }
 
     public function test_get_invoice_stats_returns_array()

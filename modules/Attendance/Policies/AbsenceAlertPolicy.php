@@ -12,13 +12,13 @@ class AbsenceAlertPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('attendance.view_alerts')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student']);
     }
 
     public function view(User $user, AbsenceAlert $alert): bool
     {
         // Admin and proviseur can view all alerts
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -48,27 +48,27 @@ class AbsenceAlertPolicy
     {
         // Only admin and proviseur can manually create alerts
         return $user->hasPermissionTo('attendance.create_alerts')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function update(User $user, AbsenceAlert $alert): bool
     {
         // Only admin and proviseur can update alerts
         return $user->hasPermissionTo('attendance.manage_alerts')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function delete(User $user, AbsenceAlert $alert): bool
     {
         // Only admin can delete alerts
-        return $user->hasRole('admin')
+        return $user->hasRole('super_administrator')
             && $user->hasPermissionTo('attendance.manage_alerts');
     }
 
     public function acknowledge(User $user, AbsenceAlert $alert): bool
     {
         // Admin and proviseur can acknowledge any alert
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -91,11 +91,11 @@ class AbsenceAlertPolicy
 
     public function restore(User $user, AbsenceAlert $alert): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, AbsenceAlert $alert): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }

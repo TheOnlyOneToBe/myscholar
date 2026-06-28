@@ -25,7 +25,7 @@ class UserPolicy
         }
 
         // Admins can view any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
@@ -57,14 +57,14 @@ class UserPolicy
         }
 
         // Admins can update any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur (director) can update school staff but not other directors
         if ($user->hasRole('proviseur')) {
             // Cannot update another proviseur or admin
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -85,7 +85,7 @@ class UserPolicy
         }
 
         // Only admins can delete users
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
@@ -99,7 +99,7 @@ class UserPolicy
     public function restore(User $user, User $model): bool
     {
         // Only admins can restore users
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     /**
@@ -108,7 +108,7 @@ class UserPolicy
     public function forceDelete(User $user, User $model): bool
     {
         // Only admins can permanently delete users
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     /**
@@ -122,13 +122,13 @@ class UserPolicy
         }
 
         // Admins can activate any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can activate school staff but not other directors
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -149,13 +149,13 @@ class UserPolicy
         }
 
         // Admins can deactivate any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can deactivate school staff but not other directors
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -176,18 +176,18 @@ class UserPolicy
         }
 
         // Only admins and proviseur can assign roles
-        if (!$user->hasAnyRole(['admin', 'proviseur'])) {
+        if (!$user->hasAnyRole(['super_administrator', 'proviseur'])) {
             return false;
         }
 
         // Admins can assign roles to any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can assign roles to school staff but not admin/proviseur roles
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -207,18 +207,18 @@ class UserPolicy
         }
 
         // Only admins and proviseur can remove roles
-        if (!$user->hasAnyRole(['admin', 'proviseur'])) {
+        if (!$user->hasAnyRole(['super_administrator', 'proviseur'])) {
             return false;
         }
 
         // Admins can remove roles from any user
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can remove roles from school staff but not from admin/proviseur
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -238,7 +238,7 @@ class UserPolicy
         }
 
         // Only admins can change other users' passwords
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     /**
@@ -252,7 +252,7 @@ class UserPolicy
         }
 
         // Only admins can reset other users' passwords
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     /**
@@ -266,13 +266,13 @@ class UserPolicy
         }
 
         // Only admins can lock accounts
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can lock school staff but not other directors
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;
@@ -292,13 +292,13 @@ class UserPolicy
         }
 
         // Only admins can unlock accounts
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
         // Proviseur can unlock school staff but not other directors
         if ($user->hasRole('proviseur')) {
-            if ($model->hasAnyRole(['proviseur', 'admin'])) {
+            if ($model->hasAnyRole(['proviseur', 'super_administrator'])) {
                 return false;
             }
             return true;

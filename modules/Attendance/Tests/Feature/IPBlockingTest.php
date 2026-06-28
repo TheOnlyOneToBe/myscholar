@@ -19,7 +19,7 @@ class IPBlockingTest extends TestCase
 
         $this->ipBlockingService = app(IPBlockingService::class);
         $this->admin = User::factory()->create();
-        $this->admin->assignRole('admin');
+        $this->admin->assignRole('super_administrator');
         $this->admin->givePermissionTo('attendance.manage_ip_blocking');
     }
 
@@ -235,7 +235,7 @@ class IPBlockingTest extends TestCase
         $ipAddress = '192.168.1.15';
 
         $user = User::factory()->create();
-        $user->assignRole('admin');
+        $user->assignRole('super_administrator');
 
         // Simulate multiple rate limit violations
         for ($i = 0; $i < 3; $i++) {

@@ -12,13 +12,13 @@ class GradeAppealPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('grade_appeals.view')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student', 'parent']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student', 'parent']);
     }
 
     public function view(User $user, GradeAppeal $appeal): bool
     {
         // Admin and proviseur can view all appeals
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -64,14 +64,14 @@ class GradeAppealPolicy
     public function update(User $user, GradeAppeal $appeal): bool
     {
         // Only admin and proviseur can update appeals
-        return $user->hasRole(['admin', 'proviseur'])
+        return $user->hasRole(['super_administrator', 'proviseur'])
             && $user->hasPermissionTo('grade_appeals.review');
     }
 
     public function review(User $user, GradeAppeal $appeal): bool
     {
         // Only admin and proviseur can review appeals
-        return $user->hasRole(['admin', 'proviseur'])
+        return $user->hasRole(['super_administrator', 'proviseur'])
             && $user->hasPermissionTo('grade_appeals.review')
             && $appeal->status === 'pending';
     }
@@ -89,17 +89,17 @@ class GradeAppealPolicy
     public function delete(User $user, GradeAppeal $appeal): bool
     {
         // Only admin can delete appeals, and only if not yet reviewed
-        return $user->hasRole('admin')
+        return $user->hasRole('super_administrator')
             && $appeal->status === 'pending';
     }
 
     public function restore(User $user, GradeAppeal $appeal): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, GradeAppeal $appeal): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }

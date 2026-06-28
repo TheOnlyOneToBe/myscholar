@@ -26,7 +26,7 @@ class GradesPoliciesTest extends TestCase
 
         // Create users with roles
         $this->admin = User::factory()->create();
-        $this->admin->assignRole('admin');
+        $this->admin->assignRole('super_administrator');
 
         $this->proviseur = User::factory()->create();
         $this->proviseur->assignRole('proviseur');

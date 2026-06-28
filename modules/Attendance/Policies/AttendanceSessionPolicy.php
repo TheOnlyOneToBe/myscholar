@@ -10,12 +10,12 @@ class AttendanceSessionPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('attendance.view_sessions')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
     }
 
     public function view(User $user, AttendanceSession $session): bool
     {
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -29,12 +29,12 @@ class AttendanceSessionPolicy
     public function create(User $user): bool
     {
         return $user->hasPermissionTo('attendance.create_sessions')
-            && $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant']);
+            && $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
     }
 
     public function update(User $user, AttendanceSession $session): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
@@ -52,7 +52,7 @@ class AttendanceSessionPolicy
 
     public function delete(User $user, AttendanceSession $session): bool
     {
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('super_administrator')) {
             return true;
         }
 
@@ -70,11 +70,11 @@ class AttendanceSessionPolicy
 
     public function restore(User $user, AttendanceSession $session): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, AttendanceSession $session): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }

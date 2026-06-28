@@ -38,7 +38,7 @@ class ClassListComponentTest extends TestCase
             'name' => 'super_administrator',
             'label' => 'Admin',
             'hierarchy_level' => 0,
-            'category' => 'admin',
+            'category' => 'super_administrator',
             'is_active' => true,
         ]);
 

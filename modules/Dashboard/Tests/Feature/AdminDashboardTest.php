@@ -27,7 +27,7 @@ class AdminDashboardTest extends TestCase
         $this->dashboardService = app(DashboardService::class);
 
         $this->admin = User::factory()->create();
-        $this->admin->giveRole('admin');
+        $this->admin->giveRole('super_administrator');
     }
 
     public function test_dashboard_route_requires_authentication()

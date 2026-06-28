@@ -9,30 +9,30 @@ class FeeStructurePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant', 'enseignant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant', 'enseignant']);
     }
 
     public function view(User $user, FeeStructure $feeStructure): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant', 'enseignant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant', 'enseignant']);
     }
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function update(User $user, FeeStructure $feeStructure): bool
     {
         if ($feeStructure->is_active) {
-            return $user->hasRole('admin');
+            return $user->hasRole('super_administrator');
         }
 
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function delete(User $user, FeeStructure $feeStructure): bool
     {
-        return $user->hasRole('admin') && !$feeStructure->is_active;
+        return $user->hasRole('super_administrator') && !$feeStructure->is_active;
     }
 }

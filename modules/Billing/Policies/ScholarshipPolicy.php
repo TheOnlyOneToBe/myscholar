@@ -9,12 +9,12 @@ class ScholarshipPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function view(User $user, Scholarship $scholarship): bool
     {
-        if ($user->hasAnyRole(['admin', 'directeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
             return true;
         }
 
@@ -27,7 +27,7 @@ class ScholarshipPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function update(User $user, Scholarship $scholarship): bool
@@ -36,21 +36,21 @@ class ScholarshipPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function approve(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function reject(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function delete(User $user, Scholarship $scholarship): bool
     {
-        return $user->hasRole('admin') && $scholarship->status === 'pending';
+        return $user->hasRole('super_administrator') && $scholarship->status === 'pending';
     }
 }

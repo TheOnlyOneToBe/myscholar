@@ -10,7 +10,7 @@ class SubjectPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('subjects.view')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student']);
     }
 
     public function view(User $user, Subject $subject): bool
@@ -22,28 +22,28 @@ class SubjectPolicy
     public function create(User $user): bool
     {
         return $user->hasPermissionTo('subjects.create')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function update(User $user, Subject $subject): bool
     {
         return $user->hasPermissionTo('subjects.edit')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function delete(User $user, Subject $subject): bool
     {
         return $user->hasPermissionTo('subjects.delete')
-            && $user->hasRole('admin');
+            && $user->hasRole('super_administrator');
     }
 
     public function restore(User $user, Subject $subject): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     public function forceDelete(User $user, Subject $subject): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }

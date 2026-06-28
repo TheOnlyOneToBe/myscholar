@@ -9,12 +9,12 @@ class PaymentPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function view(User $user, Payment $payment): bool
     {
-        if ($user->hasAnyRole(['admin', 'directeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
             return true;
         }
 
@@ -27,26 +27,26 @@ class PaymentPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function record(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function refund(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'directeur']);
     }
 
     public function delete(User $user, Payment $payment): bool
     {
-        return $user->hasRole('admin') && now()->diffInHours($payment->created_at) < 24;
+        return $user->hasRole('super_administrator') && now()->diffInHours($payment->created_at) < 24;
     }
 
     public function export(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 }

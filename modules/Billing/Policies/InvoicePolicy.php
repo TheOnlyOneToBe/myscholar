@@ -10,12 +10,12 @@ class InvoicePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'enseignant', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'enseignant', 'accountant']);
     }
 
     public function view(User $user, Invoice $invoice): bool
     {
-        if ($user->hasAnyRole(['admin', 'directeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
             return true;
         }
 
@@ -33,12 +33,12 @@ class InvoicePolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function update(User $user, Invoice $invoice): bool
     {
-        if ($user->hasAnyRole(['admin', 'directeur'])) {
+        if ($user->hasAnyRole(['super_administrator', 'directeur'])) {
             return true;
         }
 
@@ -51,16 +51,16 @@ class InvoicePolicy
 
     public function delete(User $user, Invoice $invoice): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur']) && $invoice->status === 'draft';
+        return $user->hasAnyRole(['super_administrator', 'directeur']) && $invoice->status === 'draft';
     }
 
     public function markAsOverdue(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 
     public function export(User $user): bool
     {
-        return $user->hasAnyRole(['admin', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
     }
 }

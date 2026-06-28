@@ -12,13 +12,13 @@ class GradePolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('grades.view')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student', 'parent']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student', 'parent']);
     }
 
     public function view(User $user, Grade $grade): bool
     {
         // Admin and proviseur can view all grades
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -44,13 +44,13 @@ class GradePolicy
     public function create(User $user): bool
     {
         return $user->hasPermissionTo('grades.create')
-            && $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant']);
+            && $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
     }
 
     public function update(User $user, Grade $grade): bool
     {
         // Admin and proviseur can update any grade
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -75,7 +75,7 @@ class GradePolicy
     public function delete(User $user, Grade $grade): bool
     {
         // Only admin and proviseur can delete grades
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return $user->hasPermissionTo('grades.delete');
         }
 
@@ -98,17 +98,17 @@ class GradePolicy
 
     public function restore(User $user, Grade $grade): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, Grade $grade): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 
     public function export(User $user): bool
     {
         return $user->hasPermissionTo('grades.export')
-            && $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant']);
+            && $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant']);
     }
 }

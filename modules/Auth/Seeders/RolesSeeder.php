@@ -18,7 +18,7 @@ class RolesSeeder extends Seeder
                 'label' => 'Administrateur Système',
                 'description' => 'Accès technique complet du système. Gère la configuration système et les sauvegardes.',
                 'hierarchy_level' => 0,
-                'category' => 'admin',
+                'category' => 'super_administrator',
                 'is_active' => true,
             ]
         );

@@ -24,7 +24,7 @@ class AttendanceAuditLoggingTest extends TestCase
         $this->auditService = app(AttendanceAuditService::class);
 
         $this->admin = User::factory()->create();
-        $this->admin->assignRole('admin');
+        $this->admin->assignRole('super_administrator');
 
         $this->teacher = User::factory()->create();
         $this->teacher->assignRole('teacher');

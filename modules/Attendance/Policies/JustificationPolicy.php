@@ -11,13 +11,13 @@ class JustificationPolicy
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('attendance.view_justifications')
-            || $user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant', 'student']);
+            || $user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant', 'student']);
     }
 
     public function view(User $user, Justification $justification): bool
     {
         // Admin and proviseur can view all
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -43,7 +43,7 @@ class JustificationPolicy
         }
 
         // Teachers/admin can submit on behalf
-        if ($user->hasRole(['admin', 'proviseur', 'teacher', 'enseignant'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur', 'teacher', 'enseignant'])) {
             return $user->hasPermissionTo('attendance.manage_justifications');
         }
 
@@ -62,7 +62,7 @@ class JustificationPolicy
         }
 
         // Admin and proviseur can update
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
@@ -82,7 +82,7 @@ class JustificationPolicy
         }
 
         // Admin and proviseur can delete
-        if ($user->hasRole(['admin', 'proviseur'])) {
+        if ($user->hasRole(['super_administrator', 'proviseur'])) {
             return $user->hasPermissionTo('attendance.manage_justifications');
         }
 
@@ -93,23 +93,23 @@ class JustificationPolicy
     {
         // Only admin, proviseur, and designated approval staff
         return $user->hasPermissionTo('attendance.approve_justifications')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function reject(User $user, Justification $justification): bool
     {
         // Only admin, proviseur, and designated approval staff
         return $user->hasPermissionTo('attendance.approve_justifications')
-            && $user->hasRole(['admin', 'proviseur']);
+            && $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function restore(User $user, Justification $justification): bool
     {
-        return $user->hasRole(['admin', 'proviseur']);
+        return $user->hasRole(['super_administrator', 'proviseur']);
     }
 
     public function forceDelete(User $user, Justification $justification): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('super_administrator');
     }
 }
