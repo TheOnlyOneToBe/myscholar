@@ -47,18 +47,16 @@ class MultiTermComparisonService
 
     private function getTermsData(int $studentId): array
     {
-        $year = now()->year;
-        $terms = [
-            'term_1' => ['name' => 'Trimestre 1', 'start' => "$year-01-01", 'end' => "$year-03-31"],
-            'term_2' => ['name' => 'Trimestre 2', 'start' => "$year-04-01", 'end' => "$year-07-31"],
-            'term_3' => ['name' => 'Trimestre 3', 'start' => "$year-08-01", 'end' => "$year-12-31"],
-        ];
+        $academicTermService = app(\Modules\Config\Services\AcademicTermService::class);
+        $terms = $academicTermService->getTermsForYear();
 
         $result = [];
+        $termIndex = 1;
 
-        foreach ($terms as $key => $term) {
-            $startDate = Carbon::parse($term['start']);
-            $endDate = Carbon::parse($term['end']);
+        foreach ($terms as $term) {
+            $startDate = $term->start_date;
+            $endDate = $term->end_date;
+            $key = "term_" . $termIndex;
 
             $termGrades = DB::table('grades')
                 ->where('student_id', $studentId)
@@ -85,7 +83,7 @@ class MultiTermComparisonService
                 ->get();
 
             $result[$key] = [
-                'name' => $term['name'],
+                'name' => $term->name,
                 'period' => $startDate->format('d/m') . ' - ' . $endDate->format('d/m/Y'),
                 'average' => $termGrades ? round($termGrades->average, 2) : 0,
                 'grade_count' => $termGrades?->grade_count ?? 0,
@@ -95,6 +93,8 @@ class MultiTermComparisonService
                 'subject_performance' => $subjectPerformance->toArray(),
                 'status' => $this->getTermStatus($termGrades?->average ?? 0),
             ];
+
+            $termIndex++;
         }
 
         return $result;

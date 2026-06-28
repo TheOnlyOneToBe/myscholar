@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Config\Controllers\SchoolInfoController;
 use Modules\Config\Controllers\SystemSettingController;
 use Modules\Config\Controllers\SchoolYearController;
+use Modules\Config\Controllers\AcademicPeriodController;
 
 Route::prefix('api/config')->middleware('auth')->group(function () {
     // School Info Management
@@ -57,5 +58,17 @@ Route::prefix('api/config')->middleware('auth')->group(function () {
 
     Route::middleware('can:config.school_year.delete')->group(function () {
         Route::delete('/school-years/{schoolYear}', [SchoolYearController::class, 'destroy']);
+    });
+
+    // Academic Periods Management
+    Route::middleware('can:config.view')->group(function () {
+        Route::get('/academic-periods', [AcademicPeriodController::class, 'index']);
+        Route::get('/academic-periods/current', [AcademicPeriodController::class, 'current']);
+        Route::get('/academic-periods/{termNumber}', [AcademicPeriodController::class, 'show']);
+    });
+
+    Route::middleware('can:config.edit')->group(function () {
+        Route::put('/academic-periods/{id}', [AcademicPeriodController::class, 'update']);
+        Route::post('/academic-periods/initialize', [AcademicPeriodController::class, 'initialize']);
     });
 });

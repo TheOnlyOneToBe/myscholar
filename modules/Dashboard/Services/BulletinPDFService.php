@@ -163,30 +163,29 @@ class BulletinPDFService
 
     private function getTermPeriod(?string $term): array
     {
+        $academicTermService = app(\Modules\Config\Services\AcademicTermService::class);
         $year = now()->year;
 
-        return match ($term) {
-            'term_1' => [
-                'name' => 'Trimestre 1',
-                'start' => "$year-01-01",
-                'end' => "$year-03-31",
-            ],
-            'term_2' => [
-                'name' => 'Trimestre 2',
-                'start' => "$year-04-01",
-                'end' => "$year-07-31",
-            ],
-            'term_3' => [
-                'name' => 'Trimestre 3',
-                'start' => "$year-08-01",
-                'end' => "$year-12-31",
-            ],
-            default => [
-                'name' => 'Année académique',
-                'start' => "$year-01-01",
-                'end' => "$year-12-31",
-            ],
-        };
+        if ($term) {
+            // Extraire le numéro du trimestre (term_1, term_2, term_3)
+            $termNumber = (int) str_replace('term_', '', $term);
+            $termObject = $academicTermService->getTermByNumber($termNumber, $year);
+
+            if ($termObject) {
+                return [
+                    'name' => $termObject->name,
+                    'start' => $termObject->start_date->format('Y-m-d'),
+                    'end' => $termObject->end_date->format('Y-m-d'),
+                ];
+            }
+        }
+
+        // Fallback à l'année académique complète
+        return [
+            'name' => 'Année académique',
+            'start' => "$year-01-01",
+            'end' => "$year-12-31",
+        ];
     }
 
     private function getStudentRanking(int $studentId, ?int $classId, Carbon $startDate, Carbon $endDate): array
