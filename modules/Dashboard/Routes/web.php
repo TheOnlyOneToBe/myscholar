@@ -13,7 +13,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     })->name('admin.dashboard');
 
     // Student Dashboard
-    Route::middleware(['student'])->group(function () {
+    Route::middleware([StudentMiddleware::class])->group(function () {
         Route::get('/student-dashboard', function () {
             return view('dashboard::student-dashboard');
         })->name('student.dashboard');
@@ -24,7 +24,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     });
 
     // Parent Dashboard
-    Route::get('/parent-dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
-    Route::get('/parent/profile', [ParentDashboardController::class, 'profile'])->name('parent.profile');
-    Route::get('/parent/settings', [ParentDashboardController::class, 'settings'])->name('parent.settings');
+    Route::middleware([ParentMiddleware::class])->group(function () {
+        Route::get('/parent-dashboard', [ParentDashboardController::class, 'dashboard'])->name('parent.dashboard');
+        Route::get('/parent/profile', [ParentDashboardController::class, 'profile'])->name('parent.profile');
+        Route::get('/parent/settings', [ParentDashboardController::class, 'settings'])->name('parent.settings');
+    });
 });

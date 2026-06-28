@@ -57,5 +57,6 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\CheckRole::class,
         'student' => \App\Http\Middleware\StudentMiddleware::class,
         'parent' => \App\Http\Middleware\ParentMiddleware::class,
+        'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
     ];
 }

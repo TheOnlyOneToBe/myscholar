@@ -5,6 +5,7 @@ namespace Modules\Auth\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Modules\Auth\Models\User;
+use Illuminate\Routing\Redirector;
 
 #[Layout('auth::layouts.app')]
 class DashboardComponent extends Component
@@ -16,40 +17,41 @@ class DashboardComponent extends Component
         $this->user = auth()->user();
 
         // Redirect based on user role
-        $this->redirectByRole($this->user);
+        return $this->redirectByRole($this->user);
     }
 
     /**
      * Redirect user to appropriate dashboard based on their role(s)
      */
-    private function redirectByRole(User $user): void
+    private function redirectByRole(User $user): Redirector
     {
         // Student dashboard - highest priority if student
         if ($user->hasRole('student')) {
-            redirect()->to(route('student.dashboard'))->send();
-            exit;
+            return redirect(route('student.dashboard'));
+        }
+
+        // Parents - show parent dashboard
+        if ($user->hasRole('parent')) {
+            return redirect(route('parent.dashboard'));
         }
 
         // Admin/Proviseur/Censeur dashboard
-        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'censeur', 'prof_principal'])) {
-            redirect()->to(route('admin.dashboard'))->send();
-            exit;
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'censeur'])) {
+            return redirect(route('admin.dashboard'));
         }
 
-        // Teachers and other staff
-        if ($user->hasAnyRole(['teacher', 'enseignant'])) {
-            redirect()->to(route('admin.dashboard'))->send();
-            exit;
+        // Teachers and academic staff
+        if ($user->hasAnyRole(['enseignant', 'prof_principal', 'surveillant'])) {
+            return redirect(route('admin.dashboard'));
         }
 
-        // Parents - show parent dashboard (to be implemented)
-        if ($user->hasRole('parent')) {
-            // Redirect to parent dashboard
-            redirect()->to(route('admin.dashboard'))->send();
-            exit;
+        // Other staff members
+        if ($user->hasAnyRole(['secretaire', 'comptable', 'infirmier', 'bibliothecaire', 'gardien'])) {
+            return redirect(route('admin.dashboard'));
         }
 
-        // Default: show general dashboard
+        // Default: redirect to admin dashboard
+        return redirect(route('admin.dashboard'));
     }
 
     public function render()

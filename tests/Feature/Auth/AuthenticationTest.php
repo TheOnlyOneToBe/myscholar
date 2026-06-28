@@ -32,7 +32,9 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get('/dashboard');
-        $response->assertStatus(200);
+        // Authenticated user should be redirected to their appropriate dashboard
+        $response->assertStatus(302);
+        $response->assertRedirect(route('admin.dashboard'));
     }
 
     public function test_user_authentication_state_is_maintained()
@@ -43,7 +45,8 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs($user);
 
         $response = $this->get('/dashboard');
-        $response->assertStatus(200);
+        // Authenticated user should be redirected to their appropriate dashboard
+        $response->assertStatus(302);
     }
 
     public function test_multiple_users_can_be_authenticated_separately()
@@ -80,8 +83,9 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get('/dashboard');
-        $response->assertStatus(200);
-        $response->assertSee('dashboard', false);
+        // Authenticated user should be redirected to their appropriate dashboard
+        $response->assertStatus(302);
+        $response->assertRedirect(route('admin.dashboard'));
     }
 
     public function test_inactive_user_cannot_login()
