@@ -17,8 +17,8 @@ class AttendanceRecordPolicy
 
     public function view(User $user, AttendanceRecord $record): bool
     {
-        // Admin and proviseur can view all
-        if ($user->hasRole(['super_administrator', 'proviseur'])) {
+        // Admin, proviseur, censeur can view all
+        if ($user->hasRole(['super_administrator', 'proviseur', 'censeur'])) {
             return true;
         }
 

@@ -4,6 +4,7 @@ namespace Modules\Students\Policies;
 
 use Modules\Auth\Models\User;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentParent;
 
 class StudentPolicy
 {
@@ -20,8 +21,8 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        // Admin and proviseur can view all students
-        if ($user->hasRole(['super_administrator', 'proviseur'])) {
+        // Admin, proviseur, censeur can view all students
+        if ($user->hasRole(['super_administrator', 'proviseur', 'censeur'])) {
             return true;
         }
 
@@ -33,6 +34,11 @@ class StudentPolicy
         // Chef de classe can view classmates
         if ($user->hasRole('chef_classe')) {
             return $this->viewByClass($user, $student);
+        }
+
+        // Parents can view their child's profile
+        if ($user->hasRole('parent')) {
+            return $this->isParentOfStudent($user, $student);
         }
 
         // Teachers and staff can view students they manage
@@ -148,5 +154,15 @@ class StudentPolicy
     public function manageByClass(User $user, Student $student): bool
     {
         return false;
+    }
+
+    /**
+     * Helper method to check if user is parent of a student.
+     */
+    protected function isParentOfStudent(User $user, Student $student): bool
+    {
+        return StudentParent::where('parent_user_id', $user->id)
+            ->where('student_id', $student->id)
+            ->exists();
     }
 }

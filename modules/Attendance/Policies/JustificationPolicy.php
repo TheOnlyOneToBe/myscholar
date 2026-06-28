@@ -5,6 +5,7 @@ namespace Modules\Attendance\Policies;
 use Modules\Auth\Models\User;
 use Modules\Attendance\Models\Justification;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentParent;
 
 class JustificationPolicy
 {
@@ -16,8 +17,8 @@ class JustificationPolicy
 
     public function view(User $user, Justification $justification): bool
     {
-        // Admin and proviseur can view all
-        if ($user->hasRole(['super_administrator', 'proviseur'])) {
+        // Admin, proviseur, censeur can view all
+        if ($user->hasRole(['super_administrator', 'proviseur', 'censeur'])) {
             return true;
         }
 
@@ -30,6 +31,11 @@ class JustificationPolicy
         if ($user->hasRole('student')) {
             $student = Student::where('user_id', $user->id)->first();
             return $student && $justification->student_id === $student->id;
+        }
+
+        // Parent can view their child's justifications
+        if ($user->hasRole('parent')) {
+            return StudentParent::isParentOfStudent($user->id, $justification->student_id);
         }
 
         // Chef de classe can view classmates' justifications (read-only)

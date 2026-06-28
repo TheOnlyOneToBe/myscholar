@@ -5,6 +5,7 @@ namespace Modules\Billing\Policies;
 use Modules\Auth\Models\User;
 use Modules\Billing\Models\Invoice;
 use Modules\Students\Models\Student;
+use Modules\Students\Models\StudentParent;
 
 class InvoicePolicy
 {
@@ -15,7 +16,8 @@ class InvoicePolicy
 
     public function view(User $user, Invoice $invoice): bool
     {
-        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
+        // Admin roles can view all invoices
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'directeur', 'censeur', 'accountant'])) {
             return true;
         }
 
@@ -26,6 +28,13 @@ class InvoicePolicy
         if ($user->hasRole('student')) {
             $student = Student::where('user_id', $user->id)->first();
             return $student && $invoice->student_id === $student->id;
+        }
+
+        // Parents can view their child's invoices
+        if ($user->hasRole('parent')) {
+            return StudentParent::where('parent_user_id', $user->id)
+                ->where('student_id', $invoice->student_id)
+                ->exists();
         }
 
         // Chef de classe can view classmates' invoices (read-only)

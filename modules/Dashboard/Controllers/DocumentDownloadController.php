@@ -22,12 +22,22 @@ class DocumentDownloadController extends Controller
     ) {}
 
     /**
-     * Download school certificate (only for own documents)
+     * Download school certificate
      */
     public function schoolCertificate(int $academicYearId): Response
     {
         $user = Auth::user();
-        $student = Student::where('user_id', $user->id)->first();
+
+        // Allow specifying a student_id for parents/admin/censeur
+        $studentId = request()->query('student_id');
+
+        if ($studentId) {
+            // Admin roles, parents can download for other students
+            $student = Student::find($studentId);
+        } else {
+            // Get own student record
+            $student = Student::where('user_id', $user->id)->first();
+        }
 
         if (!$student) {
             abort(404, 'Student not found');
@@ -37,9 +47,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify ownership - students can only download their own certificates
+        // Verify authorization
         if (!Gate::allows('downloadSchoolCertificate', [$academicYearId, $student])) {
-            abort(403, 'Unauthorized - You can only download your own certificates');
+            abort(403, 'Unauthorized - You cannot download this certificate');
         }
 
         try {
@@ -56,12 +66,20 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download report card (only for own documents)
+     * Download report card
      */
     public function reportCard(int $academicYearId): Response
     {
         $user = Auth::user();
-        $student = Student::where('user_id', $user->id)->first();
+
+        // Allow specifying a student_id for parents/admin/censeur
+        $studentId = request()->query('student_id');
+
+        if ($studentId) {
+            $student = Student::find($studentId);
+        } else {
+            $student = Student::where('user_id', $user->id)->first();
+        }
 
         if (!$student) {
             abort(404, 'Student not found');
@@ -71,9 +89,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify ownership - students can only download their own report cards
+        // Verify authorization
         if (!Gate::allows('downloadReportCard', [$academicYearId, $student])) {
-            abort(403, 'Unauthorized - You can only download your own report cards');
+            abort(403, 'Unauthorized - You cannot download this report card');
         }
 
         try {
@@ -90,12 +108,20 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download transcript (only for own documents)
+     * Download transcript
      */
     public function transcript(): Response
     {
         $user = Auth::user();
-        $student = Student::where('user_id', $user->id)->first();
+
+        // Allow specifying a student_id for parents/admin/censeur
+        $studentId = request()->query('student_id');
+
+        if ($studentId) {
+            $student = Student::find($studentId);
+        } else {
+            $student = Student::where('user_id', $user->id)->first();
+        }
 
         if (!$student) {
             abort(404, 'Student not found');
@@ -105,9 +131,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify ownership - students can only download their own transcripts
+        // Verify authorization
         if (!Gate::allows('downloadTranscript', $student)) {
-            abort(403, 'Unauthorized - You can only download your own transcripts');
+            abort(403, 'Unauthorized - You cannot download this transcript');
         }
 
         try {
@@ -124,12 +150,20 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download enrollment summary (only for own documents)
+     * Download enrollment summary
      */
     public function enrollmentSummary(): Response
     {
         $user = Auth::user();
-        $student = Student::where('user_id', $user->id)->first();
+
+        // Allow specifying a student_id for parents/admin/censeur
+        $studentId = request()->query('student_id');
+
+        if ($studentId) {
+            $student = Student::find($studentId);
+        } else {
+            $student = Student::where('user_id', $user->id)->first();
+        }
 
         if (!$student) {
             abort(404, 'Student not found');
@@ -139,9 +173,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify ownership - students can only download their own enrollment summaries
+        // Verify authorization
         if (!Gate::allows('downloadEnrollmentSummary', $student)) {
-            abort(403, 'Unauthorized - You can only download your own enrollment summaries');
+            abort(403, 'Unauthorized - You cannot download this enrollment summary');
         }
 
         try {
@@ -158,12 +192,20 @@ class DocumentDownloadController extends Controller
     }
 
     /**
-     * Download invoice (only for own documents)
+     * Download invoice
      */
     public function invoice(string $invoiceId): Response
     {
         $user = Auth::user();
-        $student = Student::where('user_id', $user->id)->first();
+
+        // Allow specifying a student_id for parents/admin/censeur
+        $studentId = request()->query('student_id');
+
+        if ($studentId) {
+            $student = Student::find($studentId);
+        } else {
+            $student = Student::where('user_id', $user->id)->first();
+        }
 
         if (!$student) {
             abort(404, 'Student not found');
@@ -173,9 +215,9 @@ class DocumentDownloadController extends Controller
             return $error;
         }
 
-        // Verify ownership - students can only download their own invoices
+        // Verify authorization
         if (!Gate::allows('downloadInvoice', [$invoiceId, $student])) {
-            abort(403, 'Unauthorized - You can only download your own invoices');
+            abort(403, 'Unauthorized - You cannot download this invoice');
         }
 
         try {
