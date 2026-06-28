@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'rules' => [
+        'subject_required' => 'La matière est obligatoire',
+        'subject_invalid' => 'La matière sélectionnée n\'est pas valide',
+        'student_required' => 'L\'étudiant est obligatoire',
+        'student_invalid' => 'L\'étudiant sélectionné n\'est pas valide',
+        'score_required' => 'Le score est obligatoire',
+        'score_numeric' => 'Le score doit être un nombre',
+        'score_min' => 'Le score doit être au minimum 0',
+        'score_max' => 'Le score ne peut pas dépasser 100',
+        'grade_required' => 'La note est obligatoire',
+        'grade_invalid' => 'La note saisie n\'est pas valide',
+        'term_required' => 'La période est obligatoire',
+        'term_invalid' => 'La période sélectionnée n\'est pas valide',
+        'academic_year_required' => 'L\'année académique est obligatoire',
+        'coefficient_required' => 'Le coefficient est obligatoire',
+        'coefficient_numeric' => 'Le coefficient doit être un nombre',
+        'credit_hours_numeric' => 'Les heures de crédit doivent être un nombre',
+    ],
+    'appeal' => [
+        'reason_required' => 'La raison de l\'appel est obligatoire',
+        'reason_min' => 'La raison doit contenir au moins 10 caractères',
+        'reason_max' => 'La raison ne peut pas dépasser 1000 caractères',
+        'already_appealed' => 'Vous avez déjà fait appel de cette note',
+        'appeal_window_closed' => 'La période pour faire appel est fermée',
+        'new_grade_required' => 'La nouvelle note est obligatoire',
+        'response_required' => 'La réponse est obligatoire',
+    ],
+    'report_card' => [
+        'academic_year_required' => 'L\'année académique est obligatoire',
+        'student_required' => 'L\'étudiant est obligatoire',
+        'term_required' => 'La période est obligatoire',
+    ],
+    'messages' => [
+        'required' => 'Le champ :attribute est obligatoire',
+        'numeric' => 'Le champ :attribute doit être un nombre',
+        'min' => 'Le champ :attribute doit être au moins :min',
+        'max' => 'Le champ :attribute ne peut pas dépasser :max',
+        'between' => 'Le champ :attribute doit être entre :min et :max',
+        'unique' => 'Le champ :attribute est déjà utilisé',
+        'exists' => 'Le champ :attribute sélectionné n\'existe pas',
+        'date' => 'Le champ :attribute doit être une date valide',
+        'date_format' => 'Le champ :attribute doit être au format :format',
+    ],
+];

@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'rules' => [
+        'subject_required' => 'Subject is required',
+        'subject_invalid' => 'Selected subject is not valid',
+        'student_required' => 'Student is required',
+        'student_invalid' => 'Selected student is not valid',
+        'score_required' => 'Score is required',
+        'score_numeric' => 'Score must be a number',
+        'score_min' => 'Score must be at least 0',
+        'score_max' => 'Score cannot exceed 100',
+        'grade_required' => 'Grade is required',
+        'grade_invalid' => 'Grade is not valid',
+        'term_required' => 'Term is required',
+        'term_invalid' => 'Selected term is not valid',
+        'academic_year_required' => 'Academic year is required',
+        'coefficient_required' => 'Coefficient is required',
+        'coefficient_numeric' => 'Coefficient must be a number',
+        'credit_hours_numeric' => 'Credit hours must be a number',
+    ],
+    'appeal' => [
+        'reason_required' => 'Appeal reason is required',
+        'reason_min' => 'Reason must be at least 10 characters',
+        'reason_max' => 'Reason cannot exceed 1000 characters',
+        'already_appealed' => 'You have already appealed this grade',
+        'appeal_window_closed' => 'Appeal window has closed',
+        'new_grade_required' => 'New grade is required',
+        'response_required' => 'Response is required',
+    ],
+    'report_card' => [
+        'academic_year_required' => 'Academic year is required',
+        'student_required' => 'Student is required',
+        'term_required' => 'Term is required',
+    ],
+    'messages' => [
+        'required' => 'The :attribute field is required',
+        'numeric' => 'The :attribute must be a number',
+        'min' => 'The :attribute must be at least :min',
+        'max' => 'The :attribute may not be greater than :max',
+        'between' => 'The :attribute must be between :min and :max',
+        'unique' => 'The :attribute has already been taken',
+        'exists' => 'The selected :attribute does not exist',
+        'date' => 'The :attribute must be a valid date',
+        'date_format' => 'The :attribute format is :format',
+    ],
+];
