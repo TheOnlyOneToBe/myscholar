@@ -6,6 +6,7 @@ use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class SubjectAnalysisService
 {
@@ -13,6 +14,17 @@ class SubjectAnalysisService
 
     public function getSubjectAnalysis(): array
     {
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('subject_analysis');
+        if (!$check['available']) {
+            \Log::debug("Analyse par matière indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return [];
+        }
+
+        if (!Schema::hasTable('grades') || !Schema::hasTable('subjects')) {
+            return [];
+        }
+
         $student = $this->getStudent();
         if (!$student) {
             return [];

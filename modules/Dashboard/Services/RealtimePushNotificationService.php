@@ -15,6 +15,12 @@ class RealtimePushNotificationService
     public function sendGradeNotification(int $studentId, string $subject, float $score, string $gradeValue): void
     {
         try {
+            $moduleAvailability = app(ModuleAvailabilityService::class);
+            if (!$moduleAvailability->moduleManager->canUseModule('Grades')) {
+                \Log::debug("Notification de note ignorée - Module Grades désactivé");
+                return;
+            }
+
             $student = Student::find($studentId);
             if (!$student) {
                 \Log::warning("Élève non trouvé pour notification de note: $studentId");
@@ -38,11 +44,20 @@ class RealtimePushNotificationService
             channel: self::BROADCAST_CHANNEL_PREFIX . $student->user_id,
             notification: $notification
         ))->toOthers();
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors de l'envoi de notification de note: " . $e->getMessage());
+        }
     }
 
     public function sendAttendanceNotification(int $studentId, string $message, string $type = 'warning'): void
     {
         try {
+            $moduleAvailability = app(ModuleAvailabilityService::class);
+            if (!$moduleAvailability->moduleManager->canUseModule('Attendance')) {
+                \Log::debug("Notification de présence ignorée - Module Attendance désactivé");
+                return;
+            }
+
             $student = Student::find($studentId);
             if (!$student) {
                 \Log::warning("Élève non trouvé pour notification de présence: $studentId");
@@ -66,11 +81,20 @@ class RealtimePushNotificationService
             channel: self::BROADCAST_CHANNEL_PREFIX . $student->user_id,
             notification: $notification
         ))->toOthers();
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors de l'envoi de notification de présence: " . $e->getMessage());
+        }
     }
 
     public function sendInvoiceNotification(int $studentId, float $amount, string $dueDate): void
     {
         try {
+            $moduleAvailability = app(ModuleAvailabilityService::class);
+            if (!$moduleAvailability->moduleManager->canUseModule('Billing')) {
+                \Log::debug("Notification de facturation ignorée - Module Billing désactivé");
+                return;
+            }
+
             $student = Student::find($studentId);
             if (!$student) {
                 \Log::warning("Élève non trouvé pour notification de facturation: $studentId");
@@ -94,11 +118,20 @@ class RealtimePushNotificationService
             channel: self::BROADCAST_CHANNEL_PREFIX . $student->user_id,
             notification: $notification
         ))->toOthers();
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors de l'envoi de notification de facturation: " . $e->getMessage());
+        }
     }
 
     public function sendExamNotification(int $studentId, string $subject, string $examDate, string $examTime): void
     {
         try {
+            $moduleAvailability = app(ModuleAvailabilityService::class);
+            if (!$moduleAvailability->moduleManager->canUseModule('Grades')) {
+                \Log::debug("Notification d'examen ignorée - Module Grades désactivé");
+                return;
+            }
+
             $student = Student::find($studentId);
             if (!$student) {
                 \Log::warning("Élève non trouvé pour notification d'examen: $studentId");
@@ -122,6 +155,9 @@ class RealtimePushNotificationService
             channel: self::BROADCAST_CHANNEL_PREFIX . $student->user_id,
             notification: $notification
         ))->toOthers();
+        } catch (\Exception $e) {
+            \Log::error("Erreur lors de l'envoi de notification d'examen: " . $e->getMessage());
+        }
     }
 
     public function getNotifications(int $studentId, bool $unreadOnly = false): array

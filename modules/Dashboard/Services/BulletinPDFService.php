@@ -13,6 +13,15 @@ class BulletinPDFService
 {
     public function getBulletinData(int $studentId, ?string $term = null): array
     {
+        // Vérifier que le module Grades est activé
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $gradesCheck = $moduleAvailability->checkFeatureAvailability('bulletins');
+        if (!$gradesCheck['available']) {
+            throw new \Exception(
+                "Bulletins indisponibles - Module(s) manquant(s): " . implode(', ', $gradesCheck['missing_modules'])
+            );
+        }
+
         $student = Student::with('enrollments.class')->find($studentId);
         if (!$student) {
             throw new \Exception("Élève non trouvé");
@@ -31,7 +40,7 @@ class BulletinPDFService
 
         // Vérifier que la table grades existe et contient des données
         if (!Schema::hasTable('grades')) {
-            throw new \Exception("Table des notes manquante");
+            throw new \Exception("Module Grades désactivé ou table manquante");
         }
 
         $year = now()->year;

@@ -6,6 +6,7 @@ use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 
 class ProgressionTimelineService
@@ -14,6 +15,17 @@ class ProgressionTimelineService
 
     public function getProgressionTimeline(int $months = 6): array
     {
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('progression_timeline');
+        if (!$check['available']) {
+            \Log::debug("Timeline de progression indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return [];
+        }
+
+        if (!Schema::hasTable('grades')) {
+            return [];
+        }
+
         $student = $this->getStudent();
         if (!$student) {
             return [];

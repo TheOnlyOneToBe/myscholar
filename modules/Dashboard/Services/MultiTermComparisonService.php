@@ -15,6 +15,14 @@ class MultiTermComparisonService
 
     public function getTermComparison(): array
     {
+        // Vérifier que le module Grades est activé
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('term_comparison');
+        if (!$check['available']) {
+            \Log::debug("Comparaison trimestres indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return $this->getEmptyComparison();
+        }
+
         // Vérifier que les tables requises existent
         if (!Schema::hasTable('grades') || !Schema::hasTable('subjects')) {
             return $this->getEmptyComparison();

@@ -7,6 +7,7 @@ use Modules\Grades\Models\Grade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class ClassComparisonService
 {
@@ -14,6 +15,17 @@ class ClassComparisonService
 
     public function getClassComparison(): array
     {
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('class_comparison');
+        if (!$check['available']) {
+            \Log::debug("Comparaison classe indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return [];
+        }
+
+        if (!Schema::hasTable('grades')) {
+            return [];
+        }
+
         $student = $this->getStudent();
         if (!$student) {
             return [];

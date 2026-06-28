@@ -12,6 +12,14 @@ class ChartDataService
 {
     public function getProgressionChartData(int $months = 6): array
     {
+        // Vérifier que le module Grades est activé
+        $moduleAvailability = app(\Modules\Dashboard\Services\ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('grades_charts');
+        if (!$check['available']) {
+            \Log::debug("Graphiques indisponibles - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return $this->getEmptyChartData();
+        }
+
         if (!Schema::hasTable('grades')) {
             return $this->getEmptyChartData();
         }
@@ -68,6 +76,14 @@ class ChartDataService
 
     public function getSubjectDistributionChartData(): array
     {
+        // Vérifier que le module Grades est activé
+        $moduleAvailability = app(\Modules\Dashboard\Services\ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('subject_analysis');
+        if (!$check['available']) {
+            \Log::debug("Analyse par matière indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return $this->getEmptyChartData();
+        }
+
         if (!Schema::hasTable('grades') || !Schema::hasTable('subjects')) {
             return $this->getEmptyChartData();
         }
@@ -121,6 +137,14 @@ class ChartDataService
 
     public function getClassComparisonRadarData(): array
     {
+        // Vérifier que les modules requis sont activés
+        $moduleAvailability = app(\Modules\Dashboard\Services\ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('class_comparison');
+        if (!$check['available']) {
+            \Log::debug("Comparaison classe indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return $this->getEmptyChartData();
+        }
+
         if (!Schema::hasTable('grades') || !Schema::hasTable('subjects') || !Schema::hasTable('students')) {
             return $this->getEmptyChartData();
         }

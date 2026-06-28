@@ -6,6 +6,7 @@ use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 
 class SmartAlertsService
@@ -24,23 +25,35 @@ class SmartAlertsService
         return Cache::remember($cacheKey, self::CACHE_DURATION, function () use ($student) {
             $alerts = [];
 
-            // Alerte: Factures impayées
-            $alerts = array_merge($alerts, $this->checkOverdueInvoices($student->id));
+            // Alerte: Factures impayées (si module Billing activé)
+            if ($this->isModuleEnabled('Billing')) {
+                $alerts = array_merge($alerts, $this->checkOverdueInvoices($student->id));
+            }
 
-            // Alerte: Absences élevées
-            $alerts = array_merge($alerts, $this->checkHighAbsence($student->id));
+            // Alerte: Absences élevées (si module Attendance activé)
+            if ($this->isModuleEnabled('Attendance')) {
+                $alerts = array_merge($alerts, $this->checkHighAbsence($student->id));
+            }
 
-            // Alerte: Mauvaises notes
-            $alerts = array_merge($alerts, $this->checkLowGrades($student->id));
+            // Alerte: Mauvaises notes (si module Grades activé)
+            if ($this->isModuleEnabled('Grades')) {
+                $alerts = array_merge($alerts, $this->checkLowGrades($student->id));
+            }
 
-            // Alerte: Appels en attente
-            $alerts = array_merge($alerts, $this->checkPendingAppeals($student->id));
+            // Alerte: Appels en attente (si module Grades activé)
+            if ($this->isModuleEnabled('Grades')) {
+                $alerts = array_merge($alerts, $this->checkPendingAppeals($student->id));
+            }
 
-            // Alerte: Justifications non soumises
-            $alerts = array_merge($alerts, $this->checkPendingJustifications($student->id));
+            // Alerte: Justifications non soumises (si module Attendance activé)
+            if ($this->isModuleEnabled('Attendance')) {
+                $alerts = array_merge($alerts, $this->checkPendingJustifications($student->id));
+            }
 
-            // Alerte: Contrôles à venir (moins de 3 jours)
-            $alerts = array_merge($alerts, $this->checkUpcomingExams($student->id));
+            // Alerte: Contrôles à venir (moins de 3 jours) (si module Grades activé)
+            if ($this->isModuleEnabled('Grades')) {
+                $alerts = array_merge($alerts, $this->checkUpcomingExams($student->id));
+            }
 
             // Trier par priorité
             usort($alerts, fn($a, $b) => $b['priority'] <=> $a['priority']);
@@ -274,6 +287,15 @@ class SmartAlertsService
     {
         return Student::where('user_id', Auth::id())->first();
     }
-}
 
-use Illuminate\Support\Facades\Schema;
+    private function isModuleEnabled(string $moduleName): bool
+    {
+        try {
+            $moduleAvailability = app(ModuleAvailabilityService::class);
+            return $moduleAvailability->moduleManager->canUseModule($moduleName);
+        } catch (\Exception $e) {
+            \Log::debug("Erreur lors de la vérification du module $moduleName: " . $e->getMessage());
+            return true; // Fallback: assumer que le module est activé
+        }
+    }
+}

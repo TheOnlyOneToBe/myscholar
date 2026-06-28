@@ -148,4 +148,76 @@ class ModuleAvailabilityService
     {
         return $this->moduleManager->getModuleError($moduleName) ?? "Module not available";
     }
+
+    /**
+     * Check if all required modules for a feature are available
+     */
+    public function areModulesAvailable(array $requiredModules): bool
+    {
+        foreach ($requiredModules as $moduleName) {
+            if (!$this->moduleManager->canUseModule($moduleName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check which modules are missing for a feature
+     */
+    public function getMissingModules(array $requiredModules): array
+    {
+        $missing = [];
+        foreach ($requiredModules as $moduleName) {
+            if (!$this->moduleManager->canUseModule($moduleName)) {
+                $missing[] = $moduleName;
+            }
+        }
+        return $missing;
+    }
+
+    /**
+     * Get feature availability status
+     *
+     * Returns: ['available' => bool, 'missing_modules' => array]
+     */
+    public function checkFeatureAvailability(string $feature): array
+    {
+        $featureRequirements = [
+            'grades_charts' => ['Grades'],
+            'subject_analysis' => ['Grades'],
+            'progression_timeline' => ['Grades'],
+            'class_comparison' => ['Grades'],
+            'term_comparison' => ['Grades'],
+            'bulletins' => ['Grades'],
+            'attendance_tracking' => ['Attendance'],
+            'billing_info' => ['Billing'],
+            'notifications' => ['Notifications'],
+            'alerts' => ['Grades', 'Attendance', 'Billing'],
+            'schedule' => ['Classes'],
+        ];
+
+        if (!isset($featureRequirements[$feature])) {
+            return ['available' => false, 'missing_modules' => [$feature . ' feature not found']];
+        }
+
+        $required = $featureRequirements[$feature];
+        $missing = $this->getMissingModules($required);
+
+        return [
+            'available' => empty($missing),
+            'missing_modules' => $missing,
+            'required_modules' => $required,
+        ];
+    }
+
+    /**
+     * Log when a feature is unavailable due to disabled modules
+     */
+    public function logFeatureUnavailable(string $feature, array $missingModules): void
+    {
+        \Illuminate\Support\Facades\Log::warning(
+            "Fonctionnalité indisponible: $feature - Modules désactivés: " . implode(', ', $missingModules)
+        );
+    }
 }

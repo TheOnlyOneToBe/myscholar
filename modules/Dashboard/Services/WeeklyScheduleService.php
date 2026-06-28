@@ -6,6 +6,7 @@ use Modules\Students\Models\Student;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 
 class WeeklyScheduleService
@@ -14,6 +15,17 @@ class WeeklyScheduleService
 
     public function getWeeklySchedule(): array
     {
+        $moduleAvailability = app(ModuleAvailabilityService::class);
+        $check = $moduleAvailability->checkFeatureAvailability('schedule');
+        if (!$check['available']) {
+            \Log::debug("Horaire de semaine indisponible - Modules manquants: " . implode(', ', $check['missing_modules']));
+            return [];
+        }
+
+        if (!Schema::hasTable('timetables')) {
+            return [];
+        }
+
         $student = $this->getStudent();
         if (!$student) {
             return [];
