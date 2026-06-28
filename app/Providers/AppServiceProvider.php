@@ -15,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->register(ModuleLoaderServiceProvider::class);
+
         $this->app->singleton(PasswordService::class, function () {
             return new PasswordService();
         });
