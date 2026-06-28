@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class SchoolYearFactory extends Factory
 {
     protected $model = SchoolYear::class;
+    protected static int $sequence = 1000;
 
     public function definition(): array
     {
-        $baseYear = 2020;
-        $offset = fake()->numberBetween(0, 80);
-        $startYear = $baseYear + $offset;
+        $startYear = self::$sequence;
         $endYear = $startYear + 1;
+        self::$sequence++;
 
         return [
-            'name' => fake()->unique()->bothify('AY-####-????'),
+            'name' => "AY-$startYear-$endYear",
             'start_year' => $startYear,
             'end_year' => $endYear,
             'start_date' => "2025-09-15",
