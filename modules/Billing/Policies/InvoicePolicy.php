@@ -11,13 +11,13 @@ class InvoicePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'enseignant', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'enseignant', 'comptable']);
     }
 
     public function view(User $user, Invoice $invoice): bool
     {
         // Admin roles can view all invoices
-        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'directeur', 'censeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'censeur', 'comptable'])) {
             return true;
         }
 
@@ -66,16 +66,16 @@ class InvoicePolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function update(User $user, Invoice $invoice): bool
     {
-        if ($user->hasAnyRole(['super_administrator', 'directeur'])) {
+        if ($user->hasAnyRole(['super_administrator', 'proviseur'])) {
             return true;
         }
 
-        if ($user->hasRole('accountant') && !$invoice->isFullyPaid()) {
+        if ($user->hasRole('comptable') && !$invoice->isFullyPaid()) {
             return true;
         }
 
@@ -84,17 +84,17 @@ class InvoicePolicy
 
     public function delete(User $user, Invoice $invoice): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']) && $invoice->status === 'draft';
+        return $user->hasAnyRole(['super_administrator', 'proviseur']) && $invoice->status === 'draft';
     }
 
     public function markAsOverdue(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function export(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     /**

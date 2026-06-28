@@ -9,17 +9,17 @@ class FeeStructurePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant', 'enseignant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable', 'enseignant']);
     }
 
     public function view(User $user, FeeStructure $feeStructure): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant', 'enseignant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable', 'enseignant']);
     }
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function update(User $user, FeeStructure $feeStructure): bool
@@ -28,7 +28,7 @@ class FeeStructurePolicy
             return $user->hasRole('super_administrator');
         }
 
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function delete(User $user, FeeStructure $feeStructure): bool

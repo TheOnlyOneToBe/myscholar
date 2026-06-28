@@ -32,6 +32,7 @@ class Student extends Model
         'current_class_id',
         'current_filiere',
         'enrollment_status',
+        'is_chef_classe',
     ];
 
     protected function casts(): array
@@ -39,6 +40,7 @@ class Student extends Model
         return [
             'date_of_birth' => 'date',
             'enrollment_status' => EnrollmentStatus::class,
+            'is_chef_classe' => 'boolean',
         ];
     }
 
@@ -299,5 +301,23 @@ class Student extends Model
     public function getCurrentClass()
     {
         return \Modules\Classes\Models\SchoolClass::find($this->current_class_id);
+    }
+
+    /**
+     * Assign student as chef de classe
+     */
+    public function makeChefClasse(): void
+    {
+        $this->update(['is_chef_classe' => true]);
+        $this->user?->assignRole('chef_classe');
+    }
+
+    /**
+     * Remove chef de classe status from student
+     */
+    public function removeChefClasse(): void
+    {
+        $this->update(['is_chef_classe' => false]);
+        $this->user?->removeRole('chef_classe');
     }
 }

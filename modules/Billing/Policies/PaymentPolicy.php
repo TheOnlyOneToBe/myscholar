@@ -9,12 +9,12 @@ class PaymentPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function view(User $user, Payment $payment): bool
     {
-        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'comptable'])) {
             return true;
         }
 
@@ -27,17 +27,17 @@ class PaymentPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function record(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function refund(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function delete(User $user, Payment $payment): bool
@@ -47,6 +47,6 @@ class PaymentPolicy
 
     public function export(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 }

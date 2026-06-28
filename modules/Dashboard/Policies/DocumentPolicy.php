@@ -162,7 +162,7 @@ class DocumentPolicy
     public function downloadInvoice(User $user, int $invoiceId, ?Student $student = null): bool
     {
         // Admin roles can download any student's invoice
-        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'censeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'censeur', 'comptable'])) {
             return true;
         }
 

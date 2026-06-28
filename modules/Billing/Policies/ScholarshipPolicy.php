@@ -9,12 +9,12 @@ class ScholarshipPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur', 'accountant']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur', 'comptable']);
     }
 
     public function view(User $user, Scholarship $scholarship): bool
     {
-        if ($user->hasAnyRole(['super_administrator', 'directeur', 'accountant'])) {
+        if ($user->hasAnyRole(['super_administrator', 'proviseur', 'comptable'])) {
             return true;
         }
 
@@ -27,7 +27,7 @@ class ScholarshipPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function update(User $user, Scholarship $scholarship): bool
@@ -36,17 +36,17 @@ class ScholarshipPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function approve(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function reject(User $user): bool
     {
-        return $user->hasAnyRole(['super_administrator', 'directeur']);
+        return $user->hasAnyRole(['super_administrator', 'proviseur']);
     }
 
     public function delete(User $user, Scholarship $scholarship): bool
