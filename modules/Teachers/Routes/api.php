@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Teachers\Controllers\TeacherController;
 use Modules\Teachers\Controllers\TeacherAssignmentController;
+use Modules\Teachers\Controllers\TeacherApplicationController;
 
 Route::middleware('auth:api')->prefix('teachers')->group(function () {
     // Teachers CRUD
@@ -22,5 +23,14 @@ Route::middleware('auth:api')->prefix('teachers')->group(function () {
 
         Route::post('subjects', [TeacherAssignmentController::class, 'addSubject']);
         Route::delete('subjects', [TeacherAssignmentController::class, 'removeSubject']);
+    });
+
+    // Teacher Applications
+    Route::prefix('applications')->group(function () {
+        Route::get('/', [TeacherApplicationController::class, 'index']);
+        Route::get('my', [TeacherApplicationController::class, 'myApplication']);
+        Route::get('{application}', [TeacherApplicationController::class, 'show']);
+        Route::post('{application}/approve', [TeacherApplicationController::class, 'approve']);
+        Route::post('{application}/reject', [TeacherApplicationController::class, 'reject']);
     });
 });
