@@ -153,6 +153,11 @@ return [
         'subject_already_selected' => 'This subject is already selected',
         'try_modifying_search' => 'Try modifying your search or filter criteria',
         'subject_level' => 'Level',
+        'info_header' => 'Tips',
+        'info_declare_subjects' => 'Declare all subjects you can teach',
+        'info_proficiency' => 'Indicate your proficiency level honestly (1-5)',
+        'info_primary_specialty' => 'Mark your primary specialty (the one you are an expert in)',
+        'info_validation' => 'Once validated by the admin, your profile will appear to coordinators for class assignments',
     ],
 
     'modals' => [

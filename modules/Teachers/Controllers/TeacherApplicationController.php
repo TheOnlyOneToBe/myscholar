@@ -47,13 +47,13 @@ class TeacherApplicationController extends Controller
         $this->authorize('approve-teacher-application');
 
         if (!$application->isPending()) {
-            return response()->json(['message' => 'Cette candidature a déjà été traitée.'], 422);
+            return response()->json(['message' => __('teachers::messages.error.invalid_status')], 422);
         }
 
         $application->approve(auth()->user());
 
         return response()->json([
-            'message' => 'Candidature approuvée avec succès.',
+            'message' => __('teachers::messages.success.application_approved'),
             'data' => $application->load(['user', 'approvedBy']),
         ]);
     }
@@ -70,13 +70,13 @@ class TeacherApplicationController extends Controller
         ]);
 
         if (!$application->isPending()) {
-            return response()->json(['message' => 'Cette candidature a déjà été traitée.'], 422);
+            return response()->json(['message' => __('teachers::messages.error.invalid_status')], 422);
         }
 
         $application->reject($validated['reason']);
 
         return response()->json([
-            'message' => 'Candidature rejetée.',
+            'message' => __('teachers::messages.success.application_rejected'),
             'data' => $application,
         ]);
     }
@@ -89,7 +89,7 @@ class TeacherApplicationController extends Controller
         $application = TeacherApplication::where('user_id', auth()->id())->first();
 
         if (!$application) {
-            return response()->json(['message' => 'Aucune candidature trouvée.'], 404);
+            return response()->json(['message' => __('teachers::messages.error.application_not_found')], 404);
         }
 
         return response()->json($application);

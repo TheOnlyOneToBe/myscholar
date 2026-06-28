@@ -111,12 +111,12 @@
 
             <!-- Informations utiles -->
             <div class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
-                <h3 class="font-semibold text-blue-900 mb-3">💡 Conseil</h3>
+                <h3 class="font-semibold text-blue-900 mb-3">💡 {{ __('teachers::views.messages.info_header') }}</h3>
                 <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
-                    <li>{{ __('teachers::views.messages.no_subjects') }}</li>
-                    <li>{{ __('teachers::views.labels.proficiency_level') }}</li>
-                    <li>{{ __('teachers::views.labels.primary_specialty') }}</li>
-                    <li>{{ __('teachers::views.messages.no_applications_found') }}</li>
+                    <li>{{ __('teachers::views.messages.info_declare_subjects') }}</li>
+                    <li>{{ __('teachers::views.messages.info_proficiency') }}</li>
+                    <li>{{ __('teachers::views.messages.info_primary_specialty') }}</li>
+                    <li>{{ __('teachers::views.messages.info_validation') }}</li>
                 </ul>
             </div>
         </div>

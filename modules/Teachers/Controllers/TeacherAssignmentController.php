@@ -99,7 +99,7 @@ class TeacherAssignmentController extends Controller
             'is_primary' => $validated['is_primary'] ?? false,
         ]);
 
-        return response()->json(['message' => 'Sujet ajouté avec succès'], 201);
+        return response()->json(['message' => __('teachers::messages.success.subject_added')], 201);
     }
 
     /**
@@ -115,6 +115,6 @@ class TeacherAssignmentController extends Controller
 
         $teacher->subjects()->detach($validated['subject_id']);
 
-        return response()->json(['message' => 'Sujet supprimé avec succès'], 204);
+        return response()->json(['message' => __('teachers::messages.success.subject_removed')], 204);
     }
 }

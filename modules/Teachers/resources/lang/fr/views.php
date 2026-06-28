@@ -153,6 +153,11 @@ return [
         'subject_already_selected' => 'Cette matière est déjà sélectionnée',
         'try_modifying_search' => 'Essayez de modifier vos critères de recherche ou de filtrage',
         'subject_level' => 'Niveau',
+        'info_header' => 'Conseils',
+        'info_declare_subjects' => 'Déclarez toutes les matières que vous pouvez enseigner',
+        'info_proficiency' => 'Indiquez votre niveau de maîtrise honnêtement (1-5)',
+        'info_primary_specialty' => 'Marquez votre spécialité principale (celle dans laquelle vous êtes expert)',
+        'info_validation' => 'Une fois validée par l\'admin, votre profil apparaîtra aux coordinateurs pour les attributions de classes',
     ],
 
     'modals' => [
